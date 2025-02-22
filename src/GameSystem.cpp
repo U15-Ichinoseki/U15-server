@@ -40,6 +40,7 @@ GameSystem::Map::Map():
     size(DEFAULT_MAP_WIDTH,DEFAULT_MAP_HEIGHT),
     texture_dir_path(":/Image/Jewel"){
 }
+
 void GameSystem::Map::SetSize(QPoint size, int block_num, int item_num){
     this->size = size;
     this->CreateRandomMap(block_num, item_num);
@@ -62,13 +63,21 @@ bool GameSystem::Map::Import(QString Filename){
             str.replace("\n","");
 
             //マップ名
-            if(str[0]=='N')name = str.remove(0,2);
-            //ターン数
-            if(str[0]=='T')turn = str.remove(0,2).toInt();
+            if(str[0]=='N')
+                name = str.remove(0,2);
 
+            //ターン数
+            else if(str[0]=='T')
+                turn = str.remove(0,2).toInt();
+
+            //マップサイズ
+            else if(str[0]=='S'){
+                QStringList list = str.remove(0,2).split(",");
+                SetSize(QPoint(list[0].toInt(),list[1].toInt()));
+            }
 
             //マップ
-            if(str[0]=='D'){
+            else if(str[0]=='D'){
                 QStringList list = str.remove(0,2).split(",");
                 QVector<GameSystem::MAP_OBJECT> vec;
                 foreach(QString s,list){
@@ -79,14 +88,18 @@ bool GameSystem::Map::Import(QString Filename){
                 calm++;
             }
 
-            //チーム初期位置
-            for(int i=0;i<TEAM_COUNT;i++){
-                if(str[0]==GameSystem::TEAM_PROPERTY::getTeamName(static_cast<GameSystem::TEAM>(i))[0]){
-                    QStringList list = str.remove(0,2).split(",");
-                    team_first_point[i] = QPoint(list[0].toInt(),list[1].toInt());
+            else {
+                //チーム初期位置
+                for(int i=0;i<TEAM_COUNT;i++){
+                    if(str[0]==GameSystem::TEAM_PROPERTY::getTeamName(static_cast<GameSystem::TEAM>(i))[0]){
+                        QStringList list = str.remove(0,2).split(",");
+                        team_first_point[i] = QPoint(list[0].toInt(),list[1].toInt());
+                        break;
+                    }
                 }
             }
         }
+        
         return true;
     }else{
         return false;
