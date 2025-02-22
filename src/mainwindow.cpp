@@ -94,7 +94,7 @@ void MainWindow::setSetting()
     
     v = Settings->value( "FullMode" );
     if (v.typeId() != QMetaType::UnknownType)isfullmode = v.toBool();
-    else isfullmode = false;
+    else isfullmode = true;
 
     v = Settings->value( "Repeat" );
     if (v.typeId() != QMetaType::UnknownType)isrepeat = v.toBool();
@@ -174,6 +174,8 @@ void MainWindow::ReSetUp()
                     this->point[i][j][k]=0;
         }
     }
+
+    ResetScoreLebel();
 }
 
 void MainWindow::StartSetUp()
@@ -236,6 +238,7 @@ void MainWindow::StartSetUp()
             "Hot" :
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
     }
+    StartSetUpScoreLabel();
 
     //ボット戦モードならば表記の変更
     if(this->isbotbattle){
@@ -401,6 +404,7 @@ void MainWindow::ShowTeamAnimation()
 
         this->teamshow_anime->stop();
 
+        StartGameScoreLabel();
         this->game_status.winner = GameSystem::GAME_STATUS::WINNER::CONTINUE;
         clock->start(FRAME_RATE);
 
@@ -618,6 +622,7 @@ void MainWindow::RefreshScore()
 
     this->point[coolplayer][round][0] = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::COOL)];
     this->point[hotplayer ][round][0] = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::HOT)];
+    RefreshScoreLabel();
 }
 
 GameSystem::GAME_STATUS MainWindow::Judge()
@@ -816,6 +821,8 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
         this->ui->ResultLabel->setText("衝突" + append_str);
         log << getTime() + "[勝因]衝突" << "\r\n";
     }
+
+    FinishedScoreLabelStyle();
 
     this->ui->WinnerLabel->show();
     this->ui->ResultLabel->show();

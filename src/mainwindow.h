@@ -70,6 +70,23 @@ private:
     QFile* file;   //ログファイル
     StableLog log; //ログストリーム
 
+    const QString Cool_Label_style = "border-radius: 15px;border:2px solid blue;color:blue;background-color:white;";
+    const QString Cool_Label_Win_style = "border-radius: 15px;border:2px solid blue;background-color:blue;color:white;";
+
+    const QString Hot_Label_style = "border-radius: 15px;border:2px solid red;color:red;background-color:white;";
+    const QString Hot_Label_Win_style = "border-radius: 15px;border:2px solid red;background-color:red;color:white;";
+
+    const QString Total_Label_style = "border-radius: 15px;border:3px solid green;color:green;background-color:white;";
+    const QString Total_Label_Lead_style = "border-radius: 15px;border:3px solid green;background-color:#C1DB81;";
+    const QString Total_Label_Win_style = "border-radius: 15px;color:white;background-color:green;";
+    const QString Total_Label_decide_style = "border-radius: 15px;border:3px solid green;background-color:white;";
+
+    const QString drawColor = "border-radius: 15px;background-color:#C1DB81;";
+    const QString Cool_Point_Label_style = "border-radius: 15px;border:2px solid blue;background-color:#54C3F1;";
+    const QString Hot_Point_Label_style  = "border-radius: 15px;border:2px solid red;background-color:#EE87B4;";
+    const QString Cool_Score_Label_style = "border-radius: 15px;border:3px solid blue;background-color:white;";
+    const QString Hot_Score_Label_style  = "border-radius: 15px;border:3px solid red;background-color:white;";
+
 protected:
     void keyPressEvent(QKeyEvent* event);
 
@@ -92,6 +109,14 @@ public:
 
     static QString getTime();
     static QString convertString(GameSystem::Method method);
+
+    // ScoreLabelStyle
+    void ResetScoreLebel();
+    void StartSetUpScoreLabel();
+    void StartGameScoreLabel();
+    void FinishedScoreLabelStyle();
+    void RefreshScoreLabel();
+    void BottomRoundLabelShow(bool set);
 
 private slots:
     //ゲーム進行
