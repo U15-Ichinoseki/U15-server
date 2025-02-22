@@ -7,6 +7,12 @@
 #include <QtGlobal>
 #include <QTime>
 
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QDebug>
+#include <QRandomGenerator>
+
 //二次元配列エイリアス
 template <class T>
 using Field = QVector<QVector<T>>;

@@ -1,22 +1,32 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QTimer>
 #include <QKeyEvent>
-#include "startupdialog.h"
-#include <fstream>
 #include <QDateTime>
 #include <QFile>
+#include <QFileInfo>
 #include <QSoundEffect>
 #include <QDataStream>
 #include <QMediaPlayer>
+#include <QAudioOutput>
 #include <QThread>
+
+#include <QSettings>
+#include <QRandomGenerator>
+#include "Definition.h"
+
+#include <QMainWindow>
+
+#include "GameSystem.h"
 #include "StableLog.h"
+#include "startupdialog.h"
 
 namespace Ui {
 class MainWindow;
 }
+
+class StartupDialog;
 
 class MainWindow : public QMainWindow
 {

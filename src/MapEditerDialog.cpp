@@ -1,7 +1,5 @@
 #include "MapEditerDialog.h"
 #include "ui_MapEditerDialog.h"
-#include <QFileDialog>
-#include <QDesktopServices>
 
 MapEditerDialog::MapEditerDialog(GameSystem::Map map, QWidget *parent) :
     QDialog(parent),

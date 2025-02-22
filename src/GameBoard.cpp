@@ -1,7 +1,5 @@
 #include "GameBoard.h"
 #include "ui_GameBoard.h"
-#include <QThread>
-#include <QtAlgorithms>
 
 // #define MIN(x,y) ((x < y)? x : y)
 // #define MAX(x,y) ((x > y)? x : y)

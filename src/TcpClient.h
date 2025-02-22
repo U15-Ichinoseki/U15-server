@@ -5,6 +5,9 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <QSettings>
+#include <QRegularExpression>
+
 #include "BaseClient.h"
 
 class TCPClient : public BaseClient

@@ -1,11 +1,4 @@
 #include "startupdialog.h"
-#include <QDesktopServices>
-#include <QDir>
-#include <QHostInfo>
-#include <QNetworkInterface>
-#include <QCommandLineParser>
-#include "DesignDialog.h"
-#include "MapEditerDialog.h"
 #include "ui_startupdialog.h"
 
 StartupDialog::StartupDialog(QWidget *parent)

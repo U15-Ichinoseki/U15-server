@@ -1,9 +1,4 @@
 #include "GameSystem.h"
-#include <QFile>
-#include <QTextStream>
-#include <QMessageBox>
-#include <QDebug>
-#include <QRandomGenerator>
 
 QString GameSystem::TEAM_PROPERTY::getTeamName(GameSystem::TEAM team){
     if(team == GameSystem::TEAM::COOL)return "COOL";
