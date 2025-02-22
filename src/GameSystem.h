@@ -21,17 +21,13 @@ using Field = QVector<QVector<T>>;
 #define TEAM_COUNT 2
 #define TEAMS COOL,HOT
 
+//チーム情報マクロ
+#define ROUND_COUNT 2
+#define ROUNDS TOP,BOTTOM
+
 class GameSystem
 {
 public:
-    //通常マップサイズ
-    //const static int MAP_WIDTH  = 21;
-    //const static int MAP_HEIGHT = 17;
-
-    //決戦マップサイズ
-    //const static int MAP_WIDTH  = 15;
-    //const static int MAP_HEIGHT = 17;
-
     //通常マップサイズ
     const static int DEFAULT_MAP_WIDTH  = 15;
     const static int DEFAULT_MAP_HEIGHT = 17;
@@ -50,11 +46,38 @@ public:
         static QString getTeamName(GameSystem::TEAM team);
     };
 
-    //勝った人
-    enum class WINNER{
-        TEAMS,
-        DRAW,
-        CONTINUE,
+    struct GAME_STATUS{
+        //勝った人
+        enum class WINNER{
+            TEAMS,
+            DRAW,
+            CONTINUE,
+            NONE,
+        };
+
+        //勝因
+        enum class REASON{
+            SCORE,    //スコア
+            TRAPPED,  //包囲
+            CONFINED, //自縛
+            ATTACK,   //アタック
+            COLLISION,//衝突
+            FOULED,   //エラー
+            NONE,     //未定
+        };
+    
+        //エラー原因
+        enum class CAUSE{
+            NOGETREADY,     //get_readyなし
+            RESEND,        //get_readyを２回送る
+            UNKNOWNACTION, //不明なアクション
+            UNKNOWNROTE,   //不明な方向
+            NONE,          //未定
+        };
+
+        WINNER winner;
+        REASON reason;
+        CAUSE  cause;
     };
 
     //接続状態
