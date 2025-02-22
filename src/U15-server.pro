@@ -18,6 +18,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    ScoreLabelStyle.cpp \
     dynamicallylabel.cpp \
         mainwindow.cpp \
     startupdialog.cpp \

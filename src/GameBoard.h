@@ -44,6 +44,9 @@ public:
 
     int leave_items;             //残りアイテム
     int team_score[TEAM_COUNT];  //チームのスコア
+
+    int turn_count;
+
 protected:
     void paintEvent (QPaintEvent *event);   //ペイントイベント
     void resizeEvent(QResizeEvent *event); //リサイズイベント
@@ -67,6 +70,9 @@ public:
     //
     GameSystem::AroundData FinishConnecting(GameSystem::TEAM team);
 
+    //マップの画像サイズを設定する
+    void resizeImage();
+
     //マップを設定する
     void setMap(const GameSystem::Map &map);
 
@@ -86,7 +92,7 @@ public:
 private:
     Ui::GameBoard *ui;
 
-         signals:
+signals:
     //アニメーション終了
     void FinishAnimations();
 

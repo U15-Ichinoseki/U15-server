@@ -17,29 +17,17 @@ void GameBoard::PickItem(GameSystem::Method method){
 
         this->leave_items--;
     }
-
 }
 
-/*
-QString GameBoard::GetTexturePath(GameSystem::Texture tex){
-    if(tex == GameSystem::Texture::Light)return ":/Image/Light";
-    if(tex == GameSystem::Texture::Heavy)return ":/Image/Heavy";
-    if(tex == GameSystem::Texture::Jewel)return ":/Image/Jewel";
-    if(tex == GameSystem::Texture::RPG)  return ":/Image/RPG";
+void GameBoard::resizeImage(){
+    image_part.setWidth (this->size().width() / field.size.x());
+    image_part.setHeight(this->size().height() / field.size.y());
+    resize(image_part.width() * field.size.x(), image_part.height() * field.size.y());
+
+    ReloadTexture(texture_dir_path);
 }
-*/
+
 void GameBoard::resizeEvent(QResizeEvent *event){
-
-    //常に同じアスペクト比になるようにする
-
-    //int p = MIN(event->size().width(),event->size().height());
-    //resize(p,p);
-
-    //event->ignore();
-    /*
-    resize(event->size().height(),event->size().height());
-    this->setMinimumSize(event->size().height(),event->size().height());
-    */
     image_part.setWidth (event->size().width() / field.size.x());
     image_part.setHeight(event->size().height() / field.size.y());
     event->ignore();
@@ -47,12 +35,12 @@ void GameBoard::resizeEvent(QResizeEvent *event){
 
     ReloadTexture(texture_dir_path);
 }
+
 void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
 
     QPainter painter(this);
     painter.setRenderHints( painter.renderHints() | QPainter::Antialiasing );
     painter.fillRect(QRect(0,0,width(),height()),Qt::white);
-
 
     if(!animation){
 
@@ -178,6 +166,7 @@ GameSystem::AroundData GameBoard::FieldAccessAround(GameSystem::Method method, c
     }
     return around;
 }
+
 GameSystem::AroundData GameBoard::FieldAccessMethod(GameSystem::Method method){
     //周辺情報取得
     switch(method.action){
@@ -245,18 +234,18 @@ GameBoard::GameBoard(QWidget *parent) :
     image_part = QSize(32.0,32.0);
     //画像読み込み
     ReloadTexture(":/Image/Light");
-    ui->setupUi(this);
     for(int i = 0; i < TEAM_COUNT; i++){
         this->team_score[i] = 0;
     }
     leave_items = 0;
+
+    ui->setupUi(this);
 }
 
 GameBoard::~GameBoard()
 {
     delete ui;
 }
-
 
 void GameBoard::ReloadTexture(QString tex_dir_path){
     this->texture_dir_path = tex_dir_path;
