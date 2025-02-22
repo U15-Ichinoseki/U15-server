@@ -1,12 +1,25 @@
 #ifndef STARTUPDIALOG_H
 #define STARTUPDIALOG_H
 
+#include <QTimer>
 #include <QDialog>
-#include <QFile>
 #include <QMessageBox>
+
+#include <QDir>
+#include <QFile>
 #include <QFileDialog>
-#include "SettingDialog.h"
+#include <QHostInfo>
+#include <QNetworkInterface>
+
+#include <QCommandLineParser>
+
 #include "ClientSettingForm.h"
+#include "MapEditerDialog.h"
+
+#include "SettingDialog.h"
+#include "DesignDialog.h"
+
+#include "mainwindow.h"
 
 namespace Ui {
 class StartupDialog;

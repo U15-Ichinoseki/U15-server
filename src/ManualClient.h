@@ -1,6 +1,8 @@
 #ifndef MANUALCLIENT_H
 #define MANUALCLIENT_H
 
+#include <QEventLoop>
+
 #include "BaseClient.h"
 #include "ManualClientDialog.h"
 

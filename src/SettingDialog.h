@@ -1,6 +1,9 @@
 #ifndef SETTINGDIALOG_H
 #define SETTINGDIALOG_H
 
+#include <QFileDialog>
+#include <QSettings>
+
 #include <QDialog>
 #include <QMessageBox>
 

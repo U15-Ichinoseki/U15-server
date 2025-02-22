@@ -1,8 +1,4 @@
 #include "TcpClient.h"
-#include <QSettings>
-#include <QRegularExpression>
-#include <QFont>
-#include <QLabel>
 
 QString TCPClient::VisibilityString(QString str)
 {

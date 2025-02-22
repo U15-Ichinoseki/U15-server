@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSettings>
-#include <QFileInfo>
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QRandomGenerator>
-#include "Definition.h"
 
 QString MainWindow::getTime()
 {

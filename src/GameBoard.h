@@ -8,6 +8,9 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
+#include <QThread>
+#include <QtAlgorithms>
+
 #include "GameSystem.h"
 
 namespace Ui {

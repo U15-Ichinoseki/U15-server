@@ -2,9 +2,14 @@
 #define TCPCLIENT_H
 
 #include <QObject>
+#include <QLabel>
+
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <QSettings>
+#include <QRegularExpression>
+
 #include "BaseClient.h"
 
 class TCPClient : public BaseClient

@@ -1,8 +1,6 @@
 #include "ManualClientDialog.h"
 #include "ui_ManualClientDialog.h"
 
-
-
 void ManualClientDialog::closeEvent(QCloseEvent* ce){
     emit CloseWindow();
     ce->accept();

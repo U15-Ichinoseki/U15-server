@@ -1,6 +1,4 @@
 #include "SettingDialog.h"
-#include <QFileDialog>
-#include <QSettings>
 #include "ui_SettingDialog.h"
 
 SettingDialog::SettingDialog(QWidget *parent)

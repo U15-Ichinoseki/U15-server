@@ -1,5 +1,4 @@
 #include "ManualClient.h"
-#include <QEventLoop>
 
 void ManualClient::closeEvent(){
     emit Disconnected();

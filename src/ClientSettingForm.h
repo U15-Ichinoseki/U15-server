@@ -1,14 +1,18 @@
 #ifndef CLIENTSETTINGFORM_H
 #define CLIENTSETTINGFORM_H
 
-#include <QGroupBox>
-#include <QProcess>
 #include <QFile>
+#include <QDir>
+#include <QFileDialog>
+#include <QProcess>
+#include <QRandomGenerator>
+
+#include <QGroupBox>
 
 #include "TcpClient.h"
 #include "ComClient.h"
-#include "ManualClient.h"
 
+#include "ManualClient.h"
 
 namespace Ui {
 class ClientSettingForm;
