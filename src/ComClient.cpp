@@ -25,7 +25,7 @@ void ComClient::Startup()
 ComClient::ComClient(QObject *parent):
     BaseClient(parent)
 {
-    this->Name = "自動くん";
+    this->Name = "CPU";
     this->IP   = "ローカル";
 }
 

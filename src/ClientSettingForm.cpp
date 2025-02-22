@@ -109,7 +109,7 @@ void ClientSettingForm::ComboBoxChenged(QString text)
     }else {
         this->ui->PortSpinBox->setEnabled(false);
         this->ui->ConnectButton->setEnabled(false);
-        if(text=="自動くん")this->client = new ComClient(this);
+        if(text=="CPU")this->client = new ComClient(this);
         if(text=="ManualClient")this->client = new ManualClient(this);
 
         //ボットを接続

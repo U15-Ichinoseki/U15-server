@@ -1,4 +1,3 @@
-
 *.pro.user*
 build-*
 .DS_Store
@@ -8,3 +7,6 @@ src/.qtc_clangd/*
 /src/debug/
 /src/release/
 log*.txt
+.vscode/*
+src/.vscode/*
+*.code-workspace

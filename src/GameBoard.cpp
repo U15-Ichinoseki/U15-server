@@ -27,6 +27,7 @@ QString GameBoard::GetTexturePath(GameSystem::Texture tex){
     if(tex == GameSystem::Texture::Light)return ":/Image/Light";
     if(tex == GameSystem::Texture::Heavy)return ":/Image/Heavy";
     if(tex == GameSystem::Texture::Jewel)return ":/Image/Jewel";
+    if(tex == GameSystem::Texture::RPG)  return ":/Image/RPG";
 }
 */
 void GameBoard::resizeEvent(QResizeEvent *event){
@@ -272,7 +273,7 @@ void GameBoard::ReloadTexture(QString tex_dir_path){
     this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::NOTHING)]  = QPixmap();
     this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::LOOK)]     = QPixmap(tex_dir_path + "/Look.png");
     this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::GETREADY)] = QPixmap(tex_dir_path + "/Getready.png");
-    this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::SEARCH)]    = QPixmap(tex_dir_path + "/Search.png");
+    this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::SEARCH)]   = QPixmap(tex_dir_path + "/Search.png");
     this->overray_resource[static_cast<int>(GameSystem::MAP_OVERLAY::BLIND)]    = QPixmap(tex_dir_path + "/Blind.png");
 
     //変形
