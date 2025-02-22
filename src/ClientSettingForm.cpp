@@ -6,16 +6,51 @@ ClientSettingForm::ClientSettingForm(QWidget *parent) :
     ui(new Ui::ClientSettingForm)
 {
     ui->setupUi(this);
+    resetCombBox();
+
     this->client = new TCPClient();
     connect(this->client, &TCPClient::Connected,    this, &ClientSettingForm::Connected);
     connect(this->client, &TCPClient::Ready,        this, &ClientSettingForm::SetStandby);
     connect(this->client, &TCPClient::Disconnected, this, &ClientSettingForm::DisConnected);
+}
+
+void ClientSettingForm::resetCombBox()
+{
+    QString currentText = this->ui->ComboBox->currentText();
+
+    ui->ComboBox->blockSignals(true);
+    ui->ComboBox->clear();
+    ui->ComboBox->addItem("TCPユーザー");
 
     //Windowsでボットのexeファイルがあるときのみ、ボットプログラムを動かせるように設定
-    #ifdef Q_OS_WINDOWS
-        if(QFile::exists("./2019-U16asahikawaBot/u16asahikawaBot.exe"))
-            ui->ComboBox->addItem("botV4");
+    #ifdef Q_OS_WINDOWS        
+        if(QFile::exists(pythoncommand))
+            ui->ComboBox->addItem("Python");
     #endif
+    //Windowsでボットのexeファイルがあるときのみ、ボットプログラムを動かせるように設定
+    #ifdef Q_OS_WINDOWS
+        if(QFile::exists(botcommand))
+            ui->ComboBox->addItem("ボットプログラム");
+    #endif
+
+    ui->ComboBox->addItem("CPU");
+    ui->ComboBox->addItem("マニュアル");
+
+    ui->ComboBox->setCurrentText(currentText);
+
+    ui->ComboBox->blockSignals(false);
+}
+
+void ClientSettingForm::PushedProgramSelect()
+{
+    QString cap = tr("プログラムを開く");
+    QString filter = tr("プログラムファイル (*.py)");
+
+    QString programfile = QFileDialog::getOpenFileName(this, cap, programpath, filter);
+    if ((QFile::exists(pythoncommand)) && (QFile::exists(programfile)))
+    {
+        reset("Python", programfile);
+    }
 }
 
 ClientSettingForm::~ClientSettingForm()
@@ -31,17 +66,16 @@ void ClientSettingForm::SetStandby()
     this->ui->IPLabel   ->setText(this->client->IP);
     this->ui->StateLabel->setText("準備完了");
     //if(this->ui->ComboBox->currentText() != "TCPユーザー");
-    this->ui->ConnectButton->setText("　切断　");
+    this->ui->ConnectButton->setText("切断");
 
     emit Standby(this,true);
-    //this->ui->ServerStartButton->setEnabled  (hot_standby && cool_standby && map_standby);
 }
 
 void ClientSettingForm::Connected()
 {
     this->ui->IPLabel      ->setText(this->client->IP);
     this->ui->StateLabel   ->setText("接続中");
-    this->ui->ConnectButton->setText("　切断　");
+    this->ui->ConnectButton->setText("切断");
 }
 
 void ClientSettingForm::DisConnected() {
@@ -93,12 +127,24 @@ void ClientSettingForm::ConnectionToggled(bool state)
         this->ui->PortSpinBox->setEnabled(true);
         emit Standby(this,false);
     }
+    if (this->ui->ConnectButton->isChecked() != state)
+        this->ui->ConnectButton->toggle();
+}
+
+void ClientSettingForm::reset(QString combotext, QString pythontext)
+{
+    this->ui->ComboBox->setCurrentText("TCPユーザー");
+    this->ComboBoxChenged("TCPユーザー");
+
+    this->ui->ProgramFileEdit->setText(pythontext);
+    this->ui->ComboBox->setCurrentText(combotext);
 }
 
 void ClientSettingForm::ComboBoxChenged(QString text)
 {
     //接続初期化
     delete client;
+    this->ui->ConnectButton->setChecked(false);
     if(text=="TCPユーザー"){
         this->client = new TCPClient(this);
         this->ui->StateLabel->setText("非接続");
@@ -106,27 +152,41 @@ void ClientSettingForm::ComboBoxChenged(QString text)
         this->ui->ConnectButton->setText("接続開始");
         this->ui->PortSpinBox->setEnabled(true);
         this->ui->ConnectButton->setEnabled(true);
-    }else {
+        ConnectionToggled(true);
+    } else {
         this->ui->PortSpinBox->setEnabled(false);
         this->ui->ConnectButton->setEnabled(false);
         if(text=="CPU")this->client = new ComClient(this);
-        if(text=="ManualClient")this->client = new ManualClient(this);
+        if(text=="マニュアル")this->client = new ManualClient(this);
 
         //ボットを接続
-        if(text=="botV4"){
-            this->client = new TCPClient(this);
+        if((text=="Python") || (text=="ボットプログラム")){
+            QString command;
+            QStringList option;
 
+            //Pythonプログラムを接続
+            if(text=="Python"){
+                // "python.exe program.py --host 127.0.0.1 --port 2009"のような文字列を作る
+                command = pythoncommand;
+                option << ui->ProgramFileEdit->text();
+                option << "--host" << "127.0.0.1";
+                option << "--port" << QString::number(ui->PortSpinBox->value());
+            }
+
+            //ボットを接続
+            if(text=="ボットプログラム"){
+                // "Bot.exe a:127.0.0.1 p:2009 n:ボットプログラム"のような文字列を作る
+                command = botcommand;
+                option << "a:127.0.0.1"; 
+                option << "p:" + QString::number(ui->PortSpinBox->value()); 
+                option << "n:ボットプログラム";
+            }
+
+            this->client = new TCPClient(this);
             //待機開始
             ConnectionToggled(true);
 
             botProcess = new QProcess();
-
-            // "u16asahikawaBot.exe a:127.0.0.1 p:2009 n:botV4"のような文字列を作る
-            QString command = "./2019-U16asahikawaBot/u16asahikawaBot.exe";
-            QStringList option;
-
-            option << "a:127.0.0.1" << "p:" + QString::number(ui->PortSpinBox->value()) << "n:botV4";
-
             botProcess->start(command, option);
         }
     }

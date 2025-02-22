@@ -22,6 +22,13 @@ class ClientSettingForm : public QGroupBox
 {
     Q_OBJECT
 
+private:
+    Ui::ClientSettingForm *ui;
+
+    QString botcommand = "./Bot/bot.exe";
+    QString pythoncommand = "../WinPython/python/python.exe";
+    QString programpath = "../CHaser";
+
 public:
     BaseClient* client;
 
@@ -30,6 +37,7 @@ public:
 
 public slots:
 
+    void reset(QString combotext, QString pythontext);
     void SetStandby ();
     void Connected  ();
     void DisConnected();
@@ -39,9 +47,13 @@ public slots:
 
 signals:
     void Standby(ClientSettingForm* client,bool complate);//準備完了
+private slots:
+    void PushedProgramSelect();
+
 private:
-    Ui::ClientSettingForm *ui;
     QProcess *botProcess;
+
+    void resetCombBox();
 };
 
 #endif // CLIENTSETTINGFORM_H
