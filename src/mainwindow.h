@@ -41,8 +41,10 @@ private:
 
     QFile* file;   //ログファイル
     StableLog log; //ログストリーム
-    int anime_map_time   = 6000; //マップ構築アニメーション時間
-    int anime_team_time  = 2000; //チーム配置アニメーション時間
+    // int anime_map_time   = 6000; //マップ構築アニメーション時間
+    // int anime_team_time  = 2000; //チーム配置アニメーション時間
+    int anime_map_time   = 100; //マップ構築アニメーション時間
+    int anime_team_time  = 500; //チーム配置アニメーション時間
     int anime_blind_time = 1000; //まっくらアニメーション時間
 
     GameSystem::WINNER win;
@@ -72,6 +74,7 @@ private slots:
     //決着
     void Finish(GameSystem::WINNER win);
 
+    void StartGame();
     void StartAnimation();
     void ShowTeamAnimation();
     void BlindAnimation();

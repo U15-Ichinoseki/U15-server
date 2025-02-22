@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QHostInfo>
 #include <QNetworkInterface>
+#include <QCommandLineParser>
 #include "DesignDialog.h"
 #include "MapEditerDialog.h"
 #include "ui_startupdialog.h"
@@ -19,6 +20,35 @@ StartupDialog::StartupDialog(QWidget *parent)
     music_text = ui->GameMusicCombo->currentText();
     ui->CoolGroupBox->SetPortSpin(2009);
     ui->HotGroupBox->SetPortSpin(2010);
+
+    QCommandLineParser parser;
+    // アプリの説明
+    parser.setApplicationDescription("CHaser server");
+    parser.addHelpOption();
+
+    QCommandLineOption RandomMapOption({"r", "random"}, "ランダムマップ");
+    parser.addOption(RandomMapOption);
+
+    QCommandLineOption MapOption({"m", "map"}, "マップファイル",
+                               "map",         // 値の名称
+                               "Default.map"  // 値のデフォルト値
+                               );
+    parser.addOption(MapOption);
+
+    QCommandLineOption TextureOption({"t", "texture"}, "テクスチャ",
+                               "texture",  // 値の名称
+                               "RPG"       // 値のデフォルト値
+                               );
+    parser.addOption(TextureOption);
+
+    QCommandLineOption BGMOption({"b", "bgm"}, "BGM",
+                               "bgm",  // 値の名称
+                               "YuHi"  // 値のデフォルト値
+                               );
+    parser.addOption(BGMOption);
+
+    parser.process(QCoreApplication::arguments());
+
 
     //クライアント初期化
     this->team_client[static_cast<int>(GameSystem::TEAM::COOL)] = ui->CoolGroupBox;
@@ -39,8 +69,24 @@ StartupDialog::StartupDialog(QWidget *parent)
     }
     this->ui->HostName->setText(QHostInfo::localHostName());
 
+    this->ui->CoolGroupBox->ConnectionToggled(true);
+    this->ui->HotGroupBox->ConnectionToggled(true);
+
     map.CreateRandomMap();
     map_standby = true;
+
+    if(! parser.isSet(RandomMapOption)) {
+        QString filePath = QDir::currentPath()+ "/Map/" + parser.value(MapOption);
+        if (QFile::exists(filePath)) {
+            this->ui->MapDirEdit->setText(filePath);
+            SetMapStandby(MapRead(filePath));
+        }
+    }
+
+    this->ui->GameMusicCombo->setCurrentText(parser.value(BGMOption));
+    music_text = ui->GameMusicCombo->currentText();
+
+    this->ui->TextureThemeCombo->setCurrentText(parser.value(TextureOption));
 }
 
 StartupDialog::~StartupDialog()
@@ -109,7 +155,7 @@ void StartupDialog::setMusicFileList()
 void StartupDialog::setImageThemeList()
 {
     ui->TextureThemeCombo->clear();
-    ui->TextureThemeCombo->addItems({"ほうせき", "あっさり", "こってり"}); //デフォルトの3テーマの追加
+    ui->TextureThemeCombo->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの3テーマの追加
 
     QDir dir("./Image");
 
@@ -154,7 +200,8 @@ void StartupDialog::ChangedTexture(QString text)
     if (text == "あっさり")      this->map.texture_dir_path = ":/Image/Light";
     else if (text == "こってり") this->map.texture_dir_path = ":/Image/Heavy";
     else if (text == "ほうせき") this->map.texture_dir_path = ":/Image/Jewel";
-    else                       this->map.texture_dir_path = "Image/" + text;
+    else if (text == "RPG")   this->map.texture_dir_path = ":/Image/RPG";
+    else                      this->map.texture_dir_path = "Image/" + text;
 }
 
 void StartupDialog::Setting()

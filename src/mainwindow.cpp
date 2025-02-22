@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    connect(this->ui->startButton,SIGNAL(clicked()),this,SLOT(StartGame()));
+    this->ui->WinnerGroup->hide();
+    
     this->startup = new StartupDialog();
     this->win = GameSystem::WINNER::CONTINUE;
 
@@ -97,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
         this->ui->Field  ->setMap(this->startup->map);
         this->ui->TimeBar->setMaximum(this->startup->map.turn);
         this->ui->TimeBar->setValue  (this->startup->map.turn);
-        this->ui->TurnLabel->setText("残りターン : " + QString::number(this->ui->TimeBar->value()));
+        this->ui->TurnLabel->setText(QString::number(this->ui->TimeBar->value()));
         this->ui->CoolNameLabel->setText(
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name == "" ?
             "Cool" :
@@ -130,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     startup_anime = new QTimer();
     connect(startup_anime, &QTimer::timeout, this, &MainWindow::StartAnimation);
-    startup_anime->start(anime_map_time / (startup->map.size.x()*startup->map.size.y()));
+    // startup_anime->start(anime_map_time / (startup->map.size.x()*startup->map.size.y()));
 
     /*
     music = new QSound(MUSIC_DIRECTORY + "/Music/" + this->startup->music_text + ".wav");
@@ -146,7 +149,7 @@ MainWindow::MainWindow(QWidget *parent) :
         //connect(bgm, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
         bgm->setSource(QUrl::fromLocalFile("./Music/" + this->startup->music_text));
         audio_output->setVolume(50);
-        bgm->play();
+        // bgm->play();
     }
 
     //log << "[ Music : " + MUSIC_DIRECTORY + "/Music/" + this->startup->music_text + ".wav ]" + "\r\n";
@@ -155,10 +158,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //log << MUSIC_DIRECTORY + "/Music/" + this->startup->music_text + ".wav";
 
-    for(int i=0;i<TEAM_COUNT;i++){
-        ui->Field->team_pos[i].setX(-1);
-        ui->Field->team_pos[i].setY(-1);
-    }
+    // for(int i=0;i<TEAM_COUNT;i++){
+    //     ui->Field->team_pos[i].setX(-1);
+    //     ui->Field->team_pos[i].setY(-1);
+    // }
 
     //アイテム数ラベルセット
     for(int i=0;i<startup->map.size.y();i++){
@@ -195,6 +198,16 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::StartGame()
+{
+    for(int i=0;i<TEAM_COUNT;i++){
+        ui->Field->team_pos[i].setX(-1);
+        ui->Field->team_pos[i].setY(-1);
+    }
+    startup_anime->start(this->anime_map_time / (startup->map.size.x()*startup->map.size.y()));
+    this->ui->startButton->hide();
 }
 
 void MainWindow::SaveFile()
@@ -290,7 +303,7 @@ void MainWindow::StepGame()
             if(player ==  TEAM_COUNT-1){
                 ui->TimeBar->setValue(this->ui->TimeBar->value() - 1);
                 ui->TimeBar->repaint();
-                this->ui->TurnLabel->setText("残りターン : " + QString::number(ui->TimeBar->value()));
+                this->ui->TurnLabel->setText(QString::number(ui->TimeBar->value()));
 
                 //ボット戦モードならば表記のリアルタイム更新
                 if(this->isbotbattle){
@@ -397,6 +410,9 @@ void MainWindow::Finish(GameSystem::WINNER winner)
         this->ui->WinnerLabel->setText("DRAW");
         log << getTime() + "[決着]引き分けです。" << "\r\n";
     }
+
+    this->ui->WinnerGroup->show();
+    
     /*
     GameBoard*& board = this->ui->Field;
 
@@ -564,6 +580,10 @@ void MainWindow::StartAnimation()
     }
     timer += 2;
     repaint();
+
+    if(!silent){
+        bgm->play();
+    }
 }
 
 void MainWindow::ShowTeamAnimation()

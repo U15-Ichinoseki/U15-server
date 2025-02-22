@@ -3,7 +3,7 @@
  <class>StartupDialog</class>
  <widget class="QDialog" name="StartupDialog">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::WindowModality::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -99,6 +99,11 @@
               <string>こってり</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>RPG</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="1" column="0">
@@ -155,10 +160,10 @@
         </size>
        </property>
        <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームを開始します。&lt;/p&gt;&lt;p&gt;COOLとHOTが両方とも接続されている、&lt;/p&gt;&lt;p&gt;または「自動くん」「ManualClient」に設定されている必要があります。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームを開始します。&lt;/p&gt;&lt;p&gt;COOLとHOTが両方とも接続されている、&lt;/p&gt;&lt;p&gt;または「CPU」「ManualClient」に設定されている必要があります。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>ゲーム開始</string>
+        <string>準備完了</string>
        </property>
       </widget>
      </item>
@@ -202,24 +207,24 @@
              <string>ホスト名：</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>ローカルIP：</string>
+             <string>サーバーアドレス：</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
            <widget class="QLabel" name="LocalIPLabel">
             <property name="whatsThis">
-             <string>ローカルIPです。</string>
+             <string>サーバーアドレスです。</string>
             </property>
             <property name="text">
              <string>192.168.1.1</string>

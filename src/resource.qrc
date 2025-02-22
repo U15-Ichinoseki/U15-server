@@ -27,6 +27,15 @@
         <file>Image/Light/Item.png</file>
         <file>Image/Light/Look.png</file>
         <file>Image/Light/Search.png</file>
+        <file>Image/RPG/Block.png</file>
+        <file>Image/RPG/Cool.png</file>
+        <file>Image/RPG/Floor.png</file>
+        <file>Image/RPG/Getready.png</file>
+        <file>Image/RPG/Hot.png</file>
+        <file>Image/RPG/Item.png</file>
+        <file>Image/RPG/Look.png</file>
+        <file>Image/RPG/Search.png</file>
+        <file>Image/RPG/Blind.png</file>
         <file>Sound/ji_023.wav</file>
     </qresource>
 </RCC>

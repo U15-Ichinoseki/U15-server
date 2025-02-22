@@ -13,7 +13,7 @@ CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = AsahikawaProcon-Server
+TARGET = U15-Server
 TEMPLATE = app
 
 
