@@ -47,7 +47,6 @@ void SettingDialog::Export()
     mSettings->setValue("Gamespeed", ui->Gamespeed->value());
     mSettings->setValue("Silent", ui->SilentCheck->isChecked());
     mSettings->setValue("Maximum", ui->MaximumCheck->isChecked());
-    //QMessageBox::information(this, tr("警告"), tr("設定は再起動後有効になります。"));
 }
 
 void SettingDialog::openDirectory()
