@@ -36,6 +36,10 @@
         <file>Image/RPG/Look.png</file>
         <file>Image/RPG/Search.png</file>
         <file>Image/RPG/Blind.png</file>
-        <file>Sound/ji_023.wav</file>
+        <file>Sound/lose.mp3</file>
+        <file>Sound/win.mp3</file>
+        <file>Sound/finish.mp3</file>
+        <file>Sound/get_C.mp3</file>
+        <file>Sound/get_H.mp3</file>
     </qresource>
 </RCC>
