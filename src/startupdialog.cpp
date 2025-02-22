@@ -99,7 +99,7 @@ void StartupDialog::CheckStandby()
         if (!team_standby[i])
             all_of = false;
     }
-    this->ui->ServerStartButton->setEnabled(all_of && map_standby);
+    this->ui->StandbyButton->setEnabled(all_of && map_standby);
 }
 
 void StartupDialog::ShowMapEditDialog()

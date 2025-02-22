@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>SetUp</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -43,7 +43,7 @@
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;使用するマップファイルのパスです。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="readOnly">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="placeholderText">
            <string>RandomMap</string>
@@ -51,7 +51,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="MapSelectButton">
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;使用するマップをファイルから選択します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -135,54 +135,6 @@
        </layout>
       </widget>
      </item>
-     <item row="0" column="2" colspan="2">
-      <widget class="ClientSettingForm" name="HotGroupBox">
-       <property name="title">
-        <string>HOT</string>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2" colspan="2">
-      <widget class="QPushButton" name="ServerStartButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームを開始します。&lt;/p&gt;&lt;p&gt;COOLとHOTが両方とも接続されている、&lt;/p&gt;&lt;p&gt;または「CPU」「ManualClient」に設定されている必要があります。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>準備完了</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="ClientSettingForm" name="CoolGroupBox">
-       <property name="title">
-        <string>COOL</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0" colspan="2">
       <widget class="QGroupBox" name="ServerGroup">
        <property name="title">
@@ -236,23 +188,71 @@
        </layout>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="DesignButton">
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームの演出を設定します。&lt;/p&gt;&lt;p&gt;(機能は再起動後有効になります)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <item row="0" column="0" colspan="2">
+      <widget class="ClientSettingForm" name="CoolGroupBox">
+       <property name="title">
+        <string>COOL</string>
        </property>
-       <property name="text">
-        <string>デザイン設定</string>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="0" column="2" colspan="2">
+      <widget class="ClientSettingForm" name="HotGroupBox">
+       <property name="title">
+        <string>HOT</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="StandbyButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームを開始します。&lt;/p&gt;&lt;p&gt;COOLとHOTが両方とも接続されている、&lt;/p&gt;&lt;p&gt;または「CPU」「ManualClient」に設定されている必要があります。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>スタンバイ</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QPushButton" name="GameStartButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>スタート</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
       <widget class="QPushButton" name="pushButton">
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ログ出力先、待機時間といったサーバーの設定を行います。&lt;/p&gt;&lt;p&gt;(機能は再起動後有効になります)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>サーバー設定</string>
+        <string>設定</string>
        </property>
       </widget>
      </item>
@@ -271,23 +271,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>ServerStartButton</sender>
-   <signal>clicked()</signal>
-   <receiver>StartupDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>485</x>
-     <y>289</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>421</x>
-     <y>217</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_4</sender>
+   <sender>MapSelectButton</sender>
    <signal>clicked()</signal>
    <receiver>StartupDialog</receiver>
    <slot>PushedMapSelect()</slot>
@@ -363,22 +347,6 @@
     <hint type="destinationlabel">
      <x>269</x>
      <y>130</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>DesignButton</sender>
-   <signal>clicked()</signal>
-   <receiver>StartupDialog</receiver>
-   <slot>ShowDesignDialog()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>77</x>
-     <y>288</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>102</x>
-     <y>548</y>
     </hint>
    </hints>
   </connection>
