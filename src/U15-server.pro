@@ -18,6 +18,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    dynamicallylabel.cpp \
         mainwindow.cpp \
     startupdialog.cpp \
     GameSystem.cpp \
@@ -34,6 +35,7 @@ SOURCES += main.cpp\
     DesignDialog.cpp
 
 HEADERS  += mainwindow.h \
+    dynamicallylabel.h \
     startupdialog.h \
     GameSystem.h \
     TcpClient.h \
@@ -50,6 +52,7 @@ HEADERS  += mainwindow.h \
     DesignDialog.h
 
 FORMS    += mainwindow.ui \
+    dynamicallyLabel.ui \
     startupdialog.ui \
     GameBoard.ui \
     ManualClientDialog.ui \
