@@ -25,12 +25,16 @@ namespace Ui {
 class StartupDialog;
 }
 
+class MainWindow;
+
 class StartupDialog : public QDialog
 {
     Q_OBJECT
 
 private:
     Ui::StartupDialog *ui;
+    MainWindow *parent;
+
     bool team_standby[TEAM_COUNT];
     bool map_standby;
 
@@ -41,12 +45,15 @@ public:
     ClientSettingForm* team_client[TEAM_COUNT];
 
 public:
+    explicit StartupDialog(MainWindow *parent = 0);
+    ~StartupDialog();
+
     bool MapRead(const QString& dir);
     void setMusicFileList();
     void setImageThemeList();
 
-    explicit StartupDialog(QWidget *parent = 0);
-    ~StartupDialog();
+    void setGameStartButtonEnabled(bool set);
+
 
 public slots:
 

@@ -1,13 +1,16 @@
 #include "startupdialog.h"
 #include "ui_startupdialog.h"
 
-StartupDialog::StartupDialog(QWidget *parent)
+StartupDialog::StartupDialog(MainWindow *parent)
     : QDialog(parent)
     , ui(new Ui::StartupDialog)
     , map_standby(false)
 {
+    this->parent = parent;
+
     //UI初期化
     ui->setupUi(this);
+    
     setMusicFileList();
     setImageThemeList();
     music_text = ui->GameMusicCombo->currentText();
@@ -64,9 +67,12 @@ StartupDialog::StartupDialog(QWidget *parent)
 
     this->ui->CoolGroupBox->ConnectionToggled(true);
     this->ui->HotGroupBox->ConnectionToggled(true);
-
+    
     map.CreateRandomMap();
     map_standby = true;
+
+    connect(this->ui->StandbyButton,SIGNAL(clicked()),  parent,SLOT(StartSetUp()));
+    connect(this->ui->GameStartButton,SIGNAL(clicked()),parent,SLOT(StartGame()));
 
     if(! parser.isSet(RandomMapOption)) {
         QString filePath = QDir::currentPath()+ "/Map/" + parser.value(MapOption);
@@ -99,7 +105,12 @@ void StartupDialog::CheckStandby()
         if (!team_standby[i])
             all_of = false;
     }
-    this->ui->ServerStartButton->setEnabled(all_of && map_standby);
+    this->ui->StandbyButton->setEnabled(all_of && map_standby);
+}
+
+void StartupDialog::setGameStartButtonEnabled(bool set)
+{
+    this->ui->GameStartButton->setEnabled(set);
 }
 
 void StartupDialog::ShowMapEditDialog()

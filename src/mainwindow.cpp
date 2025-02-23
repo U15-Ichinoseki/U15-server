@@ -75,10 +75,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ReSetUp();
 
     this->startup->show();
-
-    //動作テスト用自動スタート
-    QTimer::singleShot(10000, this, SLOT(StartSetUp()));
-    QTimer::singleShot(15000, this, SLOT(StartGame()));
 }
 
 void MainWindow::setSetting()
@@ -216,6 +212,8 @@ void MainWindow::StartSetUp()
     this->ui->TimeBar_B->show();
 
     this->ui->TurnLabel->setText(QString::number(this->startup->map.turn));
+
+    this->startup->setGameStartButtonEnabled(true);
 
     if(round == 0) {
         this->ui->NameLabel_A->setText(
@@ -829,10 +827,8 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_A->hide();
     this->ui->TimeBar_B->hide();
   
-    //動作テスト用自動スタート
     if(round<1){
-        QTimer::singleShot(10000, this, SLOT(StartSetUp()));
-        QTimer::singleShot(15000, this, SLOT(StartGame()));
+
     }
 }
 
