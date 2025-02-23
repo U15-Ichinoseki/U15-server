@@ -67,7 +67,7 @@ StartupDialog::StartupDialog(MainWindow *parent)
 
     this->ui->CoolGroupBox->ConnectionToggled(true);
     this->ui->HotGroupBox->ConnectionToggled(true);
-    
+
     map.CreateRandomMap();
     map_standby = true;
 
@@ -212,17 +212,6 @@ void StartupDialog::Setting()
 {
     SettingDialog *diag;
     diag = new SettingDialog;
-    if (diag->exec() == QDialog::Accepted) {
-        //設定を保存
-        diag->Export();
-    }
-    delete diag;
-}
-
-void StartupDialog::ShowDesignDialog()
-{
-    DesignDialog *diag;
-    diag = new DesignDialog;
     if (diag->exec() == QDialog::Accepted) {
         //設定を保存
         diag->Export();
