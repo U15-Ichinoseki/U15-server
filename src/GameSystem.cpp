@@ -161,8 +161,8 @@ bool GameSystem::Map::CheckBlockRole(QPoint pos){
 //大会ルールの「A 基本タイプ」に準拠してブロック、アイテム、COOLとHOTをランダムに配置
 //*A 基本タイプ: COOLとHOTの周囲8マスにアイテムがない
 //デフォルトではブロック20個、アイテム50個を配置
-void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
-    turn = 100;
+void GameSystem::Map::CreateRandomMap(int block_num, int item_num, int turn, bool mirror){
+    this->turn = turn;
     name = "[RANDOM MAP]";
 
     //一様ノルム(L∞ノルム)
@@ -185,8 +185,24 @@ void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
 
     }while(true);
 
-    //点対称に配置
-    team_first_point[1] = MirrorPoint(team_first_point[0]);
+    if (mirror){
+        //点対称に配置
+        team_first_point[1] = MirrorPoint(team_first_point[0]);
+    } else {
+        //大会ルールに準拠した位置にCOOLとHOTが配置されるようにする
+        do{
+            auto pos = QPoint(QRandomGenerator::global()->generate() % size.x(),QRandomGenerator::global()->generate() % size.y());
+            //盤面の真ん中にあるアイテムの周りには配置されないように
+            if(UniformNorm(pos - QPoint(size.x()/2, size.y()/2)) <= 1)
+                continue;
+            if(pos.x() > size.x()/2 || //盤面の右側にHOTが配置されるように
+            (pos.x() == size.x()/2 && pos.y() < size.y()/2)){ //盤面の真ん中の縦列に生成される場合は、そのy座標がsize.y()/～size.y()までに生成されるように
+                team_first_point[1] = pos;
+                break;
+            }
+        }while(true);
+
+    }
 
     field.clear();
     for(int i=0;i<size.y();i++){
@@ -194,7 +210,7 @@ void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
     }
 
     //ブロック配置
-    for(int i=0;i<block_num/2;i++){
+    for(int i=0;i<block_num;i++){
         QPoint pos(QRandomGenerator::global()->generate() % size.x(),QRandomGenerator::global()->generate() % size.y());
 
         auto mirrorPos = MirrorPoint(pos);
@@ -206,9 +222,11 @@ void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
             pos != QPoint(size.x()/2, size.y()/2 )){ //真ん中は必ずアイテム(ブロックは置けない)
 
             field[pos.y()][pos.x()] = GameSystem::MAP_OBJECT::BLOCK;
-
-            //点対称に配置
-            field[mirrorPos.y()][mirrorPos.x()] = GameSystem::MAP_OBJECT::BLOCK;
+            if (mirror){
+                //点対称に配置
+                field[mirrorPos.y()][mirrorPos.x()] = GameSystem::MAP_OBJECT::BLOCK;
+                i++;
+            }
         }else{
             //ブロックが大会ルールに準拠してない場合は、もう一度乱数を回す
             i--;
@@ -217,7 +235,7 @@ void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
     }
 
     //アイテム配置
-    for(int i=0;i<item_num/2;i++){
+    for(int i=0;i<item_num;i++){
         QPoint pos(QRandomGenerator::global()->generate() % size.x(),QRandomGenerator::global()->generate() % size.y());
         auto mirrorPos = MirrorPoint(pos);
 
@@ -235,15 +253,20 @@ void GameSystem::Map::CreateRandomMap(int block_num, int item_num){
             pos != QPoint(size.x()/2, size.y()/2) ){ //真ん中は後の処理で必ずアイテムにするので、ここでは置かない
 
             field[pos.y()][pos.x()] = GameSystem::MAP_OBJECT::ITEM;
-            //点対称に配置
-            field[mirrorPos.y()][mirrorPos.x()] = GameSystem::MAP_OBJECT::ITEM;
+            if(mirror){
+                //点対称に配置
+                field[mirrorPos.y()][mirrorPos.x()] = GameSystem::MAP_OBJECT::ITEM;
+                i++;
+            }
         }else{
             i--;
             continue;
         }
     }
-    // 真ん中は必ずアイテムにする
-    field[size.y()/2][size.x()/2] = GameSystem::MAP_OBJECT::ITEM;
+    if (mirror){
+        // 真ん中は必ずアイテムにする
+        field[size.y()/2][size.x()/2] = GameSystem::MAP_OBJECT::ITEM;
+    }
 }
 
 void GameSystem::AroundData::finish(){
