@@ -33,21 +33,21 @@ void ManualClient::Startup(){
     emit WriteTeamName();
     emit Ready();
     diag->setWindowFlags(Qt::WindowStaysOnTopHint);
-
+    
     //画面のサイズをもとにダイアログの位置を決める
     auto displaySize = QGuiApplication::primaryScreen()->size();
     auto diagSize = diag->size();
 
     //画面のサイズに合わせて場所移動(邪魔にならない場所)
     diag->move((displaySize.width()-diagSize.width())*0.5, displaySize.height()*0.65);
-
+    
     diag->show();
 }
 
 ManualClient::ManualClient(QWidget* parent):
     BaseClient(parent)
 {
-    Name = "ManualClient";
+    Name = "マニュアル";
     IP   = "ローカル";
     diag = new ManualClientDialog();
     connect(diag, &ManualClientDialog::CloseWindow, this, &ManualClient::closeEvent);

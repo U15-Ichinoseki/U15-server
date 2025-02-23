@@ -18,6 +18,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    CustomRadioButton.cpp \
     ScoreLabelStyle.cpp \
     dynamicallylabel.cpp \
         mainwindow.cpp \
@@ -35,6 +36,7 @@ SOURCES += main.cpp\
     StableLog.cpp
 
 HEADERS  += mainwindow.h \
+    CustomRadioButton.h \
     dynamicallylabel.h \
     startupdialog.h \
     GameSystem.h \
@@ -51,6 +53,7 @@ HEADERS  += mainwindow.h \
     StableLog.h
 
 FORMS    += mainwindow.ui \
+    CustomRadioButton.ui \
     dynamicallyLabel.ui \
     startupdialog.ui \
     GameBoard.ui \

@@ -6,10 +6,10 @@ void ManualClientDialog::closeEvent(QCloseEvent* ce){
     ce->accept();
 }
 void ManualClientDialog::keyPressEvent(QKeyEvent * event){
-    if(event->key()==Qt::Key_W)UPButtonClicked();
-    if(event->key()==Qt::Key_S)DOWNButtonClicked();
-    if(event->key()==Qt::Key_D)RIGHTButtonClicked();
-    if(event->key()==Qt::Key_A)LEFTButtonClicked();
+    if(event->key()==Qt::Key_W||event->key()==Qt::Key_Up)   UPButtonClicked();
+    if(event->key()==Qt::Key_S||event->key()==Qt::Key_Down) DOWNButtonClicked();
+    if(event->key()==Qt::Key_D||event->key()==Qt::Key_Right)RIGHTButtonClicked();
+    if(event->key()==Qt::Key_A||event->key()==Qt::Key_Left) LEFTButtonClicked();
 }
 
 GameSystem::Method::ACTION ManualClientDialog::GetAction(){
