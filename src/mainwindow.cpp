@@ -252,6 +252,7 @@ void MainWindow::StartSetUp()
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
             "Hot" :
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
+        ui->Field->setFlip(false);
     }
     if(round == 1) {
         this->ui->NameLabel_B->setText(
@@ -262,6 +263,7 @@ void MainWindow::StartSetUp()
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
             "Hot" :
             this->startup->team_client[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
+        ui->Field->setFlip(true);
     }
     StartSetUpScoreLabel();
 
