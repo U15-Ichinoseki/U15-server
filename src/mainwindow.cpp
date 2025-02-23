@@ -608,7 +608,8 @@ void MainWindow::RepeatGame()
     this->startup->setConnectionChangeEnable(true);
     this->startup->setSetupModeEnable(true);
 
-    ReSetUp();
+    this->startup->connectionReset();
+	ReSetUp();
 }
 
 void MainWindow::EndGame()
@@ -886,6 +887,7 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_B->hide();
   
     if(isfullmode && round<1){
+        this->startup->connectionReset();
         this->startup->setConnectionChangeEnable(true);    
         this->startup->setGameStartButtonShow(true);
     }else{

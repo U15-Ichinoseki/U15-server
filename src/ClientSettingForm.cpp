@@ -202,6 +202,16 @@ void ClientSettingForm::SetPortSpin(int num)
     ui->PortSpinBox->setValue(num);
 }
 
+QString ClientSettingForm::getPlayer()
+{
+    return ui->ComboBox->currentText();
+}
+
+QString ClientSettingForm::getProgramFile()
+{
+    return ui->ProgramFileEdit->text();
+}
+
 void ClientSettingForm::setBotCommand(QString command)
 {
     botcommand = command;
