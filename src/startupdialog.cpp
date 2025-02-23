@@ -158,7 +158,7 @@ void StartupDialog::setGameStartButtonEnabled(bool set)
 
 void StartupDialog::ShowMapEditDialog()
 {
-    MapEditerDialog diag(map);
+    MapEditerDialog diag(map, mappath);
     if (diag.exec()) {
         if (diag.filepath == "") {
             this->ui->MapDirEdit->setText("[CUSTOM MAP]");
@@ -213,13 +213,14 @@ void StartupDialog::setImageThemeList()
 
 void StartupDialog::PushedMapSelect()
 {
-    QString folder = QDir::currentPath() + "/Map/";
     QString cap = tr("マップを開く");
     QString filter = tr("マップファイル (*.map)");
 
-    QString filePath = QFileDialog::getOpenFileName(this, cap, folder, filter);
-    this->ui->MapDirEdit->setText(filePath);
-    SetMapStandby(MapRead(filePath));
+    QString mapfile = QFileDialog::getOpenFileName(this, cap, mappath, filter);
+    if (QFile::exists(mapfile)) {
+        this->ui->MapDirEdit->setText(mapfile);
+        SetMapStandby(MapRead(mapfile));
+    }
 }
 
 void StartupDialog::ClientStandby(ClientSettingForm *client, bool complate)
@@ -236,6 +237,7 @@ void StartupDialog::ClientStandby(ClientSettingForm *client, bool complate)
 void StartupDialog::SetMapStandby(bool state)
 {
     map_standby = state;
+    if (state) parent->repaintMap();
     CheckStandby();
 }
 
