@@ -34,6 +34,8 @@ private:
     QPixmap overray_resource[5];//オーバーレイ画像
 
 public:
+
+    bool flip = false;
     GameSystem::Map field; //フィールド状態
     Field<GameSystem::MAP_OVERLAY> overlay;//オーバーレイ状態
 
@@ -86,6 +88,8 @@ public:
 
     //アイテム回収
     void PickItem(GameSystem::Method method);
+
+    void setFlip(bool set);
 
     ~GameBoard();
 
