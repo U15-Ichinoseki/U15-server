@@ -35,6 +35,7 @@ public:
     explicit ClientSettingForm(QWidget *parent = 0);
     ~ClientSettingForm();
 
+    void setProgramFile(QString path, QString file);
 public slots:
 
     void reset(QString combotext, QString pythontext);

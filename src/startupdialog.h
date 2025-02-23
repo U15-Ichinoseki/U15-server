@@ -37,6 +37,9 @@ private:
     bool team_standby[TEAM_COUNT];
     bool map_standby;
 
+    QString programpath;
+    QString mappath;
+
 public:
     QString music_text;
     GameSystem::Map map;
@@ -53,6 +56,8 @@ public:
 
     void setGameStartButtonEnabled(bool set);
 
+    void setCommandLineOptions();
+    QVariant getDefault(QString key);
 
 public slots:
 
