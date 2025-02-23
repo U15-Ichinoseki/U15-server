@@ -1,13 +1,15 @@
 #include "MapEditerDialog.h"
 #include "ui_MapEditerDialog.h"
 
-MapEditerDialog::MapEditerDialog(GameSystem::Map map, QWidget *parent) :
+MapEditerDialog::MapEditerDialog(GameSystem::Map map, QString path, QWidget *parent) :
     QDialog(parent),
     filepath(""),
     ui(new Ui::MapEditerDialog),
     clicking(false)
 {
     ui->setupUi(this);
+
+    mappath = path;
 
     //マウス追跡を有効化
     setMouseTracking(true);
@@ -133,7 +135,7 @@ void MapEditerDialog::Export()
     filepath = QFileDialog::getSaveFileName(
         this,
         tr("マップを保存"),
-        QDir::currentPath()+"/Map/",
+        mappath,
         tr("マップデータ (*.map)"));
     if(filepath != "")ui->widget->field.Export(filepath);
 }
