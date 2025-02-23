@@ -12,6 +12,11 @@ SettingDialog::SettingDialog(QWidget *parent)
 
     ui->tabWidget->setCurrentIndex(0);
 
+    setProgramFileList();
+    setMapFileList();
+    setMusicFileList();
+    setImageThemeList();
+
     QVariant v;
   
     v = Settings->value("Timeout");
@@ -153,9 +158,121 @@ void SettingDialog::Export()
     Settings->endGroup();
 }
 
+void SettingDialog::setProgramFileList()
+{
+    QDir dir(ui->Program->text());
+
+    ui->CoolProgram->clear();
+    ui->HotProgram->clear();
+    ui->CoolProgram->addItem("None");
+    ui->HotProgram->addItem("None");
+if (dir.exists()) {
+        QStringList filelist = dir.entryList({"*.py"}, QDir::Files | QDir::NoSymLinks);
+        if (filelist.isEmpty()) {
+            ui->CoolProgram->setEnabled(false);
+            ui->HotProgram->setEnabled(false);
+        } else
+        ui->CoolProgram->addItems(filelist);
+        ui->HotProgram->addItems(filelist);
+    } else {
+        ui->CoolProgram->setEnabled(false);
+        ui->HotProgram->setEnabled(false);
+    }
+}
+
+void SettingDialog::setMapFileList()
+{
+    QDir dir(ui->Map->text());
+
+    ui->DefaultMap->clear();
+    if (dir.exists()) {
+        QStringList filelist = dir.entryList({"*.map"}, QDir::Files | QDir::NoSymLinks);
+        if (filelist.isEmpty()) {
+            ui->DefaultMap->addItem("None");
+            ui->DefaultMap->setEnabled(false);
+        } else
+            ui->DefaultMap->addItems(filelist);
+    } else {
+        ui->DefaultMap->addItem("None");
+        ui->DefaultMap->setEnabled(false);
+    }
+}
+
+void SettingDialog::setMusicFileList()
+{
+    QDir dir("./Music");
+
+    ui->DefaultBGM->clear();
+    if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
+        QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
+        //qDebug()<<filelist;
+        if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
+            ui->DefaultBGM->addItem("None");
+            ui->DefaultBGM->setEnabled(false);
+        } else
+            ui->DefaultBGM->addItems(filelist);
+    } else { //なかったらNoneにして無効化
+        ui->DefaultBGM->addItem("None");
+        ui->DefaultBGM->setEnabled(false);
+    }
+}
+
+void SettingDialog::setImageThemeList()
+{
+    ui->DefaultTexture->clear();
+    ui->DefaultTexture->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの4テーマの追加
+
+    QDir dir("./Image");
+
+    if (dir.exists()) { //ディレクトリが存在していたら
+        QStringList filelist = dir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        //qDebug()<<filelist;
+
+        ui->DefaultTexture->addItems(filelist);
+    }
+}
+
 void SettingDialog::openDirectory()
 {
-    ui->Log->setText(QFileDialog::getExistingDirectory(this, tr("ログファイル保存先を選択")));
+    QString directory = QFileDialog::getExistingDirectory(this, tr("ログファイル保存先を選択"));
+    if (!directory.isEmpty()) 
+       ui->Log->setText(directory);
+}
+
+void SettingDialog::openProgramDirectory()
+{
+    QString directory = QFileDialog::getExistingDirectory(this, tr("プログラム保存先を選択"));
+    if (!directory.isEmpty()) 
+       ui->Program->setText(directory);    
+}
+
+void SettingDialog::openMapDirectory()
+{
+    QString directory = QFileDialog::getExistingDirectory(this, tr("マップファイル保存先を選択"));
+    if (!directory.isEmpty()) 
+       ui->Map->setText(directory);
+}
+
+void SettingDialog::openPythonCommand()
+{
+    QString folder = QDir::currentPath();
+    QString cap = tr("Pythonコマンドを開く");
+    QString filter = tr("Pythonコマンド (python.exe)");
+
+    QString pythoncommand = QFileDialog::getOpenFileName(this, cap, folder, filter);
+    if(QFile::exists(pythoncommand))
+        ui->Python->setText(pythoncommand);
+}
+
+void SettingDialog::openBotCommand()
+{
+    QString folder = QDir::currentPath();
+    QString cap = tr("ボットコマンドを開く");
+    QString filter = tr("ボットコマンド (bot*.exe)");
+
+    QString botcommand = QFileDialog::getOpenFileName(this, cap, folder, filter);
+    if(QFile::exists(botcommand))
+        ui->Bot->setText(botcommand);
 }
 
 SettingDialog::~SettingDialog()
