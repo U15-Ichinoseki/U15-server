@@ -44,8 +44,6 @@ StartupDialog::StartupDialog(MainWindow *parent)
 
     connect(this->ui->StandbyButton,SIGNAL(clicked()),  parent,SLOT(StartSetUp()));
     connect(this->ui->GameStartButton,SIGNAL(clicked()),parent,SLOT(StartGame()));
-
-    setCommandLineOptions();
 }
 
 QVariant StartupDialog::getDefault(QString key)
@@ -260,3 +258,29 @@ void StartupDialog::Setting()
     }
     delete diag;
 }
+
+void StartupDialog::setBotCommand(QString command)
+{
+    ui->CoolGroupBox->setBotCommand(command);
+    ui->HotGroupBox->setBotCommand(command);
+}
+
+void StartupDialog::setPythonCommand(QString command)
+{
+    ui->CoolGroupBox->setPythonCommand(command);
+    ui->HotGroupBox->setPythonCommand(command);
+}
+
+void StartupDialog::setProgramPath(QString path)
+{
+    programpath = path;
+    // ui->CoolGroupBox->setProgramPath(path);
+    // ui->HotGroupBox->setProgramPath(path);
+}
+
+
+void StartupDialog::setMapPath(QString path)
+{
+    mappath = path;
+}
+
