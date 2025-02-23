@@ -131,6 +131,10 @@ void MainWindow::setDesign()
     if (v.typeId() != QMetaType::UnknownType)dark = v.toBool();
     else dark = false;
 
+    v = Settings->value( "DemoMode" );
+    if (v.typeId() != QMetaType::UnknownType)isdemo = v.toBool();
+    else isdemo = false;
+
     v = Settings->value( "Bot" );
     if (v.typeId() != QMetaType::UnknownType)isbotbattle = v.toBool();
     else isbotbattle = false;
@@ -301,6 +305,10 @@ void MainWindow::StartSetUp()
 
     this->startup->setStandbyButtonShow(false);
     this->startup->setSetupModeEnable(false);
+    if (isdemo) {
+        QTimer::singleShot(100, this, SLOT(StartGame()));
+    }
+
     getready_flag=true;
 
     this->startup->setConnectionChangeEnable(false);
@@ -589,8 +597,14 @@ void MainWindow::RepeatGame()
     this->startup->setConnectionChangeEnable(true);
     this->startup->setSetupModeEnable(true);
 
-    this->startup->connectionReset();
-	ReSetUp();
+    if (!isdemo) {
+        this->startup->connectionReset();
+        ReSetUp();
+    } else {
+        this->startup->randomConnectionReset();
+        ReSetUp();
+        QTimer::singleShot(1000, this, SLOT(StartSetUp()));
+    }
 }
 
 void MainWindow::EndGame()
@@ -871,11 +885,17 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
         this->startup->connectionReset();
         this->startup->setConnectionChangeEnable(true);    
         this->startup->setGameStartButtonShow(true);
+        if (isdemo) {
+            QTimer::singleShot(5000, this, SLOT(StartSetUp()));
+        }
     }else{
         if (! isrepeat)
             this->startup->setGameStartButtonToEnd(false);
         else {
             this->startup->setGameStartButtonToEnd(true);
+            if (isdemo) {
+                QTimer::singleShot(10000, this, SLOT(RepeatGame()));
+            }
         }
     }
 }

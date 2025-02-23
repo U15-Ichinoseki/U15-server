@@ -239,6 +239,18 @@ void StartupDialog::connectionReset()
     this->ui->HotGroupBox->reset(CoolP,CoolP2);
 }
 
+void StartupDialog::randomConnectionReset()
+{
+    QString CoolP = this->ui->CoolGroupBox->getPlayer();
+    QString CoolP2 = this->ui->CoolGroupBox->getRandomProgramFile();
+
+    QString HotP = this->ui->HotGroupBox->getPlayer();
+    QString HotP2 = this->ui->HotGroupBox->getRandomProgramFile();
+
+    this->ui->CoolGroupBox->reset(HotP, HotP2);
+    this->ui->HotGroupBox->reset(CoolP,CoolP2);
+}
+
 void StartupDialog::ShowMapEditDialog()
 {
     MapEditerDialog diag(map, mappath);
