@@ -204,6 +204,18 @@ void ClientSettingForm::SetPortSpin(int num)
     ui->PortSpinBox->setValue(num);
 }
 
+void ClientSettingForm::setBotCommand(QString command)
+{
+    botcommand = command;
+    resetCombBox();
+}
+
+void ClientSettingForm::setPythonCommand(QString command)
+{
+    pythoncommand = command;
+    resetCombBox();
+}
+
 void ClientSettingForm::setProgramFile(QString path, QString file)
 {
     programpath = path;

@@ -25,9 +25,9 @@ class ClientSettingForm : public QGroupBox
 private:
     Ui::ClientSettingForm *ui;
 
-    QString botcommand = "./Bot/bot.exe";
-    QString pythoncommand = "../WinPython/python/python.exe";
-    QString programpath = "../CHaser";
+    QString botcommand;
+    QString pythoncommand;
+    QString programpath;
 
 public:
     BaseClient* client;
@@ -35,6 +35,8 @@ public:
     explicit ClientSettingForm(QWidget *parent = 0);
     ~ClientSettingForm();
 
+    void setBotCommand(QString command);
+    void setPythonCommand(QString command);
     void setProgramFile(QString path, QString file);
 public slots:
 
