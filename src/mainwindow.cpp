@@ -297,7 +297,11 @@ void MainWindow::StartSetUp()
 
     ui->Field->repaint();
 
+    this->startup->setStandbyButtonShow(false);
+    this->startup->setSetupModeEnable(false);
     getready_flag=true;
+
+    this->startup->setConnectionChangeEnable(false);
     
     log << getTime() + "セットアップ完了　ゲームを開始します。\r\n";
 }
@@ -305,6 +309,7 @@ void MainWindow::StartSetUp()
 void MainWindow::StartGame()
 {
     qDebug() << "Game Start";
+    this->startup->setGameStartButtonShow(false);
     
     for(int i=0;i<TEAM_COUNT;i++){
         ui->Field->team_pos[i].setX(-1);
@@ -578,7 +583,10 @@ void MainWindow::StepGame()
 void MainWindow::RepeatGame()
 {
     qDebug() << "Game Reset";
- 
+    this->startup->setGameStartButtonShow(true);
+    this->startup->setConnectionChangeEnable(true);
+    this->startup->setSetupModeEnable(true);
+
     ReSetUp();
 }
 
@@ -856,8 +864,15 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_A->hide();
     this->ui->TimeBar_B->hide();
   
-    if(round<1){
-
+    if(isfullmode && round<1){
+        this->startup->setConnectionChangeEnable(true);    
+        this->startup->setGameStartButtonShow(true);
+    }else{
+        if (! isrepeat)
+            this->startup->setGameStartButtonToEnd(false);
+        else {
+            this->startup->setGameStartButtonToEnd(true);
+        }
     }
 }
 

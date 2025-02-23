@@ -221,15 +221,13 @@ QString TCPClient::GetTeamName()
 TCPClient::TCPClient(QObject *parent)
     : BaseClient(parent)
 {
-    QSettings *mSettings;
-    mSettings = new QSettings("setting.ini", QSettings::IniFormat); // iniファイルで設定を保存
-    // mSettings->setIniCodec( "UTF-8" ); // iniファイルの文字コード (QSettingsはデフォルトでUTF-8で、変更不可っぽい)
-    QVariant v = mSettings->value("Timeout");
-    // 非推奨 QVariant::Invalid → QMetaType::UnknownType
+    QSettings *Settings;
+    Settings = new QSettings("setting.ini", QSettings::IniFormat);
+    QVariant v = Settings->value("Timeout");
     if (v.typeId() != QMetaType::UnknownType) {
         TIMEOUT = v.toInt();
     }
-    delete mSettings;
+    delete Settings;
 
     this->server = new QTcpServer(this);
     this->client = nullptr;

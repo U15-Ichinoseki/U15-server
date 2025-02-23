@@ -55,10 +55,18 @@ public:
     void setImageThemeList();
 
     void setGameStartButtonEnabled(bool set);
+    void setGameStartButtonShow(bool set);
+    void GameStartButtonClick();
+    void setStandbyButtonShow(bool set);
+    void setSetupModeEnable(bool set);
+    void setConnectionChangeEnable(bool set);
+    void setGameStartButtonToEnd(bool repeat);
+
     void setBotCommand(QString command);
     void setPythonCommand(QString command);
     void setProgramPath(QString path);
     void setMapPath(QString path);
+
     void setCommandLineOptions();
     QVariant getDefault(QString key);
 
