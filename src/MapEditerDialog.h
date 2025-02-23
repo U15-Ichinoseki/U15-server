@@ -24,7 +24,7 @@ public:
     QString filepath;
 
     GameSystem::Map GetMap();
-    explicit MapEditerDialog(GameSystem::Map map,QWidget *parent = 0);
+    explicit MapEditerDialog(GameSystem::Map map, QString path, QWidget *parent = 0);
     ~MapEditerDialog();
 
 protected:
@@ -35,6 +35,7 @@ protected:
 private:
     Ui::MapEditerDialog *ui;
     bool clicking;
+    QString mappath;
 
 private slots:
     void Export();                    //ファイル書き出し

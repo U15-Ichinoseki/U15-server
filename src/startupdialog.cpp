@@ -13,38 +13,12 @@ StartupDialog::StartupDialog(MainWindow *parent)
     
     setMusicFileList();
     setImageThemeList();
-    music_text = ui->GameMusicCombo->currentText();
+
     ui->CoolGroupBox->SetPortSpin(2009);
-    ui->HotGroupBox->SetPortSpin(2010);
+    ui->CoolGroupBox->ConnectionToggled(true);
 
-    QCommandLineParser parser;
-    // アプリの説明
-    parser.setApplicationDescription("CHaser server");
-    parser.addHelpOption();
-
-    QCommandLineOption RandomMapOption({"r", "random"}, "ランダムマップ");
-    parser.addOption(RandomMapOption);
-
-    QCommandLineOption MapOption({"m", "map"}, "マップファイル",
-                               "map",         // 値の名称
-                               "Default.map"  // 値のデフォルト値
-                               );
-    parser.addOption(MapOption);
-
-    QCommandLineOption TextureOption({"t", "texture"}, "テクスチャ",
-                               "texture",  // 値の名称
-                               "RPG"       // 値のデフォルト値
-                               );
-    parser.addOption(TextureOption);
-
-    QCommandLineOption BGMOption({"b", "bgm"}, "BGM",
-                               "bgm",  // 値の名称
-                               "YuHi"  // 値のデフォルト値
-                               );
-    parser.addOption(BGMOption);
-
-    parser.process(QCoreApplication::arguments());
-
+    ui->HotGroupBox-> SetPortSpin(2010);
+    ui->HotGroupBox-> ConnectionToggled(true);
 
     //クライアント初期化
     this->team_client[static_cast<int>(GameSystem::TEAM::COOL)] = ui->CoolGroupBox;
@@ -65,23 +39,92 @@ StartupDialog::StartupDialog(MainWindow *parent)
     }
     this->ui->HostName->setText(QHostInfo::localHostName());
 
-    this->ui->CoolGroupBox->ConnectionToggled(true);
-    this->ui->HotGroupBox->ConnectionToggled(true);
-    
     map.CreateRandomMap();
     map_standby = true;
 
     connect(this->ui->StandbyButton,SIGNAL(clicked()),  parent,SLOT(StartSetUp()));
     connect(this->ui->GameStartButton,SIGNAL(clicked()),parent,SLOT(StartGame()));
+}
 
-    if(! parser.isSet(RandomMapOption)) {
-        QString filePath = QDir::currentPath()+ "/Map/" + parser.value(MapOption);
-        if (QFile::exists(filePath)) {
-            this->ui->MapDirEdit->setText(filePath);
-            SetMapStandby(MapRead(filePath));
+QVariant StartupDialog::getDefault(QString key)
+{
+    QSettings *Settings;
+    Settings = new QSettings("setting.ini", QSettings::IniFormat); // iniファイルで設定を保存
+    Settings->beginGroup("Default");
+    return Settings->value(key);
+}
+
+void StartupDialog::setCommandLineOptions()
+{
+    QVariant v;
+
+    QCommandLineParser parser;
+    // アプリの説明
+    parser.setApplicationDescription("CHaser server");
+    parser.addHelpOption();
+
+    QCommandLineOption RandomMapOption({"r", "random"}, "ランダムマップ");
+    parser.addOption(RandomMapOption);
+
+    QCommandLineOption CoolOption("cool", "Coolプログラムファイル", "program file");
+    parser.addOption(CoolOption);
+
+    QCommandLineOption HotOption("hot", "Hotプログラムファイル", "program file");
+    parser.addOption(HotOption);
+
+    
+    v = getDefault("DefaultMap");
+    QCommandLineOption MapOption({"m", "map"}, "マップファイル", "map",         // 値の名称
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "Default.map" // 値のデフォルト値
+        );
+    parser.addOption(MapOption);
+
+    v = getDefault("DefaultTexture");
+    QCommandLineOption TextureOption({"t", "texture"}, "テクスチャ", "texture",     // 値の名称
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "あっさり" // 値のデフォルト値
+        );
+    parser.addOption(TextureOption);
+
+    v = getDefault("DefaultBGM");
+    QCommandLineOption BGMOption({"b", "bgm"}, "BGM", "bgm",            // 値の名称
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" // 値のデフォルト値
+        );
+    parser.addOption(BGMOption);
+
+    parser.process(QCoreApplication::arguments());
+    
+    if(parser.value(CoolOption) != "")
+        this->ui->CoolGroupBox->reset("Python", programpath + "/" + parser.value(CoolOption));
+    else {
+        v = getDefault("CoolProgram");
+        if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
+            this->ui->CoolGroupBox->setProgramFile(programpath, v.toString());
+        } else {
+            this->ui->CoolGroupBox->setProgramFile(programpath, "player.py");
         }
     }
 
+    if(parser.value(HotOption) != "")
+        this->ui->HotGroupBox->reset("Python", programpath + "/" + parser.value(HotOption));
+    else {
+        v = getDefault("HotProgram");
+        if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
+            this->ui->HotGroupBox->setProgramFile(programpath, v.toString());
+        } else {
+            this->ui->HotGroupBox->setProgramFile(programpath, "player.py");
+        }
+    }
+
+
+    if(! parser.isSet(RandomMapOption)) {
+        QString filePath;
+        filePath = mappath + "/" + parser.value(MapOption);
+        if (QFile::exists(filePath)) {
+            this->ui->MapDirEdit->setText(filePath);
+            map_standby = MapRead(filePath);
+        }
+    }
+    
     this->ui->GameMusicCombo->setCurrentText(parser.value(BGMOption));
     music_text = ui->GameMusicCombo->currentText();
 
@@ -115,7 +158,7 @@ void StartupDialog::setGameStartButtonEnabled(bool set)
 
 void StartupDialog::ShowMapEditDialog()
 {
-    MapEditerDialog diag(map);
+    MapEditerDialog diag(map, mappath);
     if (diag.exec()) {
         if (diag.filepath == "") {
             this->ui->MapDirEdit->setText("[CUSTOM MAP]");
@@ -144,7 +187,6 @@ void StartupDialog::setMusicFileList()
     ui->GameMusicCombo->clear();
     if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
         QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
-        //qDebug()<<filelist;
         if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
             ui->GameMusicCombo->addItem("None");
             ui->GameMusicCombo->setEnabled(false);
@@ -165,21 +207,20 @@ void StartupDialog::setImageThemeList()
 
     if (dir.exists()) { //ディレクトリが存在していたら
         QStringList filelist = dir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-        //qDebug()<<filelist;
-
         ui->TextureThemeCombo->addItems(filelist);
     }
 }
 
 void StartupDialog::PushedMapSelect()
 {
-    QString folder = QDir::currentPath() + "/Map/";
     QString cap = tr("マップを開く");
     QString filter = tr("マップファイル (*.map)");
 
-    QString filePath = QFileDialog::getOpenFileName(this, cap, folder, filter);
-    this->ui->MapDirEdit->setText(filePath);
-    SetMapStandby(MapRead(filePath));
+    QString mapfile = QFileDialog::getOpenFileName(this, cap, mappath, filter);
+    if (QFile::exists(mapfile)) {
+        this->ui->MapDirEdit->setText(mapfile);
+        SetMapStandby(MapRead(mapfile));
+    }
 }
 
 void StartupDialog::ClientStandby(ClientSettingForm *client, bool complate)
@@ -196,6 +237,7 @@ void StartupDialog::ClientStandby(ClientSettingForm *client, bool complate)
 void StartupDialog::SetMapStandby(bool state)
 {
     map_standby = state;
+    if (state) parent->repaintMap();
     CheckStandby();
 }
 
@@ -219,13 +261,28 @@ void StartupDialog::Setting()
     delete diag;
 }
 
-void StartupDialog::ShowDesignDialog()
+void StartupDialog::setBotCommand(QString command)
 {
-    DesignDialog *diag;
-    diag = new DesignDialog;
-    if (diag->exec() == QDialog::Accepted) {
-        //設定を保存
-        diag->Export();
-    }
-    delete diag;
+    ui->CoolGroupBox->setBotCommand(command);
+    ui->HotGroupBox->setBotCommand(command);
 }
+
+void StartupDialog::setPythonCommand(QString command)
+{
+    ui->CoolGroupBox->setPythonCommand(command);
+    ui->HotGroupBox->setPythonCommand(command);
+}
+
+void StartupDialog::setProgramPath(QString path)
+{
+    programpath = path;
+    // ui->CoolGroupBox->setProgramPath(path);
+    // ui->HotGroupBox->setProgramPath(path);
+}
+
+
+void StartupDialog::setMapPath(QString path)
+{
+    mappath = path;
+}
+

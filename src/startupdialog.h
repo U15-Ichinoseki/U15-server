@@ -17,7 +17,6 @@
 #include "MapEditerDialog.h"
 
 #include "SettingDialog.h"
-#include "DesignDialog.h"
 
 #include "mainwindow.h"
 
@@ -38,6 +37,9 @@ private:
     bool team_standby[TEAM_COUNT];
     bool map_standby;
 
+    QString programpath;
+    QString mappath;
+
 public:
     QString music_text;
     GameSystem::Map map;
@@ -53,7 +55,12 @@ public:
     void setImageThemeList();
 
     void setGameStartButtonEnabled(bool set);
-
+    void setBotCommand(QString command);
+    void setPythonCommand(QString command);
+    void setProgramPath(QString path);
+    void setMapPath(QString path);
+    void setCommandLineOptions();
+    QVariant getDefault(QString key);
 
 public slots:
 
@@ -61,7 +68,6 @@ public slots:
     void CheckStandby();
     void ShowMapEditDialog();
     void PushedMapSelect();
-    void ShowDesignDialog();
 
     void ClientStandby(ClientSettingForm* client,bool complate);
     void SetMapStandby (bool state);

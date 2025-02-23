@@ -32,8 +32,7 @@ SOURCES += main.cpp\
     MapEditerDialog.cpp \
     SettingDialog.cpp \
     ClientSettingForm.cpp \
-    StableLog.cpp \
-    DesignDialog.cpp
+    StableLog.cpp
 
 HEADERS  += mainwindow.h \
     dynamicallylabel.h \
@@ -49,8 +48,7 @@ HEADERS  += mainwindow.h \
     SettingDialog.h \
     ClientSettingForm.h \
     Definition.h \
-    StableLog.h \
-    DesignDialog.h
+    StableLog.h
 
 FORMS    += mainwindow.ui \
     dynamicallyLabel.ui \
@@ -59,8 +57,7 @@ FORMS    += mainwindow.ui \
     ManualClientDialog.ui \
     MapEditerDialog.ui \
     SettingDialog.ui \
-    ClientSettingForm.ui \
-    DesignDialog.ui
+    ClientSettingForm.ui
 
 RESOURCES += \
     resource.qrc
