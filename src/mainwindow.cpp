@@ -131,6 +131,10 @@ void MainWindow::setDesign()
     if (v.typeId() != QMetaType::UnknownType)dark = v.toBool();
     else dark = false;
 
+    v = Settings->value( "DemoMode" );
+    if (v.typeId() != QMetaType::UnknownType)isdemo = v.toBool();
+    else isdemo = false;
+
     v = Settings->value( "Bot" );
     if (v.typeId() != QMetaType::UnknownType)isbotbattle = v.toBool();
     else isbotbattle = false;
@@ -189,6 +193,8 @@ void MainWindow::ReSetUp()
 {
     round = -1;
 
+    this->startup->resetMap();
+    ui->Field->setFlip(false);
     this->ui->Field->setMap(this->startup->map);
 
     for(int i = 0; i < TEAM_COUNT; i++){
@@ -297,7 +303,15 @@ void MainWindow::StartSetUp()
 
     ui->Field->repaint();
 
+    this->startup->setStandbyButtonShow(false);
+    this->startup->setSetupModeEnable(false);
+    if (isdemo) {
+        QTimer::singleShot(100, this, SLOT(StartGame()));
+    }
+
     getready_flag=true;
+
+    this->startup->setConnectionChangeEnable(false);
     
     log << getTime() + "セットアップ完了　ゲームを開始します。\r\n";
 }
@@ -305,6 +319,7 @@ void MainWindow::StartSetUp()
 void MainWindow::StartGame()
 {
     qDebug() << "Game Start";
+    this->startup->setGameStartButtonShow(false);
     
     for(int i=0;i<TEAM_COUNT;i++){
         ui->Field->team_pos[i].setX(-1);
@@ -578,8 +593,18 @@ void MainWindow::StepGame()
 void MainWindow::RepeatGame()
 {
     qDebug() << "Game Reset";
- 
-    ReSetUp();
+    this->startup->setGameStartButtonShow(true);
+    this->startup->setConnectionChangeEnable(true);
+    this->startup->setSetupModeEnable(true);
+
+    if (!isdemo) {
+        this->startup->connectionReset();
+        ReSetUp();
+    } else {
+        this->startup->randomConnectionReset();
+        ReSetUp();
+        QTimer::singleShot(1000, this, SLOT(StartSetUp()));
+    }
 }
 
 void MainWindow::EndGame()
@@ -856,8 +881,22 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_A->hide();
     this->ui->TimeBar_B->hide();
   
-    if(round<1){
-
+    if(isfullmode && round<1){
+        this->startup->connectionReset();
+        this->startup->setConnectionChangeEnable(true);    
+        this->startup->setGameStartButtonShow(true);
+        if (isdemo) {
+            QTimer::singleShot(5000, this, SLOT(StartSetUp()));
+        }
+    }else{
+        if (! isrepeat)
+            this->startup->setGameStartButtonToEnd(false);
+        else {
+            this->startup->setGameStartButtonToEnd(true);
+            if (isdemo) {
+                QTimer::singleShot(10000, this, SLOT(RepeatGame()));
+            }
+        }
     }
 }
 

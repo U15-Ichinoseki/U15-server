@@ -136,6 +136,15 @@ StartupDialog::~StartupDialog()
     delete ui;
 }
 
+void StartupDialog::resetMap()
+{
+    if(this->ui->MapDirEdit->text() == "")
+    {
+        map.CreateRandomMap(20,55,100,false);
+        SetMapStandby(true);
+    }
+}
+
 void StartupDialog::ChangeMusicCombo(QString text)
 {
     music_text = text;
@@ -154,6 +163,92 @@ void StartupDialog::CheckStandby()
 void StartupDialog::setGameStartButtonEnabled(bool set)
 {
     this->ui->GameStartButton->setEnabled(set);
+}
+
+void StartupDialog::GameStartButtonClick()
+{
+    this->ui->GameStartButton->click();
+}
+
+void StartupDialog::setGameStartButtonShow(bool set)
+{
+    if (set) {
+        disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
+        disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(RepeatGame()));
+        this->ui->StandbyButton->show();
+        this->ui->GameStartButton->show();
+        this->ui->GameStartButton->setText("スタート");
+        this->ui->GameStartButton->setEnabled(false);
+        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
+    } else {
+        this->ui->StandbyButton->hide();
+        this->ui->GameStartButton->hide();
+    }
+}
+
+void StartupDialog::setGameStartButtonToEnd(bool repeat)
+{
+    this->ui->StandbyButton->hide();
+    this->ui->GameStartButton->show();
+    this->ui->GameStartButton->setEnabled(true);
+    disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
+    if (repeat) {
+        this->ui->GameStartButton->setText("再戦");
+        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(RepeatGame()));
+    } else {
+        this->ui->GameStartButton->setText("終了");
+        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(EndGame()));
+    }
+}
+
+void StartupDialog::setStandbyButtonShow(bool set)
+{
+    if (set) {
+        this->ui->StandbyButton->show();
+    } else {
+        this->ui->StandbyButton->hide();
+    }
+}
+
+void StartupDialog::setSetupModeEnable(bool set)
+{
+    if (set) {
+        ui->MapDirEdit->setReadOnly(false);
+        ui->MapEditButton->setEnabled(true);
+        ui->MapSelectButton->setEnabled(true);
+        ui->TextureThemeCombo->setEnabled(true);
+        ui->GameMusicCombo->setEnabled(true);
+    } else {
+        ui->MapDirEdit->setReadOnly(true);
+        ui->MapEditButton->setEnabled(false);
+        ui->MapSelectButton->setEnabled(false);
+        ui->TextureThemeCombo->setEnabled(false);
+        ui->GameMusicCombo->setEnabled(false);
+    }
+}
+
+void StartupDialog::connectionReset()
+{
+    QString CoolP = this->ui->CoolGroupBox->getPlayer();
+    QString CoolP2 = this->ui->CoolGroupBox->getProgramFile();
+
+    QString HotP = this->ui->HotGroupBox->getPlayer();
+    QString HotP2 = this->ui->HotGroupBox->getProgramFile();
+
+    this->ui->CoolGroupBox->reset(HotP, HotP2);
+    this->ui->HotGroupBox->reset(CoolP,CoolP2);
+}
+
+void StartupDialog::randomConnectionReset()
+{
+    QString CoolP = this->ui->CoolGroupBox->getPlayer();
+    QString CoolP2 = this->ui->CoolGroupBox->getRandomProgramFile();
+
+    QString HotP = this->ui->HotGroupBox->getPlayer();
+    QString HotP2 = this->ui->HotGroupBox->getRandomProgramFile();
+
+    this->ui->CoolGroupBox->reset(HotP, HotP2);
+    this->ui->HotGroupBox->reset(CoolP,CoolP2);
 }
 
 void StartupDialog::ShowMapEditDialog()
@@ -257,6 +352,9 @@ void StartupDialog::Setting()
     if (diag->exec() == QDialog::Accepted) {
         //設定を保存
         diag->Export();
+        parent->setSetting();
+        parent->setDesign();
+        parent->setPath();
     }
     delete diag;
 }
@@ -276,8 +374,6 @@ void StartupDialog::setPythonCommand(QString command)
 void StartupDialog::setProgramPath(QString path)
 {
     programpath = path;
-    // ui->CoolGroupBox->setProgramPath(path);
-    // ui->HotGroupBox->setProgramPath(path);
 }
 
 
@@ -286,3 +382,8 @@ void StartupDialog::setMapPath(QString path)
     mappath = path;
 }
 
+void StartupDialog::setConnectionChangeEnable(bool set)
+{
+    this->ui->CoolGroupBox->setChangeEnable(set);
+    this->ui->HotGroupBox->setChangeEnable(set);
+}
