@@ -189,6 +189,8 @@ void MainWindow::ReSetUp()
 {
     round = -1;
 
+    this->startup->resetMap();
+    ui->Field->setFlip(false);
     this->ui->Field->setMap(this->startup->map);
 
     for(int i = 0; i < TEAM_COUNT; i++){

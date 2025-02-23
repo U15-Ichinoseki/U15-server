@@ -136,6 +136,15 @@ StartupDialog::~StartupDialog()
     delete ui;
 }
 
+void StartupDialog::resetMap()
+{
+    if(this->ui->MapDirEdit->text() == "")
+    {
+        map.CreateRandomMap(20,55,100,false);
+        SetMapStandby(true);
+    }
+}
+
 void StartupDialog::ChangeMusicCombo(QString text)
 {
     music_text = text;

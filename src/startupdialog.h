@@ -60,6 +60,8 @@ public:
     void setStandbyButtonShow(bool set);
     void setSetupModeEnable(bool set);
     void setConnectionChangeEnable(bool set);
+
+    void resetMap();
     void setGameStartButtonToEnd(bool repeat);
 
     void setBotCommand(QString command);
