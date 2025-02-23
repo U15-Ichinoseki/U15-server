@@ -52,6 +52,7 @@ public slots:
     void SetPortSpin(int num);
     QString getPlayer();
     QString getProgramFile();
+    QString getRandomProgramFile();
 
 signals:
     void Standby(ClientSettingForm* client,bool complate);//準備完了

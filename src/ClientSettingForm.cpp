@@ -212,6 +212,26 @@ QString ClientSettingForm::getProgramFile()
     return ui->ProgramFileEdit->text();
 }
 
+QString ClientSettingForm::getRandomProgramFile()
+{
+
+   // フォルダオブジェクトを作成
+    QFileInfo  filePath(ui->ProgramFileEdit->text());
+    QStringList nameFilters;
+    nameFilters << "*.py"; // 拡張子を指定する。例えば、.txtファイル
+
+    QDir directory(filePath.path());
+    QStringList fileList = directory.entryList(nameFilters, QDir::Files);
+
+    // ランダムなインデックスを生成
+    int randomIndex = QRandomGenerator::global()->bounded(fileList.size());
+
+    // ランダムに選ばれた要素を取得
+    QString randomItem = fileList[randomIndex];
+
+    return filePath.path() + "/" + randomItem;
+}
+
 void ClientSettingForm::setBotCommand(QString command)
 {
     botcommand = command;
