@@ -1,13 +1,12 @@
 #include "ClientSettingForm.h"
 #include "ui_ClientSettingForm.h"
 
-ClientSettingForm::ClientSettingForm(QWidget *parent) :
-    QGroupBox(parent),
-    ui(new Ui::ClientSettingForm)
+ClientSettingForm::ClientSettingForm(QWidget *parent)
+    : QGroupBox(parent)
+    , ui(new Ui::ClientSettingForm)
 {
     ui->setupUi(this);
-    resetCombBox();
-
+    
     this->client = new TCPClient();
     connect(this->client, &TCPClient::Connected,    this, &ClientSettingForm::Connected);
     connect(this->client, &TCPClient::Ready,        this, &ClientSettingForm::SetStandby);
@@ -142,7 +141,6 @@ void ClientSettingForm::reset(QString combotext, QString pythontext)
 
 void ClientSettingForm::ComboBoxChenged(QString text)
 {
-    //接続初期化
     delete client;
     this->ui->ConnectButton->setChecked(false);
     if(text=="TCPユーザー"){
@@ -220,4 +218,21 @@ void ClientSettingForm::setProgramFile(QString path, QString file)
 {
     programpath = path;
     ui->ProgramFileEdit->setText(programpath + "/" + file);
+}
+
+void ClientSettingForm::setChangeEnable(bool set)
+{
+    if (set) {
+        ui->PortSpinBox->setEnabled(true);
+        ui->ComboBox->setEnabled(true);
+        ui->ConnectButton->setEnabled(true);
+        ui->ProgramFileEdit->setReadOnly(false);
+        ui->ProgramButton->setEnabled(true);
+    } else {
+        ui->PortSpinBox->setEnabled(false);
+        ui->ComboBox->setEnabled(false);
+        ui->ConnectButton->setEnabled(false);
+        ui->ProgramFileEdit->setReadOnly(true);
+        ui->ProgramButton->setEnabled(false);
+     }
 }

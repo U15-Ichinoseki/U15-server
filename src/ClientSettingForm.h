@@ -32,12 +32,15 @@ private:
 public:
     BaseClient* client;
 
-    explicit ClientSettingForm(QWidget *parent = 0);
+    explicit ClientSettingForm(QWidget *parent);
     ~ClientSettingForm();
 
     void setBotCommand(QString command);
     void setPythonCommand(QString command);
     void setProgramFile(QString path, QString file);
+
+    void setChangeEnable(bool set);
+
 public slots:
 
     void reset(QString combotext, QString pythontext);
