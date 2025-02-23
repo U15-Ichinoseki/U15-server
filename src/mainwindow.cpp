@@ -322,7 +322,7 @@ void MainWindow::StartAnimation()
     static int ANIMATION_TYPE = QRandomGenerator::global()->generate() % ANIMATION_SIZE;
     int count = 0;
 
-    ui->Field->RefreshOverlay();
+    ui->Field->RefreshOverlay(dark);
 
     QPoint pos[2];
     if(ANIMATION_TYPE == 0){
@@ -450,7 +450,7 @@ void MainWindow::StepGame()
     //ゲーム進行
     static GameSystem::Method team_mehod[TEAM_COUNT];
 
-    this->ui->Field->RefreshOverlay();
+    this->ui->Field->RefreshOverlay(dark);
 
     if(player == 0 && getready_flag){
         //ターンログ出力

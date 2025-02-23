@@ -79,7 +79,7 @@ public:
     void setMap(const GameSystem::Map &map);
 
     //オーバーレイを全て削除する
-    void RefreshOverlay();
+    void RefreshOverlay(bool dark);
 
     //アニメーション開始
     void PlayAnimation(GameSystem::Method method);
