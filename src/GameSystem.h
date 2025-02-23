@@ -79,6 +79,7 @@ public:
         REASON reason;
         CAUSE  cause;
     };
+ 
 
     //接続状態
     enum class CONNECTING_STATUS{
@@ -92,13 +93,6 @@ public:
         TARGET  = 1,
         BLOCK   = 2,
         ITEM    = 3,
-    };
-
-    //探索済みかの判定
-    enum class Discoverer{
-        Unknown = 0,
-        Hot     = 1,
-        Cool    = 2,
     };
 
     //テクスチャ
@@ -118,10 +112,10 @@ public:
         BLIND,
         ERASE,
     };
+
     //ゲーム盤
     struct Map{
         Field<GameSystem::MAP_OBJECT> field;
-        Field<GameSystem::Discoverer> discover;
         int turn;                       //ターン
         QString name;                   //ステージ名
         QPoint size;                    //マップサイズ
