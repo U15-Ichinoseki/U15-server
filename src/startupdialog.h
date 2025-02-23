@@ -17,7 +17,6 @@
 #include "MapEditerDialog.h"
 
 #include "SettingDialog.h"
-#include "DesignDialog.h"
 
 #include "mainwindow.h"
 
@@ -25,14 +24,21 @@ namespace Ui {
 class StartupDialog;
 }
 
+class MainWindow;
+
 class StartupDialog : public QDialog
 {
     Q_OBJECT
 
 private:
     Ui::StartupDialog *ui;
+    MainWindow *parent;
+
     bool team_standby[TEAM_COUNT];
     bool map_standby;
+
+    QString programpath;
+    QString mappath;
 
 public:
     QString music_text;
@@ -41,12 +47,20 @@ public:
     ClientSettingForm* team_client[TEAM_COUNT];
 
 public:
+    explicit StartupDialog(MainWindow *parent = 0);
+    ~StartupDialog();
+
     bool MapRead(const QString& dir);
     void setMusicFileList();
     void setImageThemeList();
 
-    explicit StartupDialog(QWidget *parent = 0);
-    ~StartupDialog();
+    void setGameStartButtonEnabled(bool set);
+    void setBotCommand(QString command);
+    void setPythonCommand(QString command);
+    void setProgramPath(QString path);
+    void setMapPath(QString path);
+    void setCommandLineOptions();
+    QVariant getDefault(QString key);
 
 public slots:
 
@@ -54,7 +68,6 @@ public slots:
     void CheckStandby();
     void ShowMapEditDialog();
     void PushedMapSelect();
-    void ShowDesignDialog();
 
     void ClientStandby(ClientSettingForm* client,bool complate);
     void SetMapStandby (bool state);

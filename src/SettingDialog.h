@@ -14,18 +14,26 @@ class SettingDialog;
 class SettingDialog : public QDialog
 {
     Q_OBJECT
-public:
+private:
+    Ui::SettingDialog *ui;
 
-    explicit SettingDialog(QWidget *parent = 0);
+    void setProgramFileList();
+    void setMapFileList();
+    void setMusicFileList();
+    void setImageThemeList();
+
+public:
+    explicit SettingDialog(QWidget *parent = nullptr);
     ~SettingDialog();
 
     void Export();
 
 public slots:
     void openDirectory();
-
-private:
-    Ui::SettingDialog *ui;
+    void openProgramDirectory();
+    void openMapDirectory();
+    void openPythonCommand();
+    void openBotCommand();
 };
 
 #endif // SETTINGDIALOG_H

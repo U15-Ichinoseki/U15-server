@@ -70,15 +70,13 @@ MainWindow::MainWindow(QWidget *parent) :
     teamshow_anime = new QTimer();
     connect(teamshow_anime, &QTimer::timeout, this, &MainWindow::ShowTeamAnimation);
 
+    this->startup->setCommandLineOptions();
+
     this->ui->Field->setMap(this->startup->map);
 
     ReSetUp();
 
     this->startup->show();
-
-    //動作テスト用自動スタート
-    QTimer::singleShot(10000, this, SLOT(StartSetUp()));
-    QTimer::singleShot(15000, this, SLOT(StartGame()));
 }
 
 void MainWindow::setSetting()
@@ -94,7 +92,7 @@ void MainWindow::setSetting()
     
     v = Settings->value( "FullMode" );
     if (v.typeId() != QMetaType::UnknownType)isfullmode = v.toBool();
-    else isfullmode = true;
+    else isfullmode = false;
 
     v = Settings->value( "Repeat" );
     if (v.typeId() != QMetaType::UnknownType)isrepeat = v.toBool();
@@ -148,6 +146,7 @@ void MainWindow::setPath()
 
     Settings = new QSettings( "setting.ini", QSettings::IniFormat ); // iniファイルで設定を保存
     
+    Settings->beginGroup("Path");
     v = Settings->value( "LogFilepath" );
     if (v.typeId() != QMetaType::UnknownType)path = v.toString();
 
@@ -158,6 +157,30 @@ void MainWindow::setPath()
     if (!dir.exists()) dir.mkpath(".");
 
     log = StableLog(path + "/log" + getTime() + ".txt");
+    
+    QString botcommand;
+    v = Settings->value( "BotCommand");
+    if (v.typeId() != QMetaType::UnknownType)botcommand = v.toString();
+    else botcommand = "./Bot/bot.exe";
+    this->startup->setBotCommand(botcommand);
+
+    QString pythoncommand;
+    v = Settings->value( "PythonCommand");
+    if (v.typeId() != QMetaType::UnknownType)pythoncommand = v.toString();
+    else pythoncommand = "../WinPython/python/python.exe";
+   this->startup->setPythonCommand(pythoncommand);
+
+    QString programpath;
+    v = Settings->value( "ProgramFilePath");
+    if (v.typeId() != QMetaType::UnknownType)programpath = v.toString();
+    else programpath = "../CHaser";
+    this->startup->setProgramPath(programpath);
+
+    QString mappath;
+    v = Settings->value( "MapFilePath");
+    if (v.typeId() != QMetaType::UnknownType)mappath = v.toString();
+    else mappath = "../Map";
+    this->startup->setMapPath(mappath);
 
     Settings->endGroup();
 }
@@ -216,6 +239,8 @@ void MainWindow::StartSetUp()
     this->ui->TimeBar_B->show();
 
     this->ui->TurnLabel->setText(QString::number(this->startup->map.turn));
+
+    this->startup->setGameStartButtonEnabled(true);
 
     if(round == 0) {
         this->ui->NameLabel_A->setText(
@@ -848,10 +873,8 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_A->hide();
     this->ui->TimeBar_B->hide();
   
-    //動作テスト用自動スタート
     if(round<1){
-        QTimer::singleShot(10000, this, SLOT(StartSetUp()));
-        QTimer::singleShot(15000, this, SLOT(StartGame()));
+
     }
 }
 
