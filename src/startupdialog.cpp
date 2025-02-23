@@ -227,6 +227,18 @@ void StartupDialog::setSetupModeEnable(bool set)
     }
 }
 
+void StartupDialog::connectionReset()
+{
+    QString CoolP = this->ui->CoolGroupBox->getPlayer();
+    QString CoolP2 = this->ui->CoolGroupBox->getProgramFile();
+
+    QString HotP = this->ui->HotGroupBox->getPlayer();
+    QString HotP2 = this->ui->HotGroupBox->getProgramFile();
+
+    this->ui->CoolGroupBox->reset(HotP, HotP2);
+    this->ui->HotGroupBox->reset(CoolP,CoolP2);
+}
+
 void StartupDialog::ShowMapEditDialog()
 {
     MapEditerDialog diag(map, mappath);

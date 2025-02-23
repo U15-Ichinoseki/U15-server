@@ -50,6 +50,8 @@ public slots:
     void ConnectionToggled(bool state);
     void ComboBoxChenged(QString text);
     void SetPortSpin(int num);
+    QString getPlayer();
+    QString getProgramFile();
 
 signals:
     void Standby(ClientSettingForm* client,bool complate);//準備完了

@@ -62,6 +62,7 @@ public:
     void setConnectionChangeEnable(bool set);
 
     void resetMap();
+    void connectionReset();
     void setGameStartButtonToEnd(bool repeat);
 
     void setBotCommand(QString command);
