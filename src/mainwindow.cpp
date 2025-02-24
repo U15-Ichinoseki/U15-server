@@ -189,6 +189,22 @@ void MainWindow::setPath()
     Settings->endGroup();
 }
 
+void MainWindow::setMusicList(QString filename)
+{
+    music_list[(round+1)%2] = filename;
+}
+
+void MainWindow::setMusicList(QString filename, int round)
+{
+    music_list[round] = filename;
+}
+
+void MainWindow::setMusicList(QString filename1, QString filename2)
+{
+    music_list[0] = filename1;
+    music_list[1] = filename2;
+}
+
 void MainWindow::ReSetUp()
 {
     round = -1;
@@ -213,18 +229,6 @@ void MainWindow::StartSetUp()
     qDebug()<< "round:" << round;
 
     this->game_status.winner = GameSystem::GAME_STATUS::WINNER::NONE;
-
-    //消音モードじゃない かつ Musicフォルダに音楽が存在する ならBGMセット
-    if(!silent && this->startup->music_text != "none"){
-        bgm = new QMediaPlayer;
-        audio_output = new QAudioOutput;
-        bgm->setAudioOutput(audio_output);
-        //connect(bgm, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-        bgm->setSource(QUrl::fromLocalFile("./Music/" + this->startup->music_text));
-        audio_output->setVolume(1.0);
-        // bgm->play();
-        log << "[ Music : " + this->startup->music_text + " ]" + "\r\n";
-    }
 
     this->ui->WinnerLabel->hide();
     this->ui->ResultLabel->hide();
@@ -321,6 +325,17 @@ void MainWindow::StartGame()
     qDebug() << "Game Start";
     this->startup->setGameStartButtonShow(false);
     
+    this->startup->setMusicEnable(false);
+    //消音モードじゃない かつ Musicフォルダに音楽が存在する ならBGMセット
+    if(!silent && this->startup->music_text != "none"){
+        bgm = new QMediaPlayer;
+        audio_output = new QAudioOutput;
+        bgm->setAudioOutput(audio_output);
+        bgm->setSource(QUrl::fromLocalFile("./Music/" + this->startup->music_text));
+        audio_output->setVolume(1.0);
+        log << "[ Music : " + this->startup->music_text + " ]" + "\r\n";
+    }
+
     for(int i=0;i<TEAM_COUNT;i++){
         ui->Field->team_pos[i].setX(-1);
         ui->Field->team_pos[i].setY(-1);
@@ -881,8 +896,12 @@ void MainWindow::Finish(GameSystem::GAME_STATUS game_status)
     this->ui->TimeBar_A->hide();
     this->ui->TimeBar_B->hide();
   
+    this->startup->setMusicEnable(true);
+    this->startup->setGameMusicCombo(music_list[(round+1)%2]);
+
+    this->startup->connectionReset();
+    
     if(isfullmode && round<1){
-        this->startup->connectionReset();
         this->startup->setConnectionChangeEnable(true);    
         this->startup->setGameStartButtonShow(true);
         if (isdemo) {

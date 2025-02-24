@@ -56,6 +56,7 @@ public:
 
     void setGameStartButtonEnabled(bool set);
     void setGameStartButtonShow(bool set);
+    void setMusicEnable(bool set);
     void GameStartButtonClick();
     void setStandbyButtonShow(bool set);
     void setSetupModeEnable(bool set);
@@ -66,6 +67,7 @@ public:
     void randomConnectionReset();
     void setGameStartButtonToEnd(bool repeat);
 
+    void setGameMusicCombo(QString command);
     void setBotCommand(QString command);
     void setPythonCommand(QString command);
     void setProgramPath(QString path);
