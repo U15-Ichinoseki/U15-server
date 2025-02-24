@@ -173,18 +173,13 @@ void SettingDialog::setProgramFileList()
     ui->HotProgram->clear();
     ui->CoolProgram->addItem("None");
     ui->HotProgram->addItem("None");
-if (dir.exists()) {
+    if (dir.exists()) {
         QStringList filelist = dir.entryList({"*.py"}, QDir::Files | QDir::NoSymLinks);
-        if (filelist.isEmpty()) {
-            ui->CoolProgram->setEnabled(false);
-            ui->HotProgram->setEnabled(false);
-        } else
-        ui->CoolProgram->addItems(filelist);
-        ui->HotProgram->addItems(filelist);
-    } else {
-        ui->CoolProgram->setEnabled(false);
-        ui->HotProgram->setEnabled(false);
-    }
+        if (! filelist.isEmpty()) {
+            ui->CoolProgram->addItems(filelist);
+            ui->HotProgram->addItems(filelist);
+        }
+    } 
 }
 
 void SettingDialog::setMapFileList()
@@ -192,16 +187,12 @@ void SettingDialog::setMapFileList()
     QDir dir(ui->Map->text());
 
     ui->DefaultMap->clear();
+    ui->DefaultMap->addItem("RandomMap");
     if (dir.exists()) {
         QStringList filelist = dir.entryList({"*.map"}, QDir::Files | QDir::NoSymLinks);
-        if (filelist.isEmpty()) {
-            ui->DefaultMap->addItem("None");
-            ui->DefaultMap->setEnabled(false);
-        } else
+        if (! filelist.isEmpty()) {
             ui->DefaultMap->addItems(filelist);
-    } else {
-        ui->DefaultMap->addItem("None");
-        ui->DefaultMap->setEnabled(false);
+        }
     }
 }
 
@@ -213,7 +204,6 @@ void SettingDialog::setMusicFileList()
     ui->DefaultBGM_2->clear();
     if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
         QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
-        //qDebug()<<filelist;
         if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
             ui->DefaultBGM_1->addItem("None");
             ui->DefaultBGM_2->addItem("None");
@@ -233,15 +223,13 @@ void SettingDialog::setMusicFileList()
 
 void SettingDialog::setImageThemeList()
 {
+    QDir dir("./Image");
+
     ui->DefaultTexture->clear();
     ui->DefaultTexture->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの4テーマの追加
 
-    QDir dir("./Image");
-
     if (dir.exists()) { //ディレクトリが存在していたら
         QStringList filelist = dir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-        //qDebug()<<filelist;
-
         ui->DefaultTexture->addItems(filelist);
     }
 }
