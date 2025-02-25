@@ -85,11 +85,17 @@ void StartupDialog::setCommandLineOptions()
         );
     parser.addOption(TextureOption);
 
-    v = getDefault("DefaultBGM");
-    QCommandLineOption BGMOption({"b", "bgm"}, "BGM", "bgm",            // 値の名称
+    v = getDefault("DefaultBGM_1");
+    QCommandLineOption BGM1Option({"b", "b1", "bgm", "bgm1"}, "BGM1", "bgm1",            // 値の名称
                 (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" // 値のデフォルト値
         );
-    parser.addOption(BGMOption);
+    parser.addOption(BGM1Option);
+
+    v = getDefault("DefaultBGM_2");
+    QCommandLineOption BGM2Option({"b2", "bgm2"}, "BGM2", "bgm2",            // 値の名称
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" // 値のデフォルト値
+        );
+    parser.addOption(BGM2Option);
 
     parser.process(QCoreApplication::arguments());
     
@@ -124,9 +130,12 @@ void StartupDialog::setCommandLineOptions()
             map_standby = MapRead(filePath);
         }
     }
-    
-    this->ui->GameMusicCombo->setCurrentText(parser.value(BGMOption));
+
+    parent->setMusicList(parser.value(BGM1Option), 0);
+    setGameMusicCombo(parser.value(BGM1Option));
     music_text = ui->GameMusicCombo->currentText();
+
+    parent->setMusicList(parser.value(BGM2Option), 1);
 
     this->ui->TextureThemeCombo->setCurrentText(parser.value(TextureOption));
 }
@@ -148,6 +157,7 @@ void StartupDialog::resetMap()
 void StartupDialog::ChangeMusicCombo(QString text)
 {
     music_text = text;
+    parent->setMusicList(music_text);
 }
 
 void StartupDialog::CheckStandby()
@@ -217,12 +227,19 @@ void StartupDialog::setSetupModeEnable(bool set)
         ui->MapEditButton->setEnabled(true);
         ui->MapSelectButton->setEnabled(true);
         ui->TextureThemeCombo->setEnabled(true);
-        ui->GameMusicCombo->setEnabled(true);
     } else {
         ui->MapDirEdit->setReadOnly(true);
         ui->MapEditButton->setEnabled(false);
         ui->MapSelectButton->setEnabled(false);
         ui->TextureThemeCombo->setEnabled(false);
+    }
+}
+
+void StartupDialog::setMusicEnable(bool set)
+{
+    if (set) {
+        ui->GameMusicCombo->setEnabled(true);
+    } else {
         ui->GameMusicCombo->setEnabled(false);
     }
 }
@@ -355,8 +372,17 @@ void StartupDialog::Setting()
         parent->setSetting();
         parent->setDesign();
         parent->setPath();
+        parent->setMusicList(getDefault("DefaultBGM_1").toString(), 
+                             getDefault("DefaultBGM_2").toString());
     }
     delete diag;
+}
+
+void StartupDialog::setGameMusicCombo(QString text)
+{
+    int index = ui->GameMusicCombo->findText(text);
+    if (index != -1)
+        this->ui->GameMusicCombo->setCurrentText(text);
 }
 
 void StartupDialog::setBotCommand(QString command)
@@ -375,7 +401,6 @@ void StartupDialog::setProgramPath(QString path)
 {
     programpath = path;
 }
-
 
 void StartupDialog::setMapPath(QString path)
 {
