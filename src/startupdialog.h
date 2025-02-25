@@ -62,7 +62,7 @@ public:
     void setSetupModeEnable(bool set);
     void setConnectionChangeEnable(bool set);
 
-    void resetMap();
+    void resetMap(int block_num, int item_num, int turn, bool mirror);
     void connectionReset();
     void randomConnectionReset();
     void setGameStartButtonToEnd(bool repeat);

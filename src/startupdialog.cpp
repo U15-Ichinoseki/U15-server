@@ -121,7 +121,6 @@ void StartupDialog::setCommandLineOptions()
         }
     }
 
-
     if(! parser.isSet(RandomMapOption)) {
         QString filePath;
         filePath = mappath + "/" + parser.value(MapOption);
@@ -145,11 +144,11 @@ StartupDialog::~StartupDialog()
     delete ui;
 }
 
-void StartupDialog::resetMap()
+void StartupDialog::resetMap(int block_num, int item_num, int turn, bool mirror)
 {
     if(this->ui->MapDirEdit->text() == "")
     {
-        map.CreateRandomMap(20,55,100,false);
+        map.CreateRandomMap(block_num, item_num, turn, mirror);
         SetMapStandby(true);
     }
 }
@@ -371,6 +370,7 @@ void StartupDialog::Setting()
         diag->Export();
         parent->setSetting();
         parent->setDesign();
+        parent->setRandomMapParam();
         parent->setPath();
         parent->setMusicList(getDefault("DefaultBGM_1").toString(), 
                              getDefault("DefaultBGM_2").toString());
