@@ -38,7 +38,16 @@ private:
     int player;      //次ターン行動プレイヤー
     int round;
     int point[TEAM_COUNT][ROUND_COUNT][3];
-    
+
+    struct RandomMapParam{
+        int default_item;
+        int default_block;
+        int default_turn;
+        bool default_mirror;
+    };
+
+    RandomMapParam random_map_param;
+
     GameSystem::GAME_STATUS game_status;
 
     bool getready_flag;
@@ -98,6 +107,7 @@ public:
 
     void setSetting();
     void setDesign();
+    void setRandomMapParam();
     void setPath();
     void setMusicList(QString filename);
     void setMusicList(QString filename, int round);

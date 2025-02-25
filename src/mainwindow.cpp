@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setSetting();
     setDesign();
+    setRandomMapParam();
     setPath();
 
     SE_C = new QMediaPlayer;
@@ -141,6 +142,35 @@ void MainWindow::setDesign()
     Settings->endGroup();
 }
 
+void MainWindow::setRandomMapParam()
+{    
+    //ServerSetting読み込み
+    QSettings* Settings;
+    QVariant v;
+    
+    Settings = new QSettings( "setting.ini", QSettings::IniFormat ); // iniファイルで設定を保存
+    
+    Settings->beginGroup("RandomMap");
+
+    v = Settings->value("ItemNum");
+    if (v.typeId() != QMetaType::UnknownType)random_map_param.default_item = v.toInt();
+    else random_map_param.default_item=51;
+
+    v = Settings->value("BlockNum");
+    if (v.typeId() != QMetaType::UnknownType)random_map_param.default_block = v.toInt();
+    else random_map_param.default_block=20;
+
+    v = Settings->value("TurnNum");
+    if (v.typeId() != QMetaType::UnknownType)random_map_param.default_turn = v.toInt();
+    else random_map_param.default_turn=120;
+
+    v = Settings->value("Mirror");
+    if (v.typeId() != QMetaType::UnknownType)random_map_param.default_mirror = v.toBool();
+    else random_map_param.default_mirror=true;
+
+    Settings->endGroup();
+}
+
 void MainWindow::setPath()
 {    
     //ServerSetting読み込み
@@ -209,7 +239,11 @@ void MainWindow::ReSetUp()
 {
     round = -1;
 
-    this->startup->resetMap();
+    this->startup->resetMap(
+        random_map_param.default_block,
+        random_map_param.default_item,
+        random_map_param.default_turn,
+        random_map_param.default_mirror);
     ui->Field->setFlip(false);
     this->ui->Field->setMap(this->startup->map);
 

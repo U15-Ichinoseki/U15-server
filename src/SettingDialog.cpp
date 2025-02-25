@@ -69,6 +69,24 @@ SettingDialog::SettingDialog(QWidget *parent)
     }
     Settings->endGroup();
     
+    Settings->beginGroup("RandomMap");
+    v = Settings->value("ItemNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_ItemNum->setValue(v.toInt());
+
+    v = Settings->value("BlockNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_BlockNum->setValue(v.toInt());    
+
+    v = Settings->value("TurnNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_TurnNum->setValue(v.toInt());    
+
+    v = Settings->value("Mirror");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->MirrorMap->setChecked(v.toBool());    
+    Settings->endGroup();
+
     Settings->beginGroup("Path");
     v = Settings->value("LogFilepath");
     if (v.typeId() != QMetaType::UnknownType)
@@ -145,6 +163,13 @@ void SettingDialog::Export()
     Settings->setValue( "Dark"    , ui->DarkBox->isChecked());
     Settings->setValue("DemoMode", ui->DemoCheck->isChecked());
     Settings->setValue( "Bot"     , ui->BotBox->isChecked());
+    Settings->endGroup();
+
+    Settings->beginGroup("RandomMap");
+    Settings->setValue("ItemNum", ui->Default_ItemNum->value());
+    Settings->setValue("BlockNum", ui->Default_BlockNum->value());
+    Settings->setValue("TurnNum", ui->Default_TurnNum->value());
+    Settings->setValue("Mirror", ui->MirrorMap->isChecked());
     Settings->endGroup();
     
     Settings->beginGroup("Path");
