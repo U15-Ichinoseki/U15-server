@@ -434,6 +434,13 @@
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>テクスチャ</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="2">
          <widget class="QComboBox" name="DefaultMap">
           <property name="whatsThis">
@@ -446,57 +453,6 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>HOT</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QComboBox" name="HotProgram">
-          <property name="whatsThis">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>player.py</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>BGM</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="2">
-         <widget class="QComboBox" name="CoolProgram">
-          <property name="whatsThis">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>player.py</string>
-           </property>
-          </item>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_13">
           <property name="text">
@@ -505,7 +461,7 @@
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QComboBox" name="DefaultBGM">
+         <widget class="QComboBox" name="DefaultBGM_1">
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -521,6 +477,25 @@
           </item>
          </widget>
         </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>BGM１</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="HotProgram">
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>player.py</string>
+           </property>
+          </item>
+         </widget>
+        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_15">
           <property name="text">
@@ -528,12 +503,30 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_17">
-          <property name="text">
-           <string>テクスチャ</string>
+        <item row="0" column="2">
+         <widget class="QComboBox" name="CoolProgram">
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
+          <item>
+           <property name="text">
+            <string>player.py</string>
+           </property>
+          </item>
          </widget>
+        </item>
+        <item row="7" column="2">
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="3" column="2">
          <widget class="QComboBox" name="DefaultTexture">
@@ -560,6 +553,37 @@
             <string>RPG</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>HOT</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QComboBox" name="DefaultBGM_2">
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>TwinBeeNew.wav</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Necromancer.wav</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>BGM２</string>
+          </property>
          </widget>
         </item>
        </layout>

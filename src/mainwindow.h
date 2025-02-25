@@ -60,6 +60,8 @@ private:
     QTimer* startup_anime;  //開始アニメーション
     QTimer* teamshow_anime; //チーム表示アニメーション
 
+    QString music_list[2];
+
     QMediaPlayer *bgm;          //音楽
     QAudioOutput *audio_output; //音声出力
     QMediaPlayer *SE_C;           //SE
@@ -97,6 +99,9 @@ public:
     void setSetting();
     void setDesign();
     void setPath();
+    void setMusicList(QString filename);
+    void setMusicList(QString filename, int round);
+    void setMusicList(QString filename1, QString filename2);
 
     void repaintMap();
 

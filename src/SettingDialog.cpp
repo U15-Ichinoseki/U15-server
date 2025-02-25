@@ -110,11 +110,17 @@ SettingDialog::SettingDialog(QWidget *parent)
     else
         ui->DefaultTexture->setCurrentText("あっさり");
 
-    v = Settings->value("DefaultBGM");
+    v = Settings->value("DefaultBGM_1");
     if (v.typeId() != QMetaType::UnknownType)
-        ui->DefaultBGM->setCurrentText(v.toString());
+        ui->DefaultBGM_1->setCurrentText(v.toString());
     else
-        ui->DefaultBGM->setCurrentText("TwinBeeNew.wav");
+        ui->DefaultBGM_1->setCurrentText("TwinBeeNew.wav");
+
+    v = Settings->value("DefaultBGM_2");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->DefaultBGM_2->setCurrentText(v.toString());
+    else
+        ui->DefaultBGM_2->setCurrentText("Necromancer.wav");
     Settings->endGroup();
 }
 
@@ -153,8 +159,9 @@ void SettingDialog::Export()
     Settings->setValue("CoolProgram", ui->CoolProgram->currentText());
     Settings->setValue("HotProgram", ui->HotProgram->currentText());
     Settings->setValue("DefaultMap", ui->DefaultMap->currentText());
-    Settings->setValue("DefaultBGM", ui->DefaultBGM->currentText());
     Settings->setValue("DefaultTexture", ui->DefaultTexture->currentText());
+    Settings->setValue("DefaultBGM_1", ui->DefaultBGM_1->currentText());
+    Settings->setValue("DefaultBGM_2", ui->DefaultBGM_2->currentText());
     Settings->endGroup();
 }
 
@@ -193,17 +200,24 @@ void SettingDialog::setMusicFileList()
 {
     QDir dir("./Music");
 
-    ui->DefaultBGM->clear();
+    ui->DefaultBGM_1->clear();
+    ui->DefaultBGM_2->clear();
     if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
         QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
         if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
-            ui->DefaultBGM->addItem("None");
-            ui->DefaultBGM->setEnabled(false);
-        } else
-            ui->DefaultBGM->addItems(filelist);
+            ui->DefaultBGM_1->addItem("None");
+            ui->DefaultBGM_2->addItem("None");
+            ui->DefaultBGM_1->setEnabled(false);
+            ui->DefaultBGM_2->setEnabled(false);
+        } else {
+            ui->DefaultBGM_1->addItems(filelist);
+            ui->DefaultBGM_2->addItems(filelist);
+        }
     } else { //なかったらNoneにして無効化
-        ui->DefaultBGM->addItem("None");
-        ui->DefaultBGM->setEnabled(false);
+        ui->DefaultBGM_1->addItem("None");
+        ui->DefaultBGM_2->addItem("None");
+        ui->DefaultBGM_1->setEnabled(false);
+        ui->DefaultBGM_2->setEnabled(false);
     }
 }
 
