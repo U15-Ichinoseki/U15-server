@@ -69,6 +69,24 @@ SettingDialog::SettingDialog(QWidget *parent)
     }
     Settings->endGroup();
     
+    Settings->beginGroup("RandomMap");
+    v = Settings->value("ItemNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_ItemNum->setValue(v.toInt());
+
+    v = Settings->value("BlockNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_BlockNum->setValue(v.toInt());    
+
+    v = Settings->value("TurnNum");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->Default_TurnNum->setValue(v.toInt());    
+
+    v = Settings->value("Mirror");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->MirrorMap->setChecked(v.toBool());    
+    Settings->endGroup();
+
     Settings->beginGroup("Path");
     v = Settings->value("LogFilepath");
     if (v.typeId() != QMetaType::UnknownType)
@@ -146,6 +164,13 @@ void SettingDialog::Export()
     Settings->setValue("DemoMode", ui->DemoCheck->isChecked());
     Settings->setValue( "Bot"     , ui->BotBox->isChecked());
     Settings->endGroup();
+
+    Settings->beginGroup("RandomMap");
+    Settings->setValue("ItemNum", ui->Default_ItemNum->value());
+    Settings->setValue("BlockNum", ui->Default_BlockNum->value());
+    Settings->setValue("TurnNum", ui->Default_TurnNum->value());
+    Settings->setValue("Mirror", ui->MirrorMap->isChecked());
+    Settings->endGroup();
     
     Settings->beginGroup("Path");
     Settings->setValue("LogFilepath", ui->Log->text());
@@ -173,18 +198,13 @@ void SettingDialog::setProgramFileList()
     ui->HotProgram->clear();
     ui->CoolProgram->addItem("None");
     ui->HotProgram->addItem("None");
-if (dir.exists()) {
+    if (dir.exists()) {
         QStringList filelist = dir.entryList({"*.py"}, QDir::Files | QDir::NoSymLinks);
-        if (filelist.isEmpty()) {
-            ui->CoolProgram->setEnabled(false);
-            ui->HotProgram->setEnabled(false);
-        } else
-        ui->CoolProgram->addItems(filelist);
-        ui->HotProgram->addItems(filelist);
-    } else {
-        ui->CoolProgram->setEnabled(false);
-        ui->HotProgram->setEnabled(false);
-    }
+        if (! filelist.isEmpty()) {
+            ui->CoolProgram->addItems(filelist);
+            ui->HotProgram->addItems(filelist);
+        }
+    } 
 }
 
 void SettingDialog::setMapFileList()
@@ -192,16 +212,12 @@ void SettingDialog::setMapFileList()
     QDir dir(ui->Map->text());
 
     ui->DefaultMap->clear();
+    ui->DefaultMap->addItem("RandomMap");
     if (dir.exists()) {
         QStringList filelist = dir.entryList({"*.map"}, QDir::Files | QDir::NoSymLinks);
-        if (filelist.isEmpty()) {
-            ui->DefaultMap->addItem("None");
-            ui->DefaultMap->setEnabled(false);
-        } else
+        if (! filelist.isEmpty()) {
             ui->DefaultMap->addItems(filelist);
-    } else {
-        ui->DefaultMap->addItem("None");
-        ui->DefaultMap->setEnabled(false);
+        }
     }
 }
 
@@ -213,7 +229,6 @@ void SettingDialog::setMusicFileList()
     ui->DefaultBGM_2->clear();
     if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
         QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
-        //qDebug()<<filelist;
         if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
             ui->DefaultBGM_1->addItem("None");
             ui->DefaultBGM_2->addItem("None");
@@ -233,15 +248,13 @@ void SettingDialog::setMusicFileList()
 
 void SettingDialog::setImageThemeList()
 {
+    QDir dir("./Image");
+
     ui->DefaultTexture->clear();
     ui->DefaultTexture->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの4テーマの追加
 
-    QDir dir("./Image");
-
     if (dir.exists()) { //ディレクトリが存在していたら
         QStringList filelist = dir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-        //qDebug()<<filelist;
-
         ui->DefaultTexture->addItems(filelist);
     }
 }
