@@ -100,7 +100,7 @@ void StartupDialog::setCommandLineOptions()
     parser.process(QCoreApplication::arguments());
     
     if(parser.value(CoolOption) != "")
-        this->ui->CoolGroupBox->reset("Python", programpath + "/" + parser.value(CoolOption));
+        this->ui->CoolGroupBox->reset("Python", parser.value(CoolOption));
     else {
         v = getDefault("CoolProgram");
         if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
@@ -111,7 +111,7 @@ void StartupDialog::setCommandLineOptions()
     }
 
     if(parser.value(HotOption) != "")
-        this->ui->HotGroupBox->reset("Python", programpath + "/" + parser.value(HotOption));
+        this->ui->HotGroupBox->reset("Python", parser.value(HotOption));
     else {
         v = getDefault("HotProgram");
         if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
