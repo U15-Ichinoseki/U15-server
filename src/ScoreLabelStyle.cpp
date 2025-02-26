@@ -5,11 +5,11 @@ void MainWindow::ResetScoreLebel()
 {
     ui->ScoreLabel_A->setStyleSheet(Cool_Point_Label_style);
     ui->NameLabel_A->setStyleSheet(Cool_Point_Label_style);
-    ui->NameLabel_A->setText("バナージ・リンクス");
+    ui->NameLabel_A->setText("U15 プロコン");
 
     ui->ScoreLabel_B->setStyleSheet(Hot_Point_Label_style);
     ui->NameLabel_B->setStyleSheet(Hot_Point_Label_style);
-    ui->NameLabel_B->setText("フル・フロンタル");
+    ui->NameLabel_B->setText("一関大会");
 
     ui->reason_1_A->setText("");
     ui->reason_1_B->setText("");
