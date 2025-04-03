@@ -38,12 +38,12 @@ GameSystem::Map::Map():
     turn(100),
     name("[DEFAULT MAP]"),
     size(DEFAULT_MAP_WIDTH,DEFAULT_MAP_HEIGHT),
-    texture_dir_path(":/Image/Jewel"){
+    textureDirPath(":/Image/Jewel"){
 }
 
 void GameSystem::Map::SetSize(QPoint size, int block_num, int item_num){
     this->size = size;
-    this->CreateRandomMap(block_num, item_num);
+    this->createRandomMap(block_num, item_num);
 }
 
 QPoint GameSystem::Map::MirrorPoint(const QPoint& pos){
@@ -161,7 +161,7 @@ bool GameSystem::Map::CheckBlockRole(QPoint pos){
 //大会ルールの「A 基本タイプ」に準拠してブロック、アイテム、COOLとHOTをランダムに配置
 //*A 基本タイプ: COOLとHOTの周囲8マスにアイテムがない
 //デフォルトではブロック20個、アイテム50個を配置
-void GameSystem::Map::CreateRandomMap(int block_num, int item_num, int turn, bool mirror){
+void GameSystem::Map::createRandomMap(int block_num, int item_num, int turn, bool mirror){
     this->turn = turn;
     name = "[RANDOM MAP]";
 

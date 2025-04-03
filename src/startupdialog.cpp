@@ -4,7 +4,7 @@
 StartupDialog::StartupDialog(MainWindow *parent)
     : QDialog(parent)
     , ui(new Ui::StartupDialog)
-    , map_standby(false)
+    , isMapReady(false)
 {
     this->parent = parent;
 
@@ -14,17 +14,14 @@ StartupDialog::StartupDialog(MainWindow *parent)
     setMusicFileList();
     setImageThemeList();
 
-    ui->CoolGroupBox->SetPortSpin(2009);
-    ui->CoolGroupBox->ConnectionToggled(true);
-
-    ui->HotGroupBox-> SetPortSpin(2010);
-    ui->HotGroupBox-> ConnectionToggled(true);
+    initializeClientGroupBox(ui->CoolGroupBox, 2009);
+    initializeClientGroupBox(ui->HotGroupBox, 2010);
 
     //クライアント初期化
-    this->team_client[static_cast<int>(GameSystem::TEAM::COOL)] = ui->CoolGroupBox;
-    this->team_client[static_cast<int>(GameSystem::TEAM::HOT)] = ui->HotGroupBox;
+    this->teamClient[static_cast<int>(GameSystem::TEAM::COOL)] = ui->CoolGroupBox;
+    this->teamClient[static_cast<int>(GameSystem::TEAM::HOT)] = ui->HotGroupBox;
     for (int i = 0; i < TEAM_COUNT; i++) {
-        team_standby[i] = false;
+        teamReady[i] = false;
     }
 
     connect(ui->HotGroupBox,  &ClientSettingForm::Standby, this, &StartupDialog::ClientStandby);
@@ -33,25 +30,31 @@ StartupDialog::StartupDialog(MainWindow *parent)
     //ローカルIPの探索
     foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)){
-            this->ui->LocalIPLabel->setText(address.toString());
+            this->ui->localIPLabel->setText(address.toString());
             break;
         }
     }
-    this->ui->HostName->setText(QHostInfo::localHostName());
+    this->ui->hostName->setText(QHostInfo::localHostName());
 
-    map.CreateRandomMap();
-    map_standby = true;
+    map.createRandomMap();
+    isMapReady = true;
 
-    connect(this->ui->StandbyButton,SIGNAL(clicked()),  parent,SLOT(StartSetUp()));
-    connect(this->ui->GameStartButton,SIGNAL(clicked()),parent,SLOT(StartGame()));
+    connect(this->ui->standbyButton,SIGNAL(clicked()),  parent,SLOT(startSetup()));
+    connect(this->ui->gameStartButton,SIGNAL(clicked()),parent,SLOT(startGame()));
 }
 
-QVariant StartupDialog::getDefault(QString key)
+void StartupDialog::initializeClientGroupBox(ClientSettingForm* groupBox, int port)
 {
-    QSettings *Settings;
-    Settings = new QSettings("setting.ini", QSettings::IniFormat); // iniファイルで設定を保存
-    Settings->beginGroup("Default");
-    return Settings->value(key);
+    groupBox->setPortSpin(port);
+    groupBox->setConnectionEnabled(true);
+}
+
+QVariant StartupDialog::getDefaultSetting(const QString &key)
+{
+    QSettings *settings;
+    settings = new QSettings("setting.ini", QSettings::IniFormat); // iniファイルで設定を保存
+    settings->beginGroup("Default");
+    return settings->value(key);
 }
 
 void StartupDialog::setCommandLineOptions()
@@ -63,80 +66,75 @@ void StartupDialog::setCommandLineOptions()
     parser.setApplicationDescription("CHaser server");
     parser.addHelpOption();
 
-    QCommandLineOption RandomMapOption({"r", "random"}, "ランダムマップ");
-    parser.addOption(RandomMapOption);
+    QCommandLineOption randomMapOption({"r", "random"}, "ランダムマップ");
+    parser.addOption(randomMapOption);
 
-    QCommandLineOption CoolOption("cool", "Coolプログラムファイル", "program file");
-    parser.addOption(CoolOption);
+    QCommandLineOption coolOption("cool", "Coolプログラムファイル", "program file");
+    parser.addOption(coolOption);
 
-    QCommandLineOption HotOption("hot", "Hotプログラムファイル", "program file");
-    parser.addOption(HotOption);
+    QCommandLineOption hotOption("hot", "Hotプログラムファイル", "program file");
+    parser.addOption(hotOption);
 
-    
-    v = getDefault("DefaultMap");
-    QCommandLineOption MapOption({"m", "map"}, "マップファイル", "map",         // 値の名称
-                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "Default.map" // 値のデフォルト値
+    v = getDefaultSetting("DefaultMap");
+    QCommandLineOption mapOption({"m", "map"}, "マップファイル", "map",         
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "Default.map" 
         );
-    parser.addOption(MapOption);
+    parser.addOption(mapOption);
 
-    v = getDefault("DefaultTexture");
-    QCommandLineOption TextureOption({"t", "texture"}, "テクスチャ", "texture",     // 値の名称
-                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "あっさり" // 値のデフォルト値
+    v = getDefaultSetting("DefaultTexture");
+    QCommandLineOption textureOption({"t", "texture"}, "テクスチャ", "texture",     
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "あっさり" 
         );
-    parser.addOption(TextureOption);
+    parser.addOption(textureOption);
 
-    v = getDefault("DefaultBGM_1");
-    QCommandLineOption BGM1Option({"b", "b1", "bgm", "bgm1"}, "BGM1", "bgm1",            // 値の名称
-                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" // 値のデフォルト値
+    v = getDefaultSetting("DefaultBGM_1");
+    QCommandLineOption bgm1Option({"b", "b1", "bgm", "bgm1"}, "BGM1", "bgm1",            
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" 
         );
-    parser.addOption(BGM1Option);
+    parser.addOption(bgm1Option);
 
-    v = getDefault("DefaultBGM_2");
-    QCommandLineOption BGM2Option({"b2", "bgm2"}, "BGM2", "bgm2",            // 値の名称
-                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" // 値のデフォルト値
+    v = getDefaultSetting("DefaultBGM_2");
+    QCommandLineOption bgm2Option({"b2", "bgm2"}, "BGM2", "bgm2",            
+                (v.typeId() != QMetaType::UnknownType) ? v.toString() : "TwinBeeNew.wav" 
         );
-    parser.addOption(BGM2Option);
+    parser.addOption(bgm2Option);
 
     parser.process(QCoreApplication::arguments());
     
-    if(parser.value(CoolOption) != "")
-        this->ui->CoolGroupBox->reset("Python", parser.value(CoolOption));
-    else {
-        v = getDefault("CoolProgram");
-        if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
-            this->ui->CoolGroupBox->setProgramFile(programpath, v.toString());
-        } else {
-            this->ui->CoolGroupBox->setProgramFile(programpath, "player.py");
-        }
-    }
+    setGroupBoxProgram(ui->CoolGroupBox, parser, coolOption, "CoolProgram");
+    setGroupBoxProgram(ui->HotGroupBox, parser, hotOption, "HotProgram");
 
-    if(parser.value(HotOption) != "")
-        this->ui->HotGroupBox->reset("Python", parser.value(HotOption));
-    else {
-        v = getDefault("HotProgram");
-        if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
-            this->ui->HotGroupBox->setProgramFile(programpath, v.toString());
-        } else {
-            this->ui->HotGroupBox->setProgramFile(programpath, "player.py");
-        }
-    }
-
-    if(! parser.isSet(RandomMapOption)) {
+    if(! parser.isSet(randomMapOption)) {
         QString filePath;
-        filePath = mappath + "/" + parser.value(MapOption);
+        filePath = mapPath + "/" + parser.value(mapOption);
         if (QFile::exists(filePath)) {
-            this->ui->MapDirEdit->setText(filePath);
-            map_standby = MapRead(filePath);
+            this->ui->mapDirEdit->setText(filePath);
+            isMapReady = loadMap(filePath);
         }
     }
 
-    parent->setMusicList(parser.value(BGM1Option), 0);
-    setGameMusicCombo(parser.value(BGM1Option));
-    music_text = ui->GameMusicCombo->currentText();
+    parent->setMusicList(parser.value(bgm1Option), 0);
+    setGameMusicCombo(parser.value(bgm1Option));
+    musicText = ui->gameMusicCombo->currentText();
 
-    parent->setMusicList(parser.value(BGM2Option), 1);
+    parent->setMusicList(parser.value(bgm2Option), 1);
 
-    this->ui->TextureThemeCombo->setCurrentText(parser.value(TextureOption));
+    this->ui->textureThemeCombo->setCurrentText(parser.value(textureOption));
+}
+
+void StartupDialog::setGroupBoxProgram(ClientSettingForm* groupBox, QCommandLineParser& parser, QCommandLineOption& option, QString defaultProgramKey)
+{
+    QVariant v;
+    if(parser.value(option) != "")
+        groupBox->reset("Python", parser.value(option));
+    else {
+        v = getDefaultSetting(defaultProgramKey);
+        if (v.typeId() != QMetaType::UnknownType && v.toString() != "None"){
+            groupBox->setProgramFile(programPath, v.toString());
+        } else {
+            groupBox->setProgramFile(programPath, "player.py");
+        }
+    }
 }
 
 StartupDialog::~StartupDialog()
@@ -144,146 +142,146 @@ StartupDialog::~StartupDialog()
     delete ui;
 }
 
-void StartupDialog::resetMap(int block_num, int item_num, int turn, bool mirror)
+void StartupDialog::resetMap(int blockNum, int itemNum, int turn, bool mirror)
 {
-    if(this->ui->MapDirEdit->text() == "")
+    if(this->ui->mapDirEdit->text() == "")
     {
-        map.CreateRandomMap(block_num, item_num, turn, mirror);
-        SetMapStandby(true);
+        map.createRandomMap(blockNum, itemNum, turn, mirror);
+        setMapReady(true);
     }
 }
 
-void StartupDialog::ChangeMusicCombo(QString text)
+void StartupDialog::MusicComboChanged(const QString &text)
 {
-    music_text = text;
-    parent->setMusicList(music_text);
+    musicText = text;
+    parent->setMusicList(musicText);
 }
 
-void StartupDialog::CheckStandby()
+void StartupDialog::checkAllClientsReady()
 {
-    bool all_of = true;
+    bool allOf = true;
     for (int i = 0; i < TEAM_COUNT; i++) {
-        if (!team_standby[i])
-            all_of = false;
+        if (!teamReady[i])
+            allOf = false;
     }
-    this->ui->StandbyButton->setEnabled(all_of && map_standby);
+    this->ui->standbyButton->setEnabled(allOf && isMapReady);
 }
 
 void StartupDialog::setGameStartButtonEnabled(bool set)
 {
-    this->ui->GameStartButton->setEnabled(set);
+    this->ui->gameStartButton->setEnabled(set);
 }
 
-void StartupDialog::GameStartButtonClick()
+void StartupDialog::gameStartButtonClick()
 {
-    this->ui->GameStartButton->click();
+    this->ui->gameStartButton->click();
 }
 
-void StartupDialog::setGameStartButtonShow(bool set)
+void StartupDialog::showGameStartButton(bool set)
 {
     if (set) {
-        disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
-        disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(RepeatGame()));
-        this->ui->StandbyButton->show();
-        this->ui->GameStartButton->show();
-        this->ui->GameStartButton->setText("スタート");
-        this->ui->GameStartButton->setEnabled(false);
-        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
+        disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(startGame()));
+        disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(repeatGame()));
+        this->ui->standbyButton->show();
+        this->ui->gameStartButton->show();
+        this->ui->gameStartButton->setText("スタート");
+        this->ui->gameStartButton->setEnabled(false);
+        connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(startGame()));
     } else {
-        this->ui->StandbyButton->hide();
-        this->ui->GameStartButton->hide();
+        this->ui->standbyButton->hide();
+        this->ui->gameStartButton->hide();
     }
 }
 
 void StartupDialog::setGameStartButtonToEnd(bool repeat)
 {
-    this->ui->StandbyButton->hide();
-    this->ui->GameStartButton->show();
-    this->ui->GameStartButton->setEnabled(true);
-    disconnect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(StartGame()));
+    this->ui->standbyButton->hide();
+    this->ui->gameStartButton->show();
+    this->ui->gameStartButton->setEnabled(true);
+    disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(startGame()));
     if (repeat) {
-        this->ui->GameStartButton->setText("再戦");
-        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(RepeatGame()));
+        this->ui->gameStartButton->setText("再戦");
+        connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(repeatGame()));
     } else {
-        this->ui->GameStartButton->setText("終了");
-        connect(this->ui->GameStartButton,SIGNAL(clicked()),this->parent,SLOT(EndGame()));
+        this->ui->gameStartButton->setText("終了");
+        connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(endGame()));
     }
 }
 
-void StartupDialog::setStandbyButtonShow(bool set)
+void StartupDialog::showStandbyButton(bool set)
 {
     if (set) {
-        this->ui->StandbyButton->show();
+        this->ui->standbyButton->show();
     } else {
-        this->ui->StandbyButton->hide();
+        this->ui->standbyButton->hide();
     }
 }
 
-void StartupDialog::setSetupModeEnable(bool set)
+void StartupDialog::enableSetupMode(bool set)
 {
     if (set) {
-        ui->MapDirEdit->setReadOnly(false);
-        ui->MapEditButton->setEnabled(true);
-        ui->MapSelectButton->setEnabled(true);
-        ui->TextureThemeCombo->setEnabled(true);
+        ui->mapDirEdit->setReadOnly(false);
+        ui->mapEditButton->setEnabled(true);
+        ui->mapSelectButton->setEnabled(true);
+        ui->textureThemeCombo->setEnabled(true);
     } else {
-        ui->MapDirEdit->setReadOnly(true);
-        ui->MapEditButton->setEnabled(false);
-        ui->MapSelectButton->setEnabled(false);
-        ui->TextureThemeCombo->setEnabled(false);
+        ui->mapDirEdit->setReadOnly(true);
+        ui->mapEditButton->setEnabled(false);
+        ui->mapSelectButton->setEnabled(false);
+        ui->textureThemeCombo->setEnabled(false);
     }
 }
 
-void StartupDialog::setMusicEnable(bool set)
+void StartupDialog::enableMusicSelection(bool set)
 {
     if (set) {
-        ui->GameMusicCombo->setEnabled(true);
+        ui->gameMusicCombo->setEnabled(true);
     } else {
-        ui->GameMusicCombo->setEnabled(false);
+        ui->gameMusicCombo->setEnabled(false);
     }
 }
 
-void StartupDialog::connectionReset()
+void StartupDialog::swapClientConnections()
 {
-    QString CoolP = this->ui->CoolGroupBox->getPlayer();
-    QString CoolP2 = this->ui->CoolGroupBox->getProgramFile();
+    QString coolPlayer = this->ui->CoolGroupBox->getPlayer();
+    QString coolProgramFile = this->ui->CoolGroupBox->getProgramFile();
 
-    QString HotP = this->ui->HotGroupBox->getPlayer();
-    QString HotP2 = this->ui->HotGroupBox->getProgramFile();
+    QString hotPlayer = this->ui->HotGroupBox->getPlayer();
+    QString hotProgramFile = this->ui->HotGroupBox->getProgramFile();
 
-    this->ui->CoolGroupBox->reset(HotP, HotP2);
-    this->ui->HotGroupBox->reset(CoolP,CoolP2);
+    this->ui->CoolGroupBox->reset(hotPlayer, hotProgramFile);
+    this->ui->HotGroupBox->reset(coolPlayer, coolProgramFile);
 }
 
-void StartupDialog::randomConnectionReset()
+void StartupDialog::randomizeClientConnections()
 {
-    QString CoolP = this->ui->CoolGroupBox->getPlayer();
-    QString CoolP2 = this->ui->CoolGroupBox->getRandomProgramFile();
+    QString coolPlayer = this->ui->CoolGroupBox->getPlayer();
+    QString coolRandomProgramFile = this->ui->CoolGroupBox->getRandomProgramFile();
 
-    QString HotP = this->ui->HotGroupBox->getPlayer();
-    QString HotP2 = this->ui->HotGroupBox->getRandomProgramFile();
+    QString hotPlayer = this->ui->HotGroupBox->getPlayer();
+    QString hotRandomProgramFile = this->ui->HotGroupBox->getRandomProgramFile();
 
-    this->ui->CoolGroupBox->reset(HotP, HotP2);
-    this->ui->HotGroupBox->reset(CoolP,CoolP2);
+    this->ui->CoolGroupBox->reset(hotPlayer, coolRandomProgramFile);
+    this->ui->HotGroupBox->reset(coolPlayer, hotRandomProgramFile);
 }
 
-void StartupDialog::ShowMapEditDialog()
+void StartupDialog::showMapEditDialog()
 {
-    MapEditerDialog diag(map, mappath);
+    MapEditerDialog diag(map, mapPath);
     if (diag.exec()) {
         if (diag.filepath == "") {
-            this->ui->MapDirEdit->setText("[CUSTOM MAP]");
-            map = diag.GetMap();
+            this->ui->mapDirEdit->setText("[CUSTOM MAP]");
+            map = diag.getMap();
         } else {
             //再読み込み
-            if (MapRead(diag.filepath))
-                this->ui->MapDirEdit->setText(diag.filepath);
+            if (loadMap(diag.filepath))
+                this->ui->mapDirEdit->setText(diag.filepath);
         }
     }
-    SetMapStandby(true);
+    setMapReady(true);
 }
 
-bool StartupDialog::MapRead(const QString &dir)
+bool StartupDialog::loadMap(const QString &dir)
 {
     //ファイルからマップを読み込む
     this->map.Import(dir);
@@ -295,119 +293,119 @@ void StartupDialog::setMusicFileList()
 {
     QDir dir("./Music");
 
-    ui->GameMusicCombo->clear();
+    ui->gameMusicCombo->clear();
     if (dir.exists()) { //ディレクトリが存在していたらmp3とwavのファイルをリストに追加する
         QStringList filelist = dir.entryList({"*.mp3", "*.wav"}, QDir::Files | QDir::NoSymLinks);
         if (filelist.isEmpty()) { //ディレクトリが存在していても、mp3とwavのファイルがなければ、Noneにして無効化
-            ui->GameMusicCombo->addItem("None");
-            ui->GameMusicCombo->setEnabled(false);
+            ui->gameMusicCombo->addItem("None");
+            ui->gameMusicCombo->setEnabled(false);
         } else
-            ui->GameMusicCombo->addItems(filelist);
+            ui->gameMusicCombo->addItems(filelist);
     } else { //なかったらNoneにして無効化
-        ui->GameMusicCombo->addItem("None");
-        ui->GameMusicCombo->setEnabled(false);
+        ui->gameMusicCombo->addItem("None");
+        ui->gameMusicCombo->setEnabled(false);
     }
 }
 
 void StartupDialog::setImageThemeList()
 {
-    ui->TextureThemeCombo->clear();
-    ui->TextureThemeCombo->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの3テーマの追加
+    ui->textureThemeCombo->clear();
+    ui->textureThemeCombo->addItems({"ほうせき", "あっさり", "こってり", "RPG"}); //デフォルトの3テーマの追加
 
     QDir dir("./Image");
 
     if (dir.exists()) { //ディレクトリが存在していたら
         QStringList filelist = dir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-        ui->TextureThemeCombo->addItems(filelist);
+        ui->textureThemeCombo->addItems(filelist);
     }
 }
 
-void StartupDialog::PushedMapSelect()
+void StartupDialog::MapSelectButtonClicked()
 {
     QString cap = tr("マップを開く");
     QString filter = tr("マップファイル (*.map)");
 
-    QString mapfile = QFileDialog::getOpenFileName(this, cap, mappath, filter);
+    QString mapfile = QFileDialog::getOpenFileName(this, cap, mapPath, filter);
     if (QFile::exists(mapfile)) {
-        this->ui->MapDirEdit->setText(mapfile);
-        SetMapStandby(MapRead(mapfile));
+        this->ui->mapDirEdit->setText(mapfile);
+        setMapReady(loadMap(mapfile));
     }
 }
 
-void StartupDialog::ClientStandby(ClientSettingForm *client, bool complate)
+void StartupDialog::ClientStandby(ClientSettingForm *client, bool complete)
 {
     for (int i = 0; i < TEAM_COUNT; i++) {
-        if (team_client[i] == client) {
-            team_standby[i] = complate;
-            CheckStandby();
+        if (teamClient[i] == client) {
+            teamReady[i] = complete;
+            checkAllClientsReady();
             return;
         }
     }
 }
 
-void StartupDialog::SetMapStandby(bool state)
+void StartupDialog::setMapReady(bool state)
 {
-    map_standby = state;
+    isMapReady = state;
     if (state) parent->repaintMap();
-    CheckStandby();
+    checkAllClientsReady();
 }
 
-void StartupDialog::ChangedTexture(QString text)
+void StartupDialog::TextureChanged(const QString &text)
 {
-    if (text == "あっさり")      this->map.texture_dir_path = ":/Image/Light";
-    else if (text == "こってり") this->map.texture_dir_path = ":/Image/Heavy";
-    else if (text == "ほうせき") this->map.texture_dir_path = ":/Image/Jewel";
-    else if (text == "RPG")   this->map.texture_dir_path = ":/Image/RPG";
-    else                      this->map.texture_dir_path = "Image/" + text;
+    if (text == "あっさり")      this->map.textureDirPath = ":/Image/Light";
+    else if (text == "こってり") this->map.textureDirPath = ":/Image/Heavy";
+    else if (text == "ほうせき") this->map.textureDirPath = ":/Image/Jewel";
+    else if (text == "RPG")   this->map.textureDirPath = ":/Image/RPG";
+    else                      this->map.textureDirPath = "Image/" + text;
 }
 
-void StartupDialog::Setting()
+void StartupDialog::openSettingsDialog()
 {
     SettingDialog *diag;
     diag = new SettingDialog;
     if (diag->exec() == QDialog::Accepted) {
         //設定を保存
         diag->Export();
-        parent->setSetting();
-        parent->setDesign();
-        parent->setRandomMapParam();
-        parent->setPath();
-        parent->setMusicList(getDefault("DefaultBGM_1").toString(), 
-                             getDefault("DefaultBGM_2").toString());
+        parent->initializeSettings();
+        parent->applyDesign();
+        parent->setRandomMapParameters();
+        parent->setPaths();
+        parent->setMusicList(getDefaultSetting("DefaultBGM_1").toString(), 
+                             getDefaultSetting("DefaultBGM_2").toString());
     }
     delete diag;
 }
 
-void StartupDialog::setGameMusicCombo(QString text)
+void StartupDialog::setGameMusicCombo(const QString &text)
 {
-    int index = ui->GameMusicCombo->findText(text);
+    int index = ui->gameMusicCombo->findText(text);
     if (index != -1)
-        this->ui->GameMusicCombo->setCurrentText(text);
+        this->ui->gameMusicCombo->setCurrentText(text);
 }
 
-void StartupDialog::setBotCommand(QString command)
+void StartupDialog::setBotCommand(const QString &command)
 {
     ui->CoolGroupBox->setBotCommand(command);
     ui->HotGroupBox->setBotCommand(command);
 }
 
-void StartupDialog::setPythonCommand(QString command)
+void StartupDialog::setPythonCommand(const QString &command)
 {
     ui->CoolGroupBox->setPythonCommand(command);
     ui->HotGroupBox->setPythonCommand(command);
 }
 
-void StartupDialog::setProgramPath(QString path)
+void StartupDialog::setProgramPath(const QString &path)
 {
-    programpath = path;
+    programPath = path;
 }
 
-void StartupDialog::setMapPath(QString path)
+void StartupDialog::setMapPath(const QString &path)
 {
-    mappath = path;
+    mapPath = path;
 }
 
-void StartupDialog::setConnectionChangeEnable(bool set)
+void StartupDialog::enableConnectionChange(bool set)
 {
     this->ui->CoolGroupBox->setChangeEnable(set);
     this->ui->HotGroupBox->setChangeEnable(set);

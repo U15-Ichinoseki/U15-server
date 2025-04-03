@@ -9,7 +9,7 @@ MapEditerDialog::MapEditerDialog(GameSystem::Map map, QString path, QWidget *par
 {
     ui->setupUi(this);
 
-    mappath = path;
+    mapPath = path;
 
     //マウス追跡を有効化
     setMouseTracking(true);
@@ -19,8 +19,8 @@ MapEditerDialog::MapEditerDialog(GameSystem::Map map, QString path, QWidget *par
     ui->ObjectCounter->addItem(new QListWidgetItem("×" + QString(QString::number(0))));
     //カウント部分のアイコンを設定
     ui->ObjectCounter->setIconSize(QSize(ICON_SIZE*0.8, ICON_SIZE*0.8));
-    ui->ObjectCounter->item(0)->setIcon(QIcon(map.texture_dir_path + "/Block.png"));
-    ui->ObjectCounter->item(1)->setIcon(QIcon(map.texture_dir_path + "/Item.png"));
+    ui->ObjectCounter->item(0)->setIcon(QIcon(map.textureDirPath + "/Block.png"));
+    ui->ObjectCounter->item(1)->setIcon(QIcon(map.textureDirPath + "/Item.png"));
 
     ComboChanged("決戦(15x17)");
     ui->widget->setMap(map);
@@ -29,10 +29,10 @@ MapEditerDialog::MapEditerDialog(GameSystem::Map map, QString path, QWidget *par
     ui->listWidget->addItem(new QListWidgetItem("Block"));
     ui->listWidget->addItem(new QListWidgetItem("Item"));
     ui->listWidget->setIconSize(QSize(ICON_SIZE*0.8, ICON_SIZE*0.8));
-    ui->listWidget->item(0)->setIcon(QIcon(map.texture_dir_path + "/Floor.png"));
-    ui->listWidget->item(1)->setIcon(QIcon(map.texture_dir_path + "/Cool.png"));
-    ui->listWidget->item(2)->setIcon(QIcon(map.texture_dir_path + "/Block.png"));
-    ui->listWidget->item(3)->setIcon(QIcon(map.texture_dir_path + "/Item.png"));
+    ui->listWidget->item(0)->setIcon(QIcon(map.textureDirPath + "/Floor.png"));
+    ui->listWidget->item(1)->setIcon(QIcon(map.textureDirPath + "/Cool.png"));
+    ui->listWidget->item(2)->setIcon(QIcon(map.textureDirPath + "/Block.png"));
+    ui->listWidget->item(3)->setIcon(QIcon(map.textureDirPath + "/Item.png"));
 
     //ブロック、アイテムの数をカウントして表示
     ReCount();
@@ -55,7 +55,7 @@ MapEditerDialog::~MapEditerDialog()
     delete ui;
 }
 
-GameSystem::Map MapEditerDialog::GetMap(){
+GameSystem::Map MapEditerDialog::getMap(){
     return ui->widget->field;
 }
 
@@ -135,7 +135,7 @@ void MapEditerDialog::Export()
     filepath = QFileDialog::getSaveFileName(
         this,
         tr("マップを保存"),
-        mappath,
+        mapPath,
         tr("マップデータ (*.map)"));
     if(filepath != "")ui->widget->field.Export(filepath);
 }
