@@ -34,62 +34,68 @@ private:
     Ui::StartupDialog *ui;
     MainWindow *parent;
 
-    bool team_standby[TEAM_COUNT];
-    bool map_standby;
+    bool teamReady[TEAM_COUNT];
+    bool isMapReady;
 
-    QString programpath;
-    QString mappath;
+    QString programPath;
+    QString mapPath;
+
+    void initializeClientGroupBox(ClientSettingForm* groupBox, int port);
+    void setGroupBoxProgram(ClientSettingForm* groupBox, QCommandLineParser& parser, QCommandLineOption& option, QString defaultProgramKey);
 
 public:
-    QString music_text;
+    QString musicText;
     GameSystem::Map map;
 
-    ClientSettingForm* team_client[TEAM_COUNT];
+    ClientSettingForm* teamClient[TEAM_COUNT];
+    MainWindow* mainWindow;
 
 public:
     explicit StartupDialog(MainWindow *parent = 0);
     ~StartupDialog();
 
-    bool MapRead(const QString& dir);
+    bool loadMap(const QString& filePath);
     void setMusicFileList();
     void setImageThemeList();
 
     void setGameStartButtonEnabled(bool set);
-    void setGameStartButtonShow(bool set);
-    void setMusicEnable(bool set);
-    void GameStartButtonClick();
-    void setStandbyButtonShow(bool set);
-    void setSetupModeEnable(bool set);
-    void setConnectionChangeEnable(bool set);
+    void showGameStartButton(bool enabled);
+    void enableMusicSelection(bool set);
+    void gameStartButtonClick();
+    void showStandbyButton(bool set);
+    void enableSetupMode(bool set);
+    void enableConnectionChange(bool set);
 
     void resetMap(int block_num, int item_num, int turn, bool mirror);
-    void connectionReset();
-    void randomConnectionReset();
+    void swapClientConnections();
+    void randomizeClientConnections();
     void setGameStartButtonToEnd(bool repeat);
 
-    void setGameMusicCombo(QString command);
-    void setBotCommand(QString command);
-    void setPythonCommand(QString command);
-    void setProgramPath(QString path);
-    void setMapPath(QString path);
+    void setGameMusicCombo(const QString &text);
+    void setBotCommand(const QString &command);
+    void setPythonCommand(const QString &command);
+    void setProgramPath(const QString &path);
+    void setMapPath(const QString &path);
 
     void setCommandLineOptions();
-    QVariant getDefault(QString key);
+    QVariant getDefaultSetting(const QString &key);
+
+
 
 public slots:
 
-    void ChangeMusicCombo(QString text);
-    void CheckStandby();
-    void ShowMapEditDialog();
-    void PushedMapSelect();
+    void MusicComboChanged(const QString &text);
+    void checkAllClientsReady();
+    void showMapEditDialog();
+    void MapSelectButtonClicked();
 
     void ClientStandby(ClientSettingForm* client,bool complate);
-    void SetMapStandby (bool state);
+    void setMapReady (bool state);
 
-    void ChangedTexture(QString text);
+    void TextureChanged(const QString &text);
 
     //設定
-    void Setting();
+    void openSettingsDialog();
 
 };
 

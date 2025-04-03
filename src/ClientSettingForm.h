@@ -27,7 +27,7 @@ private:
 
     QString botcommand;
     QString pythoncommand;
-    QString programpath;
+    QString programPath;
 
 public:
     BaseClient* client;
@@ -47,9 +47,9 @@ public slots:
     void SetStandby ();
     void Connected  ();
     void DisConnected();
-    void ConnectionToggled(bool state);
+    void setConnectionEnabled(bool state);
     void ComboBoxChenged(QString text);
-    void SetPortSpin(int num);
+    void setPortSpin(int num);
     QString getPlayer();
     QString getProgramFile();
     QString getRandomProgramFile();

@@ -27,9 +27,9 @@ SettingDialog::SettingDialog(QWidget *parent)
     if (v.typeId() != QMetaType::UnknownType)
         ui->Gamespeed->setValue(v.toInt());
 
-    v = Settings->value("FullMode");
+    v = Settings->value("DoubleMode");
     if (v.typeId() != QMetaType::UnknownType)
-        ui->FullModeCheck->setChecked(v.toBool());
+        ui->DoubleModeCheck->setChecked(v.toBool());
 
     v = Settings->value("Repeat");
     if (v.typeId() != QMetaType::UnknownType)
@@ -151,7 +151,7 @@ void SettingDialog::Export()
     // Settings->beginGroup("General");
     Settings->setValue("Timeout", ui->Timeout->value());
     Settings->setValue("Gamespeed", ui->Gamespeed->value());
-    Settings->setValue("FullMode", ui->FullModeCheck->isChecked());
+    Settings->setValue("DoubleMode", ui->DoubleModeCheck->isChecked());
     Settings->setValue("Repeat", ui->RepeatCheck->isChecked());
     // Settings->endGroup();
 

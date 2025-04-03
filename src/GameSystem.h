@@ -120,14 +120,14 @@ public:
         QString name;                   //ステージ名
         QPoint size;                    //マップサイズ
         QPoint team_first_point[TEAM_COUNT];//チーム初期位置
-        QString texture_dir_path;    //テクスチャ
+        QString textureDirPath;    //テクスチャ
 
         Map();
 
         void SetSize(QPoint size, int block_num = 20, int item_num = 51);
         QPoint MirrorPoint(const QPoint& pos);
 
-        void CreateRandomMap(int block_num = 20, int item_num = 51, int turn=100, bool mirror=true);
+        void createRandomMap(int block_num = 20, int item_num = 51, int turn=100, bool mirror=true);
         bool Import(QString Filename);
         bool Export(QString Filename);
         bool CheckBlockRole(QPoint pos);

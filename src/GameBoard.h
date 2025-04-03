@@ -28,7 +28,7 @@ private:
     bool animation    = false; //アニメーション有効
     bool animationing = false; //アニメーション中
 
-    QString texture_dir_path; //使用テクスチャディレクトリ
+    QString textureDirPath; //使用テクスチャディレクトリ
     QPixmap team_resource[TEAM_COUNT];   //チーム画像
     QPixmap field_resource[4];  //フィールド画像
     QPixmap overray_resource[5];//オーバーレイ画像
@@ -102,7 +102,7 @@ signals:
 
 public slots:
     //テクスチャ読み込み
-    void ReloadTexture(QString texture_dir_path);
+    void ReloadTexture(QString textureDirPath);
 
 };
 

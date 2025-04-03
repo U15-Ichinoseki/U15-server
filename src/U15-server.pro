@@ -20,7 +20,9 @@ TEMPLATE = app
 SOURCES += main.cpp\
     CustomRadioButton.cpp \
     ScoreLabelStyle.cpp \
+    animation.cpp \
     dynamicallylabel.cpp \
+    game.cpp \
         mainwindow.cpp \
     startupdialog.cpp \
     GameSystem.cpp \
@@ -37,7 +39,10 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     CustomRadioButton.h \
+    animation.h \
     dynamicallylabel.h \
+    game.h \
+    scorelabelstyle.h \
     startupdialog.h \
     GameSystem.h \
     TcpClient.h \

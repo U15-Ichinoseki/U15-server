@@ -194,7 +194,7 @@
    <sender>ConnectButton</sender>
    <signal>clicked(bool)</signal>
    <receiver>ClientSettingForm</receiver>
-   <slot>ConnectionToggled(bool)</slot>
+   <slot>setConnectionEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>229</x>
@@ -242,6 +242,6 @@
  <slots>
   <slot>PushedProgramSelect()</slot>
   <slot>ComboBoxChenged(QString)</slot>
-  <slot>ConnectionToggled(bool)</slot>
+  <slot>setConnectionEnabled(bool)</slot>
  </slots>
 </ui>

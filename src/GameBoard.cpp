@@ -28,7 +28,7 @@ void GameBoard::resizeImage(){
     image_part.setHeight(this->size().height() / field.size.y());
     resize(image_part.width() * field.size.x(), image_part.height() * field.size.y());
 
-    ReloadTexture(texture_dir_path);
+    ReloadTexture(textureDirPath);
 }
 
 void GameBoard::resizeEvent(QResizeEvent *event){
@@ -37,7 +37,7 @@ void GameBoard::resizeEvent(QResizeEvent *event){
     event->ignore();
     resize(image_part.width() * field.size.x(), image_part.height() * field.size.y());
 
-    ReloadTexture(texture_dir_path);
+    ReloadTexture(textureDirPath);
 }
 
 void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
@@ -205,8 +205,8 @@ GameSystem::AroundData GameBoard::FieldAccessMethod(GameSystem::Method method){
 
 void GameBoard::setMap(const GameSystem::Map& map){
     field = map;
-    this->texture_dir_path = map.texture_dir_path;
-    ReloadTexture(texture_dir_path);
+    this->textureDirPath = map.textureDirPath;
+    ReloadTexture(textureDirPath);
 
     for(int i=0;i<TEAM_COUNT;i++){
         team_pos[i] = field.team_first_point[i];
@@ -245,7 +245,7 @@ GameBoard::~GameBoard()
 }
 
 void GameBoard::ReloadTexture(QString tex_dir_path){
-    this->texture_dir_path = tex_dir_path;
+    this->textureDirPath = tex_dir_path;
 
     //画像読み込み
     this->team_resource   [static_cast<int>(GameSystem::TEAM::COOL)]            = QPixmap(tex_dir_path + "/Cool.png");

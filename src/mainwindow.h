@@ -21,6 +21,9 @@
 #include "GameSystem.h"
 #include "StableLog.h"
 #include "startupdialog.h"
+#include "game.h"
+#include "animation.h"
+#include "ScoreLabelStyle.h" // 新しく追加
 
 namespace Ui {
 class MainWindow;
@@ -33,70 +36,56 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
-    StartupDialog *startup; //スタートアップダイアログ
+    StartupDialog *startupDialog; // スタートアップダイアログ
 
     int player;      //次ターン行動プレイヤー
-    int round;
+    int currentround;
     int point[TEAM_COUNT][ROUND_COUNT][3];
 
-    struct RandomMapParam{
-        int default_item;
-        int default_block;
-        int default_turn;
-        bool default_mirror;
+    struct RandomMapParameters {
+        int defaultItem;
+        int defaultBlock;
+        int defaultTurn;
+        bool defaultMirror;
     };
 
-    RandomMapParam random_map_param;
+    RandomMapParameters randomMapParameters;
 
-    GameSystem::GAME_STATUS game_status;
+    GameSystem::GAME_STATUS gameStatus;
 
-    bool getready_flag;
+    bool isReady;
 
     bool silent;
-    bool dark;         //暗転処理
+    bool dark; // 暗転処理
 
-    bool isbotbattle; //ボット戦モード
-    bool isrepeat;    //繰り返し対戦
-    bool isdemo;      //デモ対戦
-    bool isfullmode;  //
+    bool isBotBattleMode; // ボット戦モード
+    bool isRepeatMode;    // 繰り返し対戦
+    bool isDemoMode;      // デモ対戦
+    bool isDoubleGameMode;  //
 
-    int FRAME_RATE = 150;   //ゲームフレームレート
+    int FRAME_RATE = 150; // ゲームフレームレート
 
-    int anime_map_time   = 100; //マップ構築アニメーション時間
-    int anime_team_time  = 500; //チーム配置アニメーション時間
+    int mapAnimationTime = 100; // マップ構築アニメーション時間
+    int teamAnimationTime = 500; // チーム配置アニメーション時間
 
-    QTimer* clock;          //ゲームクロック
-    QTimer* startup_anime;  //開始アニメーション
-    QTimer* teamshow_anime; //チーム表示アニメーション
+    QTimer* clock;          // ゲームクロック
+    QTimer* startupMapAnimation;   // 開始アニメーション
+    QTimer* teamShowAnimation;  // チーム表示アニメーション
 
-    QString music_list[2];
+    QString musicList[2];
 
-    QMediaPlayer *bgm;          //音楽
-    QAudioOutput *audio_output; //音声出力
-    QMediaPlayer *SE_C;           //SE
-    QAudioOutput *SE_C_AO;        //SE出力
-    QMediaPlayer *SE_H;           //SE
-    QAudioOutput *SE_H_AO;        //SE出力
+    QMediaPlayer *bgm; // 音楽
+    QAudioOutput *audioOutput;     // 音声出力
+    QMediaPlayer *soundEffectCool;    // SE
+    QAudioOutput *soundEffectAudioOutputCool; // SE出力
+    QMediaPlayer *soundEffectHot;    // SE
+    QAudioOutput *soundEffectAudioOutputHot; // SE出力
 
-    QFile* file;   //ログファイル
-    StableLog log; //ログストリーム
+    QFile* logFile;   // ログファイル
+    StableLog logStream; // ログストリーム
 
-    const QString Cool_Label_style = "border-radius: 15px;border:2px solid blue;color:blue;background-color:white;";
-    const QString Cool_Label_Win_style = "border-radius: 15px;border:2px solid blue;background-color:blue;color:white;";
-
-    const QString Hot_Label_style = "border-radius: 15px;border:2px solid red;color:red;background-color:white;";
-    const QString Hot_Label_Win_style = "border-radius: 15px;border:2px solid red;background-color:red;color:white;";
-
-    const QString Total_Label_style = "border-radius: 15px;border:3px solid green;color:green;background-color:white;";
-    const QString Total_Label_Lead_style = "border-radius: 15px;border:3px solid green;background-color:#C1DB81;";
-    const QString Total_Label_Win_style = "border-radius: 15px;color:white;background-color:green;";
-    const QString Total_Label_decide_style = "border-radius: 15px;border:3px solid green;background-color:white;";
-
-    const QString drawColor = "border-radius: 15px;background-color:#C1DB81;";
-    const QString Cool_Point_Label_style = "border-radius: 15px;border:2px solid blue;background-color:#54C3F1;";
-    const QString Hot_Point_Label_style  = "border-radius: 15px;border:2px solid red;background-color:#EE87B4;";
-    const QString Cool_Score_Label_style = "border-radius: 15px;border:3px solid blue;background-color:white;";
-    const QString Hot_Score_Label_style  = "border-radius: 15px;border:3px solid red;background-color:white;";
+    // Game game;
+    // Animation animation;
 
 protected:
     void keyPressEvent(QKeyEvent* event);
@@ -105,46 +94,44 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setSetting();
-    void setDesign();
-    void setRandomMapParam();
-    void setPath();
-    void setMusicList(QString filename);
-    void setMusicList(QString filename, int round);
-    void setMusicList(QString filename1, QString filename2);
+    void initializeSettings();
+    void applyDesign();
+    void setRandomMapParameters();
+    void setPaths();
+    void setMusicList( QString filename);
+    void setMusicList( QString filename, int round);
+    void setMusicList( QString filename1,  QString filename2);
 
     void repaintMap();
 
-    void RefreshItem(GameSystem::Method method);
-    void RefreshScore();
-    GameSystem::GAME_STATUS Judge();
-    void Finish(GameSystem::GAME_STATUS win);
+    void refreshItems(GameSystem::Method method);
+    void refreshScores();
+    GameSystem::GAME_STATUS judgeGame();
+    void finishGame(GameSystem::GAME_STATUS win);
 
     bool isBlunder();
 
-    static QString getTime();
-    static QString convertString(GameSystem::Method method);
-
-    // ScoreLabelStyle
-    void ResetScoreLebel();
-    void StartSetUpScoreLabel();
-    void StartGameScoreLabel();
-    void FinishedScoreLabelStyle();
-    void RefreshScoreLabel();
-    void BottomRoundLabelShow(bool set);
+    static QString getCurrentTime();
+    static QString convertMethodToString(GameSystem::Method method);
 
 private slots:
-    //ゲーム進行
-    void ReSetUp();
-    void StartSetUp();
-    void StartGame();
-    void StartAnimation();
-    void ShowTeamAnimation();
-    void StepGame();
-    void RepeatGame();
-    void EndGame();
+    void resetSetup();
+    void startSetup();
+    void startGame();
+    void startAnimation();
+    void showTeamAnimation();
+    void stepGame();
+    void repeatGame();
+    void endGame();
 
-    void SaveFile();
+    void saveToFile();
+
+    void resetScoreLabels();
+    void startSetupScoreLabels();
+    void startGameScoreLabels();
+    void finishScoreLabelStyle();
+    void refreshScoreLabels();
+    void showBottomRoundLabel(bool set);
 };
 
 #endif // MAINWINDOW_H
