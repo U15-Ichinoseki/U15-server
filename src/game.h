@@ -17,7 +17,6 @@ public:
     void refreshScores(MainWindow* mainWindow);
     GameSystem::GAME_STATUS judgeGame(MainWindow* mainWindow);
     void finishGame(MainWindow* mainWindow, GameSystem::GAME_STATUS gameStatus);
-    bool isBlunder(MainWindow* mainWindow);
 };
 
 #endif // GAME_H
