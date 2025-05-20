@@ -556,9 +556,9 @@ void MainWindow::finishGame(GameSystem::GAME_STATUS gameStatus)
     this->startupDialog->enableMusicSelection(true);
     this->startupDialog->setGameMusicCombo(musicList[(currentround+1)%2]);
 
-    this->startupDialog->swapClientConnections();
     
     if(isDoubleGameMode && currentround<1){
+        this->startupDialog->swapClientConnections();
         this->startupDialog->enableConnectionChange(true);    
         this->startupDialog->showGameStartButton(true);
         if (isDemoMode) {

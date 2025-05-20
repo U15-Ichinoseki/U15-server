@@ -127,7 +127,7 @@ public:
         void SetSize(QPoint size, int block_num = 20, int item_num = 51);
         QPoint MirrorPoint(const QPoint& pos);
 
-        void createRandomMap(int block_num = 20, int item_num = 51, int turn=100, bool mirror=true);
+        void createRandomMap(int block_num = 20, int item_num = 51, int turn=0, bool mirror=true);
         bool Import(QString Filename);
         bool Export(QString Filename);
         bool CheckBlockRole(QPoint pos);

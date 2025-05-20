@@ -162,7 +162,9 @@ bool GameSystem::Map::CheckBlockRole(QPoint pos){
 //*A 基本タイプ: COOLとHOTの周囲8マスにアイテムがない
 //デフォルトではブロック20個、アイテム50個を配置
 void GameSystem::Map::createRandomMap(int block_num, int item_num, int turn, bool mirror){
-    this->turn = turn;
+    if (turn != 0) {
+        this->turn = turn;
+    }
     name = "[RANDOM MAP]";
 
     //一様ノルム(L∞ノルム)
