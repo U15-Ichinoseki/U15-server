@@ -19,6 +19,10 @@ const QString ScoreLabelStyle::hotPointLabelStyle = "border-radius: 15px;border:
 const QString ScoreLabelStyle::coolScoreLabelStyle = "border-radius: 15px;border:3px solid blue;background-color:white;";
 const QString ScoreLabelStyle::hotScoreLabelStyle = "border-radius: 15px;border:3px solid red;background-color:white;";
 
+const QString ScoreLabelStyle::defaultBoxStyle = "border-radius: 6px;border:none;background-color:#F6F6E0;";
+const QString ScoreLabelStyle::coolBoxStyle = "border-radius: 6px;border:none;background-color:#54C3F1;";
+const QString ScoreLabelStyle::hotBoxStyle = "border-radius: 6px;border:none;background-color:#EE87B4;";
+
 void MainWindow::resetScoreLabels()
 {
     ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
@@ -74,6 +78,14 @@ void MainWindow::resetScoreLabels()
     ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
     ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
 
+    ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+    ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
     showBottomRoundLabel(isDoubleGameMode);
 }
 
@@ -97,6 +109,14 @@ void MainWindow::startSetupScoreLabels()
         ui->score_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
         ui->item_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
         ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+
+        ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::coolBoxStyle);
+        ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+        ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::hotBoxStyle);
+        ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
     }
     if(currentround == 1) {
         ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
@@ -114,6 +134,14 @@ void MainWindow::startSetupScoreLabels()
         ui->score_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
         ui->item_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
         ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+
+        ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::hotBoxStyle);
+        ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+        ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::coolBoxStyle);
+        ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
     }
 }
 

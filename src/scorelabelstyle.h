@@ -18,6 +18,10 @@ public:
     static const QString hotPointLabelStyle;
     static const QString coolScoreLabelStyle;
     static const QString hotScoreLabelStyle;
+    
+    static const QString defaultBoxStyle;
+    static const QString coolBoxStyle;
+    static const QString hotBoxStyle;    
 };
 
 #endif // SCORELABELSTYLE_H
