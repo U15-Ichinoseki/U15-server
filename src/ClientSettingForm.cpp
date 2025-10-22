@@ -45,7 +45,7 @@ void ClientSettingForm::PushedProgramSelect()
     QString cap = tr("プログラムを開く");
     QString filter = tr("プログラムファイル (*.py)");
 
-    QString programfile = QFileDialog::getOpenFileName(this, cap, programpath, filter);
+    QString programfile = QFileDialog::getOpenFileName(this, cap, programPath, filter);
     if ((QFile::exists(pythoncommand)) && (QFile::exists(programfile)))
     {
         reset("Python", programfile);
@@ -106,7 +106,7 @@ void ClientSettingForm::DisConnected() {
     emit Standby(this, false);
 }
 
-void ClientSettingForm::ConnectionToggled(bool state)
+void ClientSettingForm::setConnectionEnabled(bool state)
 {
     if(state){
         //TCP待機開始
@@ -150,7 +150,7 @@ void ClientSettingForm::ComboBoxChenged(QString text)
         this->ui->ConnectButton->setText("接続開始");
         this->ui->PortSpinBox->setEnabled(true);
         this->ui->ConnectButton->setEnabled(true);
-        ConnectionToggled(true);
+        setConnectionEnabled(true);
     } else {
         this->ui->PortSpinBox->setEnabled(false);
         this->ui->ConnectButton->setEnabled(false);
@@ -182,7 +182,7 @@ void ClientSettingForm::ComboBoxChenged(QString text)
 
             this->client = new TCPClient(this);
             //待機開始
-            ConnectionToggled(true);
+            setConnectionEnabled(true);
 
             botProcess = new QProcess();
             botProcess->start(command, option);
@@ -197,7 +197,7 @@ void ClientSettingForm::ComboBoxChenged(QString text)
     this->client->Startup();
 }
 
-void ClientSettingForm::SetPortSpin(int num)
+void ClientSettingForm::setPortSpin(int num)
 {
     ui->PortSpinBox->setValue(num);
 }
@@ -246,8 +246,8 @@ void ClientSettingForm::setPythonCommand(QString command)
 
 void ClientSettingForm::setProgramFile(QString path, QString file)
 {
-    programpath = path;
-    ui->ProgramFileEdit->setText(programpath + "/" + file);
+    programPath = path;
+    ui->ProgramFileEdit->setText(programPath + "/" + file);
 }
 
 void ClientSettingForm::setChangeEnable(bool set)

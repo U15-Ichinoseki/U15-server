@@ -38,7 +38,7 @@
          <number>0</number>
         </property>
         <item row="1" column="0">
-         <widget class="QLineEdit" name="MapDirEdit">
+         <widget class="QLineEdit" name="mapDirEdit">
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;使用するマップファイルのパスです。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -51,7 +51,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="MapSelectButton">
+         <widget class="QPushButton" name="mapSelectButton">
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;使用するマップをファイルから選択します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -61,7 +61,7 @@
          </widget>
         </item>
         <item row="2" column="0" colspan="2">
-         <widget class="QPushButton" name="MapEditButton">
+         <widget class="QPushButton" name="mapEditButton">
           <property name="whatsThis">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;マップエディターを開き、マップを編集します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -80,7 +80,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="TextureThemeCombo">
+           <widget class="QComboBox" name="textureThemeCombo">
             <property name="whatsThis">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのテクスチャを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -114,7 +114,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QComboBox" name="GameMusicCombo">
+           <widget class="QComboBox" name="gameMusicCombo">
             <property name="whatsThis">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ゲームのBGMを設定します。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -144,7 +144,7 @@
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="1">
-           <widget class="QLabel" name="HostName">
+           <widget class="QLabel" name="hostName">
             <property name="whatsThis">
              <string>サーバーのホスト名です。</string>
             </property>
@@ -174,7 +174,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLabel" name="LocalIPLabel">
+           <widget class="QLabel" name="localIPLabel">
             <property name="whatsThis">
              <string>サーバーアドレスです。</string>
             </property>
@@ -218,7 +218,7 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QPushButton" name="StandbyButton">
+      <widget class="QPushButton" name="standbyButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -237,7 +237,7 @@
       </widget>
      </item>
      <item row="2" column="3">
-      <widget class="QPushButton" name="GameStartButton">
+      <widget class="QPushButton" name="gameStartButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -271,10 +271,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>MapSelectButton</sender>
+   <sender>mapSelectButton</sender>
    <signal>clicked()</signal>
    <receiver>StartupDialog</receiver>
-   <slot>PushedMapSelect()</slot>
+   <slot>MapSelectButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>524</x>
@@ -287,10 +287,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>MapEditButton</sender>
+   <sender>mapEditButton</sender>
    <signal>clicked()</signal>
    <receiver>StartupDialog</receiver>
-   <slot>ShowMapEditDialog()</slot>
+   <slot>showMapEditDialog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>476</x>
@@ -303,10 +303,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>TextureThemeCombo</sender>
+   <sender>textureThemeCombo</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>StartupDialog</receiver>
-   <slot>ChangedTexture(QString)</slot>
+   <slot>TextureChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>523</x>
@@ -322,7 +322,7 @@
    <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>StartupDialog</receiver>
-   <slot>Setting()</slot>
+   <slot>openSettingsDialog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>202</x>
@@ -335,10 +335,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>GameMusicCombo</sender>
+   <sender>gameMusicCombo</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>StartupDialog</receiver>
-   <slot>ChangeMusicCombo(QString)</slot>
+   <slot>MusicComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>523</x>
@@ -356,11 +356,11 @@
   <slot>HotConnectionToggled(bool)</slot>
   <slot>CoolComboBoxChenged(QString)</slot>
   <slot>HotComboBoxChenged(QString)</slot>
-  <slot>PushedMapSelect()</slot>
-  <slot>ShowMapEditDialog()</slot>
-  <slot>ChangedTexture(QString)</slot>
-  <slot>Setting()</slot>
-  <slot>ChangeMusicCombo(QString)</slot>
+  <slot>MapSelectButtonClicked()</slot>
+  <slot>showMapEditDialog()</slot>
+  <slot>TextureChanged(QString)</slot>
+  <slot>openSettingsDialog()</slot>
+  <slot>MusicComboChanged(QString)</slot>
   <slot>ShowDesignDialog()</slot>
  </slots>
 </ui>

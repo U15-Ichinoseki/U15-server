@@ -23,7 +23,7 @@ public:
     static const int ICON_SIZE = 50;
     QString filepath;
 
-    GameSystem::Map GetMap();
+    GameSystem::Map getMap();
     explicit MapEditerDialog(GameSystem::Map map, QString path, QWidget *parent = 0);
     ~MapEditerDialog();
 
@@ -35,7 +35,7 @@ protected:
 private:
     Ui::MapEditerDialog *ui;
     bool clicking;
-    QString mappath;
+    QString mapPath;
 
 private slots:
     void Export();                    //ファイル書き出し
