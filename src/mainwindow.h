@@ -127,8 +127,9 @@ private:
     void showCountDown(QString stepText, int stepDuration, QColor textColor=Qt::black, QColor outlineColor=Qt::white, bool feadOut=true);
     void changeTimeBarsColor(bool change=false);
 
-private slots:
+public slots:
     void resetSetup();
+private slots:
     void startSetup();
     void startGame();
     void startAnimation();

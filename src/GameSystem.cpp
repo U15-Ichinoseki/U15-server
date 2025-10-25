@@ -237,38 +237,35 @@ void GameSystem::Map::createRandomMap(int block_num, int item_num, int turn, boo
     }
 
     //アイテム配置
-    for(int i=0;i<item_num;i++){
+    int i = 0;
+    if (mirror){
+        // 真ん中は必ずアイテムにする
+        field[size.y()/2][size.x()/2] = GameSystem::MAP_OBJECT::ITEM;
+        i++;
+    }
+    do {
         QPoint pos(QRandomGenerator::global()->generate() % size.x(),QRandomGenerator::global()->generate() % size.y());
         auto mirrorPos = MirrorPoint(pos);
 
-        bool around_item_flag = true;
-
-        //プレイヤーとアイテムを置こうとしている位置の一様ノルムが1以下なら、アイテムを置かない
-        //(プレイヤーが初期位置でGetReadyしたときに、アイテムがない状態にする)
-        //これは「A 基本タイプ」の要件
-        if(UniformNorm(team_first_point[0]  - pos) <= 1 || UniformNorm(team_first_point[1] - pos) <= 1)
-            around_item_flag=false;
-
-        if(around_item_flag &&
+        if (
+            //プレイヤーとアイテムを置こうとしている位置の一様ノルムが1以下なら、アイテムを置かない
+            //(プレイヤーが初期位置でGetReadyしたときに、アイテムがない状態にする)
+            //これは「A 基本タイプ」の要件
+            (!(UniformNorm(team_first_point[0]  - pos) <= 1 || UniformNorm(team_first_point[1] - pos) <= 1)) &&
+            
             field[pos.y()][pos.x()] != GameSystem::MAP_OBJECT::ITEM &&
-            field[pos.y()][pos.x()] != GameSystem::MAP_OBJECT::BLOCK &&
-            pos != QPoint(size.x()/2, size.y()/2) ){ //真ん中は後の処理で必ずアイテムにするので、ここでは置かない
+            field[pos.y()][pos.x()] != GameSystem::MAP_OBJECT::BLOCK){
 
             field[pos.y()][pos.x()] = GameSystem::MAP_OBJECT::ITEM;
+            i++;
+
             if(mirror){
                 //点対称に配置
                 field[mirrorPos.y()][mirrorPos.x()] = GameSystem::MAP_OBJECT::ITEM;
                 i++;
             }
-        }else{
-            i--;
-            continue;
         }
-    }
-    if (mirror){
-        // 真ん中は必ずアイテムにする
-        field[size.y()/2][size.x()/2] = GameSystem::MAP_OBJECT::ITEM;
-    }
+    } while (i < item_num);
 }
 
 void GameSystem::AroundData::finish(){
