@@ -286,6 +286,7 @@ void StartupDialog::showMapEditDialog()
         }
     }
     setMapReady(true);
+    parent->resetSetup();
 }
 
 bool StartupDialog::loadMap(const QString &dir)
@@ -293,6 +294,8 @@ bool StartupDialog::loadMap(const QString &dir)
     //ファイルからマップを読み込む
     this->map.Import(dir);
     map.size.setY(map.field.size());
+    parent->resetSetup();
+
     return true;
 }
 
