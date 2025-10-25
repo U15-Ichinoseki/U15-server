@@ -41,5 +41,7 @@
         <file>Sound/finish.mp3</file>
         <file>Sound/get_C.mp3</file>
         <file>Sound/get_H.mp3</file>
+        <file>Sound/ready.mp3</file>
+        <file>Sound/go.mp3</file>
     </qresource>
 </RCC>

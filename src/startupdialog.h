@@ -68,8 +68,9 @@ public:
 
     void resetMap(int block_num, int item_num, int turn, bool mirror);
     void swapClientConnections();
+    void swapGroupBoxPositions();
     void randomizeClientConnections();
-    void setGameStartButtonToEnd(bool repeat);
+    void setGameStartButtonToEnd(int mode = 0);
 
     void setGameMusicCombo(const QString &text);
     void setBotCommand(const QString &command);

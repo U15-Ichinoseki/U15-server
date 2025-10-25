@@ -63,6 +63,18 @@ MainWindow::MainWindow(QWidget *parent) :
     soundEffectHot->setSource(QUrl("qrc:/Sound/get_H.mp3"));
     soundEffectAudioOutputHot->setVolume(0.2);
 
+    soundEffectReady = new QMediaPlayer;
+    soundEffectAudioOutputReady = new QAudioOutput;
+    soundEffectReady->setAudioOutput(soundEffectAudioOutputReady);
+    soundEffectReady->setSource(QUrl("qrc:/Sound/ready.mp3"));
+    soundEffectAudioOutputReady->setVolume(1.0);
+
+    soundEffectGo = new QMediaPlayer;
+    soundEffectAudioOutputGo = new QAudioOutput;
+    soundEffectGo->setAudioOutput(soundEffectAudioOutputGo);
+    soundEffectGo->setSource(QUrl("qrc:/Sound/go.mp3"));
+    soundEffectAudioOutputGo->setVolume(1.0);
+
     clock = new QTimer();
     connect(clock, &QTimer::timeout, this, &MainWindow::stepGame);
 
@@ -125,7 +137,9 @@ void MainWindow::applyDesign()
     Settings->beginGroup("Design");
     mapAnimationTime = loadSettingValue(Settings, "Map", 150);
     teamAnimationTime = loadSettingValue(Settings, "Team", 150);
+    timeBarTrun = loadSettingValue(Settings, "TimeBar", 25);
     silent = loadSettingValue(Settings, "Silent", false);
+    cd_silent = loadSettingValue(Settings, "CD_Silent", false);
     if (loadSettingValue(Settings, "Maximum", false)) {
         setWindowState(Qt::WindowMaximized);
     }
@@ -147,21 +161,30 @@ void MainWindow::setRandomMapParameters()
     Settings->endGroup();
 }
 
-void MainWindow::setPaths()
-{    
+void MainWindow::newLogFile()
+{
     QSettings* Settings = new QSettings("setting.ini", QSettings::IniFormat);
-    
     Settings->beginGroup("Path");
+
     QString path = loadSettingValue(Settings, "LogFilepath", QString("../Logs"));
     QDir dir(path);
     if (!dir.exists()) dir.mkpath(".");
 
     logStream = StableLog(path + "/log" + getCurrentTime() + ".txt");
+
+    Settings->endGroup();
+}
+
+void MainWindow::setPaths()
+{    
+    QSettings* Settings = new QSettings("setting.ini", QSettings::IniFormat);
+    Settings->beginGroup("Path");
     
     this->startupDialog->setBotCommand(loadSettingValue(Settings, "BotCommand", QString("./Bot/bot.exe")));
     this->startupDialog->setPythonCommand(loadSettingValue(Settings, "PythonCommand", QString("../WinPython/python/python.exe")));
     this->startupDialog->setProgramPath(loadSettingValue(Settings, "ProgramFilePath", QString("../CHaser")));
     this->startupDialog->setMapPath(loadSettingValue(Settings, "MapFilePath", QString("../Map")));
+
     Settings->endGroup();
 }
 

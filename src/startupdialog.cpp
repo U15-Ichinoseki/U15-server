@@ -182,6 +182,7 @@ void StartupDialog::showGameStartButton(bool set)
     if (set) {
         disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(startGame()));
         disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(repeatGame()));
+        disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(nextRound()));
         this->ui->standbyButton->show();
         this->ui->gameStartButton->show();
         this->ui->gameStartButton->setText("スタート");
@@ -193,18 +194,24 @@ void StartupDialog::showGameStartButton(bool set)
     }
 }
 
-void StartupDialog::setGameStartButtonToEnd(bool repeat)
+void StartupDialog::setGameStartButtonToEnd(int mode)
 {
     this->ui->standbyButton->hide();
     this->ui->gameStartButton->show();
     this->ui->gameStartButton->setEnabled(true);
     disconnect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(startGame()));
-    if (repeat) {
-        this->ui->gameStartButton->setText("再戦");
-        connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(repeatGame()));
-    } else {
-        this->ui->gameStartButton->setText("終了");
-        connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(endGame()));
+    switch (mode) {
+        case 1:
+            this->ui->gameStartButton->setText("再戦");
+            connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(repeatGame()));
+            break;
+        case 2:
+            this->ui->gameStartButton->setText("次戦");
+            connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(nextRound()));
+            break;
+        default:
+            this->ui->gameStartButton->setText("終了");
+            connect(this->ui->gameStartButton,SIGNAL(clicked()),this->parent,SLOT(endGame()));
     }
 }
 
@@ -409,4 +416,36 @@ void StartupDialog::enableConnectionChange(bool set)
 {
     this->ui->CoolGroupBox->setChangeEnable(set);
     this->ui->HotGroupBox->setChangeEnable(set);
+}
+
+// CoolGroupBox と HotGroupBox の位置を入れ替える
+void StartupDialog::swapGroupBoxPositions()
+{
+    QWidget *coolParent = ui->CoolGroupBox ? ui->CoolGroupBox->parentWidget() : nullptr;
+    QWidget *hotParent  = ui->HotGroupBox  ? ui->HotGroupBox->parentWidget()  : nullptr;
+
+    // 同じ親ウィジェットかつレイアウトが存在する場合、レイアウト内で入れ替え
+    if (coolParent && coolParent == hotParent) {
+        QLayout *layout = coolParent->layout();
+        if (layout) {
+            // 一時ウィジェットで交換する（レイアウト上の位置を維持）
+            QWidget *placeholder = new QWidget(coolParent);
+            placeholder->hide();
+            // 交換手順: Cool -> placeholder, Hot -> Cool, placeholder -> Hot
+            layout->replaceWidget(ui->CoolGroupBox, placeholder);
+            layout->replaceWidget(ui->HotGroupBox, ui->CoolGroupBox);
+            layout->replaceWidget(placeholder, ui->HotGroupBox);
+            // placeholder はもう不要なので後で削除（安全のため deleteLater）
+            placeholder->deleteLater();
+            return;
+        }
+    }
+
+    // フォールバック: レイアウトが無い／親が異なる場合は geometry を入れ替えて見た目だけ交換
+    if (ui->CoolGroupBox && ui->HotGroupBox) {
+        QRect gCool = ui->CoolGroupBox->geometry();
+        QRect gHot  = ui->HotGroupBox->geometry();
+        ui->CoolGroupBox->setGeometry(gHot);
+        ui->HotGroupBox->setGeometry(gCool);
+    }
 }

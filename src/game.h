@@ -12,6 +12,7 @@ public:
     void startGame(MainWindow* mainWindow);
     void stepGame(MainWindow* mainWindow);
     void repeatGame(MainWindow* mainWindow);
+    void nextRound(MainWindow* mainWindow);
     void endGame(MainWindow* mainWindow);
     void refreshItems(MainWindow* mainWindow, GameSystem::Method method);
     void refreshScores(MainWindow* mainWindow);

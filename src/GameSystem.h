@@ -57,7 +57,7 @@ public:
 
         //勝因
         enum class REASON{
-            SCORE,    //スコア
+            SCORE,    //ポイント
             TRAPPED,  //包囲
             CONFINED, //自縛
             ATTACK,   //アタック

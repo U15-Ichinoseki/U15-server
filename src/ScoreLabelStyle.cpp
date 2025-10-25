@@ -14,23 +14,27 @@ const QString ScoreLabelStyle::totalLabelWinStyle = "border-radius: 15px;color:w
 const QString ScoreLabelStyle::totalLabelDecideStyle = "border-radius: 15px;border:3px solid green;background-color:white;";
 
 const QString ScoreLabelStyle::drawColor = "border-radius: 15px;background-color:#C1DB81;";
-const QString ScoreLabelStyle::coolPointLabelStyle = "border-radius: 15px;border:2px solid blue;background-color:#54C3F1;";
-const QString ScoreLabelStyle::hotPointLabelStyle = "border-radius: 15px;border:2px solid red;background-color:#EE87B4;";
-const QString ScoreLabelStyle::coolScoreLabelStyle = "border-radius: 15px;border:3px solid blue;background-color:white;";
-const QString ScoreLabelStyle::hotScoreLabelStyle = "border-radius: 15px;border:3px solid red;background-color:white;";
+const QString ScoreLabelStyle::coolScoreLabelStyle = "border-radius: 15px;border:2px solid blue;background-color:#54C3F1;";
+const QString ScoreLabelStyle::hotScoreLabelStyle = "border-radius: 15px;border:2px solid red;background-color:#EE87B4;";
+const QString ScoreLabelStyle::coolPointLabelStyle = "border-radius: 10px;border:1px solid blue;background-color:white;";
+const QString ScoreLabelStyle::hotPointLabelStyle = "border-radius: 10px;border:1px solid red;background-color:white;";
+
+const QString ScoreLabelStyle::defaultBoxStyle = "border-radius: 6px;border:none;background-color:#F6F6E0;";
+const QString ScoreLabelStyle::coolBoxStyle = "border-radius: 6px;border:none;background-color:#54C3F1;";
+const QString ScoreLabelStyle::hotBoxStyle = "border-radius: 6px;border:none;background-color:#EE87B4;";
+
+const QString defaultTimeBarStyle = "QProgressBar{border-radius: 16px;background-color:#C1DB81;} QProgressBar::chunk{border-radius: 16px;background-color:green;}";
+const QString lastTimeBarStyle = "QProgressBar{border-radius: 3px;background-color:#F6C27A;} QProgressBar::chunk{border-radius: 3px;background-color:#FF7518;}";
 
 void MainWindow::resetScoreLabels()
 {
-    ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-    ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+    ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+    ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
     ui->NameLabel_A->setText("U15 プロコン");
 
-    ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-    ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+    ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+    ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
     ui->NameLabel_B->setText("一関大会");
-
-    ui->reason_1_A->setText("");
-    ui->reason_1_B->setText("");
 
     ui->item_1_A->setStyleSheet("");
     ui->item_1_B->setStyleSheet("");
@@ -41,14 +45,11 @@ void MainWindow::resetScoreLabels()
     ui->score_1_A->setStyleSheet("");
     ui->score_1_B->setStyleSheet("");
 
-    ui->result_1_A->setStyleSheet("");
-    ui->result_1_B->setStyleSheet("");
+    ui->sweep_1_A->setStyleSheet("");
+    ui->sweep_1_B->setStyleSheet("");
 
     ui->COOL_label_A->setStyleSheet(ScoreLabelStyle::coolLabelStyle);
     ui->HOT_label_B->setStyleSheet(ScoreLabelStyle::hotLabelStyle);
-
-    ui->reason_2_A->setText("");
-    ui->reason_2_B->setText("");
 
     ui->item_2_A->setStyleSheet("");
     ui->item_2_B->setStyleSheet("");
@@ -59,20 +60,28 @@ void MainWindow::resetScoreLabels()
     ui->score_2_A->setStyleSheet("");
     ui->score_2_B->setStyleSheet("");
 
-    ui->result_2_A->setStyleSheet("");
-    ui->result_2_B->setStyleSheet("");
+    ui->sweep_2_A->setStyleSheet("");
+    ui->sweep_2_B->setStyleSheet("");
     
     ui->score_total_A->setStyleSheet("");
     ui->score_total_B->setStyleSheet("");
 
-    ui->result_A->setStyleSheet("");
-    ui->result_B->setStyleSheet("");
+    ui->wins_A->setStyleSheet("");
+    ui->wins_B->setStyleSheet("");
 
     ui->COOL_label_B->setStyleSheet(ScoreLabelStyle::coolLabelStyle);
     ui->HOT_label_A->setStyleSheet(ScoreLabelStyle::hotLabelStyle);
     
     ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
     ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
+
+    ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+    ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+    ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
 
     showBottomRoundLabel(isDoubleGameMode);
 }
@@ -81,69 +90,81 @@ void MainWindow::startSetupScoreLabels()
 {
 
     if(currentround == 0) {
-        ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
 
-        ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
 
-        // スタート前にスコアを色付け
-        ui->result_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->score_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->item_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        // スタート前にポイントを色付け
+        ui->sweep_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->score_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->item_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
 
-        ui->result_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->score_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->item_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->sweep_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->score_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->item_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+
+        ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::coolBoxStyle);
+        ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+        ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::hotBoxStyle);
+        ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
     }
     if(currentround == 1) {
-        ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->NameLabel_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
 
-        ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
 
-        ui->result_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->score_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->item_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->sweep_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->score_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->item_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
 
-        ui->result_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->score_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->item_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        ui->sweep_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->score_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->item_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+
+        ui->Cool_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Hot_box_A->setStyleSheet(ScoreLabelStyle::hotBoxStyle);
+        ui->Total_box_A->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+
+        ui->Hot_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
+        ui->Cool_box_B->setStyleSheet(ScoreLabelStyle::coolBoxStyle);
+        ui->Total_box_B->setStyleSheet(ScoreLabelStyle::defaultBoxStyle);
     }
 }
 
 void MainWindow::startGameScoreLabels()
 {
     if(currentround==0) {
-        ui->result_1_A->setStyleSheet("");
-        ui->score_1_A->setStyleSheet("");
-        ui->item_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        ui->sweep_1_A->setStyleSheet("");
+        ui->score_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->item_1_A->setStyleSheet("");
         ui->bonus_1_A->setStyleSheet("");
-        ui->reason_1_A->setStyleSheet("");
 
-        ui->result_1_B->setStyleSheet("");
-        ui->score_1_B->setStyleSheet("");
-        ui->item_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->sweep_1_B->setStyleSheet("");
+        ui->score_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->item_1_B->setStyleSheet("");
         ui->bonus_1_B->setStyleSheet("");
-        ui->reason_1_B->setStyleSheet("");
     }
     if(currentround==1) {
-        ui->result_2_A->setStyleSheet("");
-        ui->score_2_A->setStyleSheet("");
-        ui->item_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        ui->sweep_2_A->setStyleSheet("");
+        ui->score_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        ui->item_2_A->setStyleSheet("");
         ui->bonus_2_A->setStyleSheet("");
-        ui->reason_2_A->setStyleSheet("");
 
-        ui->result_2_B->setStyleSheet("");
-        ui->score_2_B->setStyleSheet("");
-        ui->item_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        ui->sweep_2_B->setStyleSheet("");
+        ui->score_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        ui->item_2_B->setStyleSheet("");
         ui->bonus_2_B->setStyleSheet("");
-        ui->reason_2_B->setStyleSheet("");
     }
 }
 
@@ -168,130 +189,95 @@ void MainWindow::finishScoreLabelStyle()
         loser  = coolplayer;
     }
 
-    QLabel *reason[TEAM_COUNT];
-    if (currentround==0) {
-        reason[0] = ui->reason_1_A;
-        reason[1] = ui->reason_1_B;    
-    }
-    else {
-        reason[0] = ui->reason_2_A;    
-        reason[1] = ui->reason_2_B;
-    }
-
-    if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)
-    {
-        reason[winner]->setText("");
-        reason[loser ]->setText("");
-    }else if(!isBlunder()) {
-        reason[loser ]->setText("");
-        if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::TRAPPED)
-            reason[winner]->setText("包囲");
-        else if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::ATTACK)
-            reason[winner]->setText("アタック");
-    }else{
-        reason[winner]->setText("");
-        if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::CONFINED)
-            reason[loser ]->setText("自縛");
-        else if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::COLLISION)
-            reason[loser ]->setText("衝突");
-        else if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::FOULED)
-            reason[loser ]->setText("エラー");
-    }
-
     this->point[coolplayer][currentround][0] = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::COOL)];
     this->point[hotplayer ][currentround][0] = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::HOT)];
     if (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)
     {
         this->point[winner][currentround][1] = 0;
+        this->point[winner][currentround][2] = 0;
         this->point[loser ][currentround][1] = 0;
+        this->point[loser ][currentround][2] = 0;
     } else {
-        this->point[winner][currentround][1] = 6 * this->ui->Field->leave_items;
         if(isBlunder()) {
             this->point[loser ][currentround][1] = -3 * this->point[loser][currentround][0];
         } else {
-            this->point[winner][currentround][1] += 50;
+            this->point[winner][currentround][1] = 50;
         }
+        this->point[winner][currentround][2] = 6 * this->ui->Field->leave_items;
     }
 
-    if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::DRAW){
-        point[winner][currentround][2] = 1;
-        point[loser ][currentround][2] = 1;
-    } else {
-        point[winner][currentround][2] = 3;
-        point[loser ][currentround][2] = 0;
+    if(!(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::DRAW)){
+        point[winner][currentround][3] = 1;
     }
 
     if (gameStatus.winner == GameSystem::GAME_STATUS::WINNER::DRAW){
         this->ui->WinnerLabel->setStyleSheet(ScoreLabelStyle::drawColor);
         this->ui->ResultLabel->setStyleSheet(ScoreLabelStyle::drawColor);
     } else if (gameStatus.winner == GameSystem::GAME_STATUS::WINNER::COOL){
-        this->ui->WinnerLabel->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-        this->ui->ResultLabel->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+        this->ui->WinnerLabel->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
+        this->ui->ResultLabel->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
     } else if (gameStatus.winner == GameSystem::GAME_STATUS::WINNER::HOT){
-        this->ui->WinnerLabel->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-        this->ui->ResultLabel->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+        this->ui->WinnerLabel->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+        this->ui->ResultLabel->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
     }
 
     if(currentround==0) {
-        ui->result_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
         ui->score_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
         ui->item_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
 
-        ui->result_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
         ui->score_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
         ui->item_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-
+ 
         if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::COOL){
-            if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
-                if(isBlunder()) {
-                    ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
-                    ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-                } else {
-                    ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-                }
-            }
             ui->COOL_label_A->setStyleSheet(ScoreLabelStyle::coolLabelWinStyle);
-
-        } else if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::HOT){
             if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
+                ui->sweep_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
                 if(isBlunder()) {
-                    ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+                    ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+                } else {
+                    ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+                }
+            }
+        } else if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::HOT){
+            ui->HOT_label_B->setStyleSheet(ScoreLabelStyle::hotLabelWinStyle);
+            if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
+                ui->sweep_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+               if(isBlunder()) {
                     ui->bonus_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
                 } else {
                     ui->bonus_1_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
                 }
             }
-            ui->HOT_label_B->setStyleSheet(ScoreLabelStyle::hotLabelWinStyle);
         }
     } else if(currentround==1) {
-        ui->result_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
         ui->score_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
         ui->item_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
 
-        ui->result_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+
         ui->score_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
         ui->item_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
 
+        
         if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::COOL){
-            if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
-                if(isBlunder()) {
-                    ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolScoreLabelStyle);
-                    ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
-                } else {
-                    ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
-                }
-            }
             ui->COOL_label_B->setStyleSheet(ScoreLabelStyle::coolLabelWinStyle);
-        } else if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::HOT){
             if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
+                ui->sweep_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
                 if(isBlunder()) {
-                    ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotScoreLabelStyle);
+                    ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+                } else {
+                    ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
+                }
+            }
+        } else if(gameStatus.winner == GameSystem::GAME_STATUS::WINNER::HOT){
+            ui->HOT_label_A->setStyleSheet(ScoreLabelStyle::hotLabelWinStyle);
+            if(! (gameStatus.reason == GameSystem::GAME_STATUS::REASON::SCORE)){
+                ui->sweep_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
+                if(isBlunder()) {
                     ui->bonus_2_B->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
                 } else {
                     ui->bonus_2_A->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
                 }
             }
-            ui->HOT_label_A->setStyleSheet(ScoreLabelStyle::hotLabelWinStyle);
         }
     }
 
@@ -300,16 +286,16 @@ void MainWindow::finishScoreLabelStyle()
 
 void MainWindow::refreshScoreLabels()
 {
-    int score_1_A = 10 * this->point[0][0][0] + this->point[0][0][1];
-    int score_2_A = 10 * this->point[0][1][0] + this->point[0][1][1];
-    int score_1_B = 10 * this->point[1][0][0] + this->point[1][0][1];
-    int score_2_B = 10 * this->point[1][1][0] + this->point[1][1][1];
+    int score_1_A = 10 * this->point[0][0][0] + this->point[0][0][1] + this->point[0][0][2];
+    int score_2_A = 10 * this->point[0][1][0] + this->point[0][1][1] + this->point[0][1][2];
+    int score_1_B = 10 * this->point[1][0][0] + this->point[1][0][1] + this->point[1][0][2];
+    int score_2_B = 10 * this->point[1][1][0] + this->point[1][1][1] + this->point[1][1][2];
 
     int score_total_A = score_1_A + score_2_A;
     int score_total_B = score_1_B + score_2_B;
 
-    int result_A = this->point[0][0][2] + this->point[0][1][2];
-    int result_B = this->point[1][0][2] + this->point[1][1][2];
+    int wins_A = this->point[0][0][3] + this->point[0][1][3];
+    int wins_B = this->point[1][0][3] + this->point[1][1][3];
 
     ui->item_1_A->setText(QString::number(10 * this->point[0][0][0]));
     ui->item_2_A->setText(QString::number(10 * this->point[0][1][0]));
@@ -321,6 +307,11 @@ void MainWindow::refreshScoreLabels()
     ui->bonus_1_B->setText(QString::number(this->point[1][0][1]));
     ui->bonus_2_B->setText(QString::number(this->point[1][1][1]));
 
+    ui->sweep_1_A->setText(QString::number(this->point[0][0][2]));
+    ui->sweep_2_A->setText(QString::number(this->point[0][1][2]));
+    ui->sweep_1_B->setText(QString::number(this->point[1][0][2]));
+    ui->sweep_2_B->setText(QString::number(this->point[1][1][2]));
+
     ui->score_1_A->setText(QString::number(score_1_A));
     ui->score_2_A->setText(QString::number(score_2_A));
     ui->score_1_B->setText(QString::number(score_1_B));
@@ -328,80 +319,76 @@ void MainWindow::refreshScoreLabels()
 
     ui->score_total_A->setText(QString::number(score_total_A));
     ui->score_total_B->setText(QString::number(score_total_B));
-    
-    ui->result_1_A->setText(QString::number(this->point[0][0][2]));
-    ui->result_2_A->setText(QString::number(this->point[0][1][2]));
-    ui->result_1_B->setText(QString::number(this->point[1][0][2]));
-    ui->result_2_B->setText(QString::number(this->point[1][1][2]));
+  
 
-    ui->result_A->setText(QString::number(result_A));
-    ui->result_B->setText(QString::number(result_B));
+    ui->wins_A->setText(QString::number(wins_A));
+    ui->wins_B->setText(QString::number(wins_B));
 
     ui->score_total_A->setStyleSheet("");
     ui->score_total_B->setStyleSheet("");
-    ui->result_A->setStyleSheet("");
-    ui->result_B->setStyleSheet("");
+    ui->wins_A->setStyleSheet("");
+    ui->wins_B->setStyleSheet("");
 
-    int intermediate_result_A = 0;
-    int intermediate_result_B = 0;
+    int intermediate_wins_A = 0;
+    int intermediate_wins_B = 0;
     if(this->gameStatus.winner == GameSystem::GAME_STATUS::WINNER::CONTINUE){
         if (currentround == 0) {
             if(score_1_A > score_1_B){
-                intermediate_result_A = 3;
-                intermediate_result_B = 0;
+                intermediate_wins_A = 1;
+                intermediate_wins_B = 0;
             }
             if(score_1_A < score_1_B){
-                intermediate_result_A = 0;
-                intermediate_result_B = 3;
+                intermediate_wins_A = 0;
+                intermediate_wins_B = 1;
             }
         }
         if (currentround == 1) {
             if(score_2_A > score_2_B){
-                intermediate_result_A = 3;
-                intermediate_result_B = 0;
+                intermediate_wins_A = 1;
+                intermediate_wins_B = 0;
             }
             if(score_2_A < score_2_B){
-                intermediate_result_A = 0;
-                intermediate_result_B = 3;
+                intermediate_wins_A = 0;
+                intermediate_wins_B = 1;
             }
         }
         ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
         ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
-        if(((result_A + intermediate_result_A) * 1000 + score_total_A) >
-        ((result_B + intermediate_result_B) * 1000 + score_total_B)){
+        if(((wins_A + intermediate_wins_A) * 1000 + score_total_A) >
+        ((wins_B + intermediate_wins_B) * 1000 + score_total_B)){
             ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
         }
-        if(((result_A + intermediate_result_A) * 1000 + score_total_A) <
-        ((result_B + intermediate_result_B) * 1000 + score_total_B)){
+        if(((wins_A + intermediate_wins_A) * 1000 + score_total_A) <
+        ((wins_B + intermediate_wins_B) * 1000 + score_total_B)){
             ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
         }
     } else {
         // FINISHED
         if (currentround == 0 || this->gameStatus.winner == GameSystem::GAME_STATUS::WINNER::NONE) {
-            if((result_A * 1000 + score_total_A) > (result_B * 1000 + score_total_B)){
+            if((wins_A * 1000 + score_total_A) > (wins_B * 1000 + score_total_B)){
                 ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
                 ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
             }
-            if((result_A * 1000 + score_total_A) < (result_B * 1000 + score_total_B)){
+            if((wins_A * 1000 + score_total_A) < (wins_B * 1000 + score_total_B)){
                 ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
                 ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
             }
         }
         else if (currentround == 1) {
             ui->score_total_A->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
-            ui->result_A->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
+            ui->wins_A->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
             ui->score_total_B->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
-            ui->result_B->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
+            ui->wins_B->setStyleSheet(ScoreLabelStyle::totalLabelDecideStyle);
             
-            if((result_A * 1000 + score_total_A) == (result_B  * 1000 + score_total_B)){
+            if((wins_A * 1000 + score_total_A) == (wins_B  * 1000 + score_total_B)){
                 ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
                 ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelLeadStyle);
             }
-            if((result_A * 1000 + score_total_A) > (result_B  * 1000 + score_total_B)){
+            if((wins_A * 1000 + score_total_A) > (wins_B  * 1000 + score_total_B)){
                 ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelWinStyle);
                 ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
             }
-            if((result_A * 1000 + score_total_A) < (result_B * 1000 + score_total_B)){
+            if((wins_A * 1000 + score_total_A) < (wins_B * 1000 + score_total_B)){
                 ui->total_label_B->setStyleSheet(ScoreLabelStyle::totalLabelWinStyle);
                 ui->total_label_A->setStyleSheet(ScoreLabelStyle::totalLabelStyle);
             }
@@ -412,9 +399,6 @@ void MainWindow::refreshScoreLabels()
 void MainWindow::showBottomRoundLabel(bool set)
 {
     if(set) {
-        ui->reason_2_A->show();
-        ui->reason_2_B->show();
-
         ui->item_2_A->show();
         ui->item_2_B->show();
         
@@ -424,13 +408,13 @@ void MainWindow::showBottomRoundLabel(bool set)
         ui->score_2_A->show();
         ui->score_2_B->show();
 
-        ui->result_2_A->show();
-        ui->result_2_B->show();
+        ui->sweep_2_A->show();
+        ui->sweep_2_B->show();
         
         ui->score_total_A->show();
         ui->score_total_B->show();
-        ui->result_A->show();
-        ui->result_B->show();
+        ui->wins_A->show();
+        ui->wins_B->show();
 
         ui->COOL_label_B->show();
         ui->HOT_label_A->show();
@@ -441,22 +425,17 @@ void MainWindow::showBottomRoundLabel(bool set)
         ui->item_label_A2->show();
         ui->bonus_label_A2->show();
         ui->score_label_A2->show();
-        ui->result_label_A2->show();
 
         ui->score_label_A->show();
-        ui->result_label_A->show();
+        ui->wins_label_A->show();
 
         ui->item_label_B2->show();
         ui->bonus_label_B2->show();
         ui->score_label_B2->show();
-        ui->result_label_B2->show();
 
         ui->score_label_B->show();
-        ui->result_label_B->show();
+        ui->wins_label_B->show();
     }else{
-        ui->reason_2_A->hide();
-        ui->reason_2_B->hide();
-
         ui->item_2_A->hide();
         ui->item_2_B->hide();
         
@@ -466,13 +445,13 @@ void MainWindow::showBottomRoundLabel(bool set)
         ui->score_2_A->hide();
         ui->score_2_B->hide();
 
-        ui->result_2_A->hide();
-        ui->result_2_B->hide();
+        ui->sweep_2_A->hide();
+        ui->sweep_2_B->hide();
         
         ui->score_total_A->hide();
         ui->score_total_B->hide();
-        ui->result_A->hide();
-        ui->result_B->hide();
+        ui->wins_A->hide();
+        ui->wins_B->hide();
 
         ui->COOL_label_B->hide();
         ui->HOT_label_A->hide();
@@ -483,18 +462,27 @@ void MainWindow::showBottomRoundLabel(bool set)
         ui->item_label_A2->hide();
         ui->bonus_label_A2->hide();
         ui->score_label_A2->hide();
-        ui->result_label_A2->hide();
 
         ui->score_label_A->hide();
-        ui->result_label_A->hide();
+        ui->wins_label_A->hide();
 
         ui->item_label_B2->hide();
         ui->bonus_label_B2->hide();
         ui->score_label_B2->hide();
-        ui->result_label_B2->hide();
 
         ui->score_label_B->hide();
-        ui->result_label_B->hide();
+        ui->wins_label_B->hide();
     }
     refreshScoreLabels();
+}
+
+void MainWindow::changeTimeBarsColor(bool change)
+{
+    if (change) {
+        ui->TimeBar_A->setStyleSheet(lastTimeBarStyle);
+        ui->TimeBar_B->setStyleSheet(lastTimeBarStyle);
+    } else {
+        ui->TimeBar_A->setStyleSheet(defaultTimeBarStyle);
+        ui->TimeBar_B->setStyleSheet(defaultTimeBarStyle);
+    }
 }

@@ -1,92 +1,117 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "CircleLabel.h"
 
 void MainWindow::startAnimation()
 {
     static int timer = 1;
-    static Field<GameSystem::MAP_OVERLAY> f(this->startupDialog->map.size.y(),
-                                            QVector<GameSystem::MAP_OVERLAY>(this->startupDialog->map.size.x(),GameSystem::MAP_OVERLAY::ERASE));
-    static int ANIMATION_SIZE = 5;
+
+    static int ANIMATION_SIZE = 4;
     static int ANIMATION_TYPE = QRandomGenerator::global()->generate() % ANIMATION_SIZE;
-    int count = 0;
 
     ui->Field->RefreshOverlay(dark);
 
-    QPoint pos[2];
-    if(ANIMATION_TYPE == 0){
-        //ランダムにワサッて
-        //一度に2マス表示させるのですわ
-        int i_max = 2;
-        if(timer == 1)i_max ++;
-        for(int i=0;i<i_max;i++){
-            do{
-                pos[i].setX(QRandomGenerator::global()->generate() % this->startupDialog->map.size.x());
-                pos[i].setY(QRandomGenerator::global()->generate() % this->startupDialog->map.size.y());
-            }while(timer < startupDialog->map.size.x() * startupDialog->map.size.y() && f[pos[i].y()][pos[i].x()] != GameSystem::MAP_OVERLAY::ERASE);
-            f[pos[i].y()][pos[i].x()] = GameSystem::MAP_OVERLAY::NOTHING;
-        }
-        for(int i=0;i<this->startupDialog->map.size.y();i++){
-            for(int j=0;j<this->startupDialog->map.size.x();j++){
-                this->ui->Field->overlay[i][j] = f[i][j];
-            }
-        }
-    }else if(ANIMATION_TYPE == 1){
-        //上からガーって
-        for(int j=0;j<this->startupDialog->map.size.y();j++){
-            for(int k=0;k<this->startupDialog->map.size.x();k++){
-                if(count >= timer){
-                    this->ui->Field->overlay[j][k] = f[j][k];
-                }
-                count++;
-            }
-        }
-    }else if(ANIMATION_TYPE == 2){
-        //なんかはさみ込む感じで
-        for(int j=0;j<this->startupDialog->map.size.y();j++){
-            for(int k=0;k<this->startupDialog->map.size.x();k++){
-                if(count*2 < timer){
-                    f[startupDialog->map.size.y() - j - 1][startupDialog->map.size.x() - k - 1] = GameSystem::MAP_OVERLAY::NOTHING;
-                    f[j][k] = GameSystem::MAP_OVERLAY::NOTHING;
-                }
-                count++;
-            }
-        }
+    if (timer == 1)
+    {
+        ANIMATION_TYPE = QRandomGenerator::global()->generate() % ANIMATION_SIZE;
+        showCountDown("Ready", 2000, Qt::red, Qt::white);
 
-        for(int i=0;i<this->startupDialog->map.size.y();i++){
-            for(int j=0;j<this->startupDialog->map.size.x();j++){
-                this->ui->Field->overlay[i][j] = f[i][j];
-            }
+        if(!cd_silent){
+            soundEffectReady->setPosition(0);
+            soundEffectReady->play();
         }
-    }else if(ANIMATION_TYPE == 3){
-        //下からガーって
-        for(int j=this->startupDialog->map.size.y()-1;j>=0;j--){
-            for(int k=this->startupDialog->map.size.x()-1;k>=0;k--){
-                if(count >= timer){
-                    this->ui->Field->overlay[j][k] = f[j][k];
+    }
+    
+    ANIMATION_TYPE = 0;
+    if (ANIMATION_TYPE == 1)
+    {
+        // 上からガーって
+        int count = 0;
+        for (int y = 0; y < this->startupDialog->map.size.y(); y++)
+        {
+            for (int x = 0; x < this->startupDialog->map.size.x(); x++)
+            {
+                if (count >= timer)
+                {
+                    this->ui->Field->overlay[y][x] = GameSystem::MAP_OVERLAY::NOTHING;
                 }
                 count++;
             }
         }
-    }else if(ANIMATION_TYPE == 4){
-        //中心から
-        int cx = startupDialog->map.size.x()/2;
-        int cy = startupDialog->map.size.y()/2;
-        for(int j=this->startupDialog->map.size.y()-1;j>=0;j--){
-            for(int k=this->startupDialog->map.size.x()-1;k>=0;k--){
-                if((abs(cx-k)+abs(cy-j)) * this->startupDialog->map.size.x() >= timer){
-                    this->ui->Field->overlay[j][k] = f[j][k];
+    }
+    else if (ANIMATION_TYPE == 2)
+    {
+        // なんかはさみ込む感じで
+        int count = 0;
+        for (int x = 0; x < this->startupDialog->map.size.x(); x++)
+        {
+            for (int y = 0; y < this->startupDialog->map.size.y(); y++)
+            {
+                if (count >= timer * 2)
+                {
+                    this->ui->Field->overlay[y][x] = GameSystem::MAP_OVERLAY::NOTHING;
+                }
+                count++;
+            }
+        }
+        count = 0;
+        for (int x = this->startupDialog->map.size.x() - 1; x >= 0; x--)
+        {
+            for (int y = this->startupDialog->map.size.y() - 1; y >= 0; y--)
+            {
+                if (count >= timer * 2)
+                {
+                    this->ui->Field->overlay[y][x] = GameSystem::MAP_OVERLAY::NOTHING;
+                }
+                count++;
+            }
+        }
+    }
+    else if (ANIMATION_TYPE == 3)
+    {
+        // 下からガーって
+        int count = 0;
+        for (int y = this->startupDialog->map.size.y() - 1; y >= 0; y--)
+        {
+            for (int x = this->startupDialog->map.size.x() - 1; x >= 0; x--)
+            {
+                if (count >= timer)
+                {
+                    this->ui->Field->overlay[y][x] = GameSystem::MAP_OVERLAY::NOTHING;
+                }
+                count++;
+            }
+        }
+    }
+    else
+    {
+        // 中心から
+        int cx = startupDialog->map.size.x() / 2;
+        int cy = startupDialog->map.size.y() / 2;
+        for (int y = this->startupDialog->map.size.y() - 1; y >= 0; y--)
+        {
+            for (int x = this->startupDialog->map.size.x() - 1; x >= 0; x--)
+            {
+                if ((abs(cx - x) + abs(cy - y)) * this->startupDialog->map.size.x() >= timer)
+                {
+                    this->ui->Field->overlay[y][x] = GameSystem::MAP_OVERLAY::NOTHING;
                 }
             }
         }
     }
-    if(timer >= startupDialog->map.size.x() * startupDialog->map.size.y()){
+    if (timer >= startupDialog->map.size.x() * startupDialog->map.size.y())
+    {
         timer = 1;
 
         startupMapAnimation->stop();
-        teamShowAnimation->start(teamAnimationTime/TEAM_COUNT);
-
-    } else {
-        timer += 2;
+        if (this->teamShowAnimation)
+        {
+            this->teamShowAnimation->start(this->teamAnimationTime / TEAM_COUNT);
+        }
+    }
+    else
+    {
+        timer += 4;
     }
     repaint();
 }
@@ -94,26 +119,47 @@ void MainWindow::startAnimation()
 void MainWindow::showTeamAnimation()
 {
     const int blinking = 3;
-    static int team_count;
+    static int team_count = 0;
+    
+    if (team_count == 0)
+    {
+        showCountDown("Go!", 1200, Qt::darkGreen, Qt::white);
 
-    if (team_count < blinking*2){
-        if(team_count%2==0){
-            ui->Field->team_pos[0] = this->startupDialog->map.team_first_point[0];
-        }else{
-            ui->Field->team_pos[0] = QPoint(-3,-3);
+        if(!cd_silent){
+            soundEffectReady->stop();
+            soundEffectGo->setPosition(0);
+            soundEffectGo->play();
         }
-    } else {
+    }
+
+    if (team_count < blinking * 2)
+    {
+        if (team_count % 2 == 0)
+        {
+            ui->Field->team_pos[0] = this->startupDialog->map.team_first_point[0];
+        }
+        else
+        {
+            ui->Field->team_pos[0] = QPoint(-3, -3);
+        }
+    }
+    else
+    {
         ui->Field->team_pos[0] = this->startupDialog->map.team_first_point[0];
-        if(team_count%2==0){
+        if (team_count % 2 == 0)
+        {
             ui->Field->team_pos[1] = this->startupDialog->map.team_first_point[1];
-        }else{
-            ui->Field->team_pos[1] = QPoint(-3,-3);
+        }
+        else
+        {
+            ui->Field->team_pos[1] = QPoint(-3, -3);
         }
     }
 
     repaint();
 
-    if(team_count >= blinking * 2 * TEAM_COUNT){
+    if (team_count >= blinking * 2 * TEAM_COUNT)
+    {
         ui->Field->team_pos[0] = this->startupDialog->map.team_first_point[0];
         ui->Field->team_pos[1] = this->startupDialog->map.team_first_point[1];
 
@@ -123,7 +169,8 @@ void MainWindow::showTeamAnimation()
         this->gameStatus.winner = GameSystem::GAME_STATUS::WINNER::CONTINUE;
         clock->start(FRAME_RATE);
 
-        if(!silent){
+        if (!silent)
+        {
             bgm->play();
         }
 
@@ -131,4 +178,75 @@ void MainWindow::showTeamAnimation()
     }
 
     team_count++;
+}
+
+void MainWindow::showCountDown(QString stepText, int stepDuration, QColor textColor, QColor outlineColor, bool feadOut)
+{
+
+    QWidget *field = ui->Field;
+    if (field)
+    {
+        CircleLabel *circle = field->findChild<CircleLabel *>("countdownCircle");
+        if (!circle)
+        {
+            circle = new CircleLabel(field);
+            circle->setObjectName("countdownCircle");
+            circle->setBgColor(QColor(255, 255, 255, 4));
+        }
+        // スタイル（Go は緑系）
+        circle->setTextColor(textColor);
+        circle->setTextOutlineColor(outlineColor);
+        circle->setTextOutlineWidth(8);
+        circle->enableTextShadow(true);
+        circle->setTextShadowColor(QColor(0, 0, 0, 160));
+        circle->setTextShadowOffset(QPoint(6, 6));
+
+        circle->setVisible(false);
+        circle->raise();
+
+        QRect frect = circle->parentWidget()->rect();
+        int large = qMax((int)(frect.width() * 0.6), 200);
+        int small = qMax((int)(frect.width() * 0.12), 80);
+
+        circle->setText(stepText);
+        circle->setDiameter(small);
+        circle->setVisible(true);
+
+        QGraphicsOpacityEffect *eff = qobject_cast<QGraphicsOpacityEffect *>(circle->graphicsEffect());
+        if (!eff)
+        {
+            eff = new QGraphicsOpacityEffect(circle);
+            circle->setGraphicsEffect(eff);
+        }
+        eff->setOpacity(0.0);
+
+        QPropertyAnimation *anim = new QPropertyAnimation(circle, "diameter", circle);
+        anim->setDuration(stepDuration);
+        anim->setStartValue(small);
+        anim->setEndValue(large);
+        anim->setEasingCurve(QEasingCurve::OutCubic);
+        anim->start(QAbstractAnimation::DeleteWhenStopped);
+
+        QPropertyAnimation *op = new QPropertyAnimation(eff, "opacity", eff);
+        op->setDuration(stepDuration);
+        if(feadOut){
+            op->setKeyValueAt(0.0, 0.0);
+            op->setKeyValueAt(0.25, 1.0);
+            op->setKeyValueAt(0.85, 1.0);
+            op->setKeyValueAt(1.0, 0.0);
+        } else {
+            op->setKeyValueAt(0.0, 0.4);
+            op->setKeyValueAt(1.0, 1.0);
+        }
+        op->setEasingCurve(QEasingCurve::OutCubic);
+        op->start(QAbstractAnimation::DeleteWhenStopped);
+
+        QTimer::singleShot(stepDuration + 150, this, [circle, feadOut]()
+        {
+            if(feadOut){
+                circle->setVisible(false);
+            }
+            circle->setGraphicsEffect(nullptr);
+        });
+    }
 }

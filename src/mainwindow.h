@@ -40,7 +40,7 @@ private:
 
     int player;      //次ターン行動プレイヤー
     int currentround;
-    int point[TEAM_COUNT][ROUND_COUNT][3];
+    int point[TEAM_COUNT][ROUND_COUNT][4]; // [チーム][ラウンド][アイテム、決着B/P、総取り、勝敗]
 
     struct RandomMapParameters {
         int defaultItem;
@@ -56,6 +56,7 @@ private:
     bool isReady;
 
     bool silent;
+    bool cd_silent;
     bool dark; // 暗転処理
 
     bool isBotBattleMode; // ボット戦モード
@@ -67,6 +68,8 @@ private:
 
     int mapAnimationTime = 100; // マップ構築アニメーション時間
     int teamAnimationTime = 500; // チーム配置アニメーション時間
+
+    int timeBarTrun = 25; // タイマーバーの色変化ターン
 
     QTimer* clock;          // ゲームクロック
     QTimer* startupMapAnimation;   // 開始アニメーション
@@ -80,7 +83,11 @@ private:
     QAudioOutput *soundEffectAudioOutputCool; // SE出力
     QMediaPlayer *soundEffectHot;    // SE
     QAudioOutput *soundEffectAudioOutputHot; // SE出力
-
+    QMediaPlayer *soundEffectReady;    // SE
+    QAudioOutput *soundEffectAudioOutputReady; // SE出力
+    QMediaPlayer *soundEffectGo;    // SE
+    QAudioOutput *soundEffectAudioOutputGo; // SE出力
+    
     QFile* logFile;   // ログファイル
     StableLog logStream; // ログストリーム
 
@@ -91,13 +98,14 @@ protected:
     void keyPressEvent(QKeyEvent* event);
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void initializeSettings();
     void applyDesign();
     void setRandomMapParameters();
     void setPaths();
+    void newLogFile();
     void setMusicList( QString filename);
     void setMusicList( QString filename, int round);
     void setMusicList( QString filename1,  QString filename2);
@@ -114,6 +122,11 @@ public:
     static QString getCurrentTime();
     static QString convertMethodToString(GameSystem::Method method);
 
+private:
+    void setupRound();
+    void showCountDown(QString stepText, int stepDuration, QColor textColor=Qt::black, QColor outlineColor=Qt::white, bool feadOut=true);
+    void changeTimeBarsColor(bool change=false);
+
 private slots:
     void resetSetup();
     void startSetup();
@@ -124,6 +137,8 @@ private slots:
     void repeatGame();
     void endGame();
 
+    void nextRound();
+
     void saveToFile();
 
     void resetScoreLabels();
@@ -132,6 +147,8 @@ private slots:
     void finishScoreLabelStyle();
     void refreshScoreLabels();
     void showBottomRoundLabel(bool set);
+
+    void onStartupDialogFinished(int result);
 };
 
 #endif // MAINWINDOW_H
