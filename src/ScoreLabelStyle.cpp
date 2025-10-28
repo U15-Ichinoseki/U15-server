@@ -102,7 +102,7 @@ void MainWindow::startSetupScoreLabels()
         ui->ScoreLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
         ui->NameLabel_B->setStyleSheet(ScoreLabelStyle::hotPointLabelStyle);
 
-        // スタート前にスコアを色付け
+        // スタート前にポイントを色付け
         ui->result_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
         ui->score_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
         ui->item_1_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);

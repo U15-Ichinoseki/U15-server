@@ -45,7 +45,7 @@ public:
     GameSystem::Method past_method;//前回のログ
 
     int leave_items;             //残りアイテム
-    int team_score[TEAM_COUNT];  //チームのスコア
+    int team_score[TEAM_COUNT];  //チームのポイント
 
     int turn_count;
 

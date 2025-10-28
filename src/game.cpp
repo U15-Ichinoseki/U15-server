@@ -453,7 +453,7 @@ GameSystem::GAME_STATUS MainWindow::judgeGame()
 
         //引き分けかな？
         gameStatus.reason = GameSystem::GAME_STATUS::REASON::SCORE;
-        QSet<int> team_score_set; //スコア
+        QSet<int> team_score_set; //ポイント
         for(int i=0;i<TEAM_COUNT;i++){
             team_score_set.insert(this->ui->Field->team_score[i]);
         }
@@ -523,7 +523,7 @@ void MainWindow::finishGame(GameSystem::GAME_STATUS gameStatus)
            this->ui->WinnerLabel->setText("HOT LOSE!");
         }
         logStream << getCurrentTime() + "[決着]COOLが勝利しました。" << "\r\n";
-        //負けチームのスコア更新（ターン数分減らす）
+        //負けチームのポイント更新（ターン数分減らす）
         if(this->isBotBattleMode){
             int ScoreBuf = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::HOT)];
             ui->ScoreLabel_B ->setText(QString::number(ScoreBuf*3) + "(ITEM:" + QString::number(ScoreBuf) + ")");
@@ -537,7 +537,7 @@ void MainWindow::finishGame(GameSystem::GAME_STATUS gameStatus)
             this->ui->WinnerLabel->setText("COOL LOSE!");
         }
         logStream << getCurrentTime() + "[決着]HOTが勝利しました。" << "\r\n";
-        //負けチームのスコア更新（ターン数分減らす）
+        //負けチームのポイント更新（ターン数分減らす）
         if(this->isBotBattleMode){
             int ScoreBuf = this->ui->Field->team_score[static_cast<int>(GameSystem::TEAM::COOL)];
             ui->ScoreLabel_A->setText(QString::number(ScoreBuf*3) + "(ITEM:" + QString::number(ScoreBuf) + ")");
