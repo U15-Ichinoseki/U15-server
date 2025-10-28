@@ -15,7 +15,7 @@ void MainWindow::resetSetup()
 
     for(int i = 0; i < TEAM_COUNT; i++){
         for(int j = 0; j < ROUND_COUNT; j++){
-            for(int k = 0; k < 3; k++)
+            for(int k = 0; k < 4; k++)
                     this->point[i][j][k]=0;
         }
     }

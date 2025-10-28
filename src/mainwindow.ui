@@ -169,6 +169,18 @@
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
                <widget class="QFrame" name="Cool_box_A">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>300</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
@@ -188,17 +200,17 @@
                  <property name="bottomMargin">
                   <number>6</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignmentFlag::AlignHCenter">
                   <widget class="QLabel" name="COOL_label_A">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>240</width>
                      <height>30</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>240</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -221,21 +233,27 @@
                  </item>
                  <item>
                   <widget class="QFrame" name="Cool_score_grid_A">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">border-radius: 6px;border:none;background-color:#f6f6e0;</string>
                    </property>
                    <layout class="QGridLayout" name="Cool_score_grid_layout_A">
                     <item row="2" column="0">
-                     <widget class="DynamicallyLabel" name="result_1_A">
+                     <widget class="DynamicallyLabel" name="sweep_1_A">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -256,79 +274,16 @@
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="DynamicallyLabel" name="score_1_A">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="2">
                      <widget class="DynamicallyLabel" name="bonus_1_A">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">border-radius: 15px;</string>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="3">
-                     <widget class="DynamicallyLabel" name="item_1_A">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -352,11 +307,11 @@
                      </widget>
                     </item>
                     <item row="1" column="1">
-                     <widget class="QLabel" name="score_label_A1">
+                     <widget class="QLabel" name="bonus_label_A1">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -368,19 +323,43 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>スコア</string>
+                       <string>一撃</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="3" alignment="Qt::AlignmentFlag::AlignHCenter">
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="score_label_A1">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>総取り</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2" alignment="Qt::AlignmentFlag::AlignHCenter">
                      <widget class="QLabel" name="item_label_A1">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -399,75 +378,63 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="result_label_A1">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>勝ち点</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="2">
-                     <widget class="QLabel" name="bonus_label_A1">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>B/P</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="2">
-                     <widget class="QLabel" name="reason_1_A">
+                    <item row="2" column="2">
+                     <widget class="DynamicallyLabel" name="item_1_A">
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>16777215</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-radius: 15px;</string>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" colspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
+                     <widget class="DynamicallyLabel" name="score_1_A">
+                      <property name="minimumSize">
+                       <size>
+                        <width>180</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>180</width>
+                        <height>80</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
                        </font>
                       </property>
                       <property name="text">
-                       <string/>
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -482,6 +449,18 @@
               </item>
               <item>
                <widget class="QFrame" name="Hot_box_A">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>300</height>
+                 </size>
+                </property>
                 <layout class="QVBoxLayout" name="Hot_box_layout_A">
                  <property name="leftMargin">
                   <number>4</number>
@@ -495,17 +474,17 @@
                  <property name="bottomMargin">
                   <number>4</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignmentFlag::AlignHCenter">
                   <widget class="QLabel" name="HOT_label_A">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>240</width>
                      <height>30</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>240</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -532,41 +511,17 @@
                     <string notr="true">border-radius: 6px;border:none;background-color:#f6f6e0;</string>
                    </property>
                    <layout class="QGridLayout" name="Hot_score_grid_layout_A">
-                    <item row="0" column="3">
-                     <widget class="QLabel" name="item_label_A2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>アイテム</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="DynamicallyLabel" name="result_2_A">
+                    <item row="2" column="1">
+                     <widget class="DynamicallyLabel" name="bonus_2_A">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -576,7 +531,7 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true"/>
+                       <string notr="true">border-radius: 15px;</string>
                       </property>
                       <property name="text">
                        <string>0</string>
@@ -589,66 +544,18 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="bonus_label_A2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>B/P</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLabel" name="score_label_A2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>スコア</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
+                    <item row="0" column="0" colspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
                      <widget class="DynamicallyLabel" name="score_2_A">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>180</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
-                        <height>40</height>
+                        <width>180</width>
+                        <height>80</height>
                        </size>
                       </property>
                       <property name="font">
@@ -671,49 +578,88 @@
                      </widget>
                     </item>
                     <item row="1" column="2">
-                     <widget class="DynamicallyLabel" name="bonus_2_A">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
+                     <widget class="QLabel" name="item_label_A2">
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>84</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>20</pointsize>
+                        <pointsize>16</pointsize>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">border-radius: 15px;</string>
+                       <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
+                       <string>アイテム</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="3">
-                     <widget class="DynamicallyLabel" name="item_2_A">
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="score_label_A2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>総取り</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLabel" name="bonus_label_A2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>一撃</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="DynamicallyLabel" name="sweep_2_A">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -723,7 +669,7 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">border-radius: 15px;</string>
+                       <string notr="true"/>
                       </property>
                       <property name="text">
                        <string>0</string>
@@ -737,53 +683,32 @@
                      </widget>
                     </item>
                     <item row="2" column="2">
-                     <widget class="QLabel" name="reason_2_A">
+                     <widget class="DynamicallyLabel" name="item_2_A">
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>16777215</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>20</pointsize>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true"/>
+                       <string notr="true">border-radius: 15px;</string>
                       </property>
                       <property name="text">
-                       <string/>
+                       <string>0</string>
                       </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="result_label_A2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>勝ち点</string>
+                      <property name="scaledContents">
+                       <bool>true</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -798,6 +723,18 @@
               </item>
               <item>
                <widget class="QFrame" name="Total_box_A">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>200</height>
+                 </size>
+                </property>
                 <layout class="QVBoxLayout" name="Total_box_layout_A">
                  <property name="leftMargin">
                   <number>4</number>
@@ -852,8 +789,8 @@
                      <widget class="QLabel" name="score_label_A">
                       <property name="maximumSize">
                        <size>
-                        <width>84</width>
-                        <height>16777215</height>
+                        <width>100</width>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -865,7 +802,7 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>スコア</string>
+                       <string>合計ポイント</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -873,11 +810,11 @@
                      </widget>
                     </item>
                     <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
-                     <widget class="QLabel" name="result_label_A">
+                     <widget class="QLabel" name="wins_label_A">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -889,7 +826,7 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>勝ち点</string>
+                       <string>勝利数</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -897,7 +834,7 @@
                      </widget>
                     </item>
                     <item row="1" column="0">
-                     <widget class="DynamicallyLabel" name="result_A">
+                     <widget class="DynamicallyLabel" name="wins_A">
                       <property name="minimumSize">
                        <size>
                         <width>140</width>
@@ -907,13 +844,13 @@
                       <property name="maximumSize">
                        <size>
                         <width>140</width>
-                        <height>65</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
                         <family>Yu Gothic UI</family>
-                        <pointsize>32</pointsize>
+                        <pointsize>20</pointsize>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -939,13 +876,13 @@
                       <property name="maximumSize">
                        <size>
                         <width>140</width>
-                        <height>65</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
                         <family>Yu Gothic UI</family>
-                        <pointsize>32</pointsize>
+                        <pointsize>20</pointsize>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -970,6 +907,9 @@
                <spacer name="verticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1152,6 +1092,18 @@
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
                <widget class="QFrame" name="Hot_box_B">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>300</height>
+                 </size>
+                </property>
                 <layout class="QVBoxLayout" name="Hot_box_layout_B">
                  <property name="leftMargin">
                   <number>4</number>
@@ -1165,17 +1117,17 @@
                  <property name="bottomMargin">
                   <number>4</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignmentFlag::AlignHCenter">
                   <widget class="QLabel" name="HOT_label_B">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>240</width>
                      <height>30</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>240</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1202,17 +1154,41 @@
                     <string notr="true">border-radius: 6px;border:none;background-color:#f6f6e0;</string>
                    </property>
                    <layout class="QGridLayout" name="Hot_score_grid_layout_B">
-                    <item row="1" column="3">
-                     <widget class="DynamicallyLabel" name="result_1_B">
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="item_label_B1">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>アイテム</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="2">
+                     <widget class="DynamicallyLabel" name="sweep_1_B">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -1232,65 +1208,17 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="item_label_B1">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>アイテム</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLabel" name="bonus_label_B1">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>B/P</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="DynamicallyLabel" name="bonus_1_B">
+                    <item row="2" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+                     <widget class="DynamicallyLabel" name="item_1_B">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
@@ -1311,41 +1239,11 @@
                      </widget>
                     </item>
                     <item row="1" column="2">
-                     <widget class="DynamicallyLabel" name="score_1_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
                      <widget class="QLabel" name="score_label_B1">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -1357,49 +1255,19 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>スコア</string>
+                       <string>総取り</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
-                     <widget class="DynamicallyLabel" name="item_1_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="3">
-                     <widget class="QLabel" name="result_label_B1">
+                    <item row="1" column="1">
+                     <widget class="QLabel" name="bonus_label_B1">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -1411,7 +1279,7 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>勝ち点</string>
+                       <string>一撃</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1419,26 +1287,59 @@
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLabel" name="reason_1_B">
+                     <widget class="DynamicallyLabel" name="bonus_1_B">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>20</pointsize>
                        </font>
                       </property>
                       <property name="text">
-                       <string/>
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0" colspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
+                     <widget class="DynamicallyLabel" name="score_1_B">
+                      <property name="minimumSize">
+                       <size>
+                        <width>180</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>180</width>
+                        <height>80</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1453,6 +1354,18 @@
               </item>
               <item>
                <widget class="QFrame" name="Cool_box_B">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>300</height>
+                 </size>
+                </property>
                 <layout class="QVBoxLayout" name="Cool_box_layout_B">
                  <property name="leftMargin">
                   <number>4</number>
@@ -1466,17 +1379,17 @@
                  <property name="bottomMargin">
                   <number>4</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignmentFlag::AlignHCenter">
                   <widget class="QLabel" name="COOL_label_B">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>240</width>
                      <height>30</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>240</width>
                      <height>40</height>
                     </size>
                    </property>
@@ -1503,12 +1416,12 @@
                     <string notr="true">border-radius: 6px;border:none;background-color:#f6f6e0;</string>
                    </property>
                    <layout class="QGridLayout" name="Cool_score_grid_layout_B">
-                    <item row="0" column="0">
+                    <item row="1" column="0">
                      <widget class="QLabel" name="item_label_B2">
                       <property name="maximumSize">
                        <size>
                         <width>84</width>
-                        <height>16777215</height>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -1527,189 +1440,18 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="3">
-                     <widget class="DynamicallyLabel" name="result_2_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="score_label_B2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>スコア</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="3">
-                     <widget class="QLabel" name="result_label_B2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>勝ち点</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="DynamicallyLabel" name="bonus_2_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLabel" name="bonus_label_B2">
-                      <property name="maximumSize">
-                       <size>
-                        <width>84</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>B/P</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="DynamicallyLabel" name="item_2_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>70</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignmentFlag::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="2">
+                    <item row="0" column="0" colspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
                      <widget class="DynamicallyLabel" name="score_2_B">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>180</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
-                        <height>40</height>
+                        <width>180</width>
+                        <height>80</height>
                        </size>
                       </property>
                       <property name="font">
@@ -1732,29 +1474,146 @@
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLabel" name="reason_2_B">
+                     <widget class="DynamicallyLabel" name="bonus_2_B">
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>80</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>85</width>
                         <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>20</pointsize>
                        </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string/>
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="DynamicallyLabel" name="item_2_B">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>85</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLabel" name="bonus_label_B2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>一撃</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="2">
+                     <widget class="QLabel" name="score_label_B2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>84</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>16</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>総取り</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="2">
+                     <widget class="DynamicallyLabel" name="sweep_2_B">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>85</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1769,6 +1628,18 @@
               </item>
               <item>
                <widget class="QFrame" name="Total_box_B">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>200</height>
+                 </size>
+                </property>
                 <layout class="QVBoxLayout" name="Total_box_layout_B">
                  <property name="leftMargin">
                   <number>4</number>
@@ -1823,8 +1694,8 @@
                      <widget class="QLabel" name="score_label_B">
                       <property name="maximumSize">
                        <size>
-                        <width>84</width>
-                        <height>16777215</height>
+                        <width>100</width>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
@@ -1836,31 +1707,39 @@
                        <string notr="true"/>
                       </property>
                       <property name="text">
-                       <string>スコア</string>
+                       <string>合計ポイント</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
-                     <widget class="QLabel" name="result_label_B">
+                    <item row="1" column="1">
+                     <widget class="DynamicallyLabel" name="wins_B">
+                      <property name="minimumSize">
+                       <size>
+                        <width>140</width>
+                        <height>65</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
-                        <width>84</width>
-                        <height>16777215</height>
+                        <width>140</width>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>16</pointsize>
+                        <family>Yu Gothic UI</family>
+                        <pointsize>20</pointsize>
+                        <bold>true</bold>
                        </font>
                       </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
                       <property name="text">
-                       <string>勝ち点</string>
+                       <string>0</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1878,13 +1757,13 @@
                       <property name="maximumSize">
                        <size>
                         <width>140</width>
-                        <height>65</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
                         <family>Yu Gothic UI</family>
-                        <pointsize>32</pointsize>
+                        <pointsize>20</pointsize>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -1899,32 +1778,24 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1">
-                     <widget class="DynamicallyLabel" name="result_B">
-                      <property name="minimumSize">
-                       <size>
-                        <width>140</width>
-                        <height>65</height>
-                       </size>
-                      </property>
+                    <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+                     <widget class="QLabel" name="wins_label_B">
                       <property name="maximumSize">
                        <size>
-                        <width>140</width>
-                        <height>65</height>
+                        <width>84</width>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <family>Yu Gothic UI</family>
-                        <pointsize>32</pointsize>
-                        <bold>true</bold>
+                        <pointsize>16</pointsize>
                        </font>
                       </property>
-                      <property name="text">
-                       <string>0</string>
+                      <property name="styleSheet">
+                       <string notr="true"/>
                       </property>
-                      <property name="scaledContents">
-                       <bool>true</bool>
+                      <property name="text">
+                       <string>勝利数</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1941,6 +1812,9 @@
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1987,10 +1861,16 @@
             </property>
             <item>
              <widget class="QLabel" name="WinnerLabel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>32</height>
+                <height>40</height>
                </size>
               </property>
               <property name="font">
@@ -2023,13 +1903,13 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>20</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>20</height>
+                <height>40</height>
                </size>
               </property>
               <property name="sizeIncrement">
@@ -2101,13 +1981,13 @@ QProgressBar::chunk{border-radius: 8px;background-color:green;}</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>20</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>20</height>
+                <height>40</height>
                </size>
               </property>
               <property name="sizeIncrement">
@@ -2136,10 +2016,16 @@ QProgressBar::chunk{border-radius: 8px;background-color:green;}</string>
             </item>
             <item>
              <widget class="QLabel" name="ResultLabel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>32</height>
+                <height>40</height>
                </size>
               </property>
               <property name="font">

@@ -40,7 +40,7 @@ private:
 
     int player;      //次ターン行動プレイヤー
     int currentround;
-    int point[TEAM_COUNT][ROUND_COUNT][3];
+    int point[TEAM_COUNT][ROUND_COUNT][4]; // [チーム][ラウンド][アイテム、決着B/P、総取り、勝敗]
 
     struct RandomMapParameters {
         int defaultItem;
