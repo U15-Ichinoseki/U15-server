@@ -177,7 +177,7 @@ void ClientSettingForm::ComboBoxChenged(QString text)
                 command = botcommand;
                 option << "a:127.0.0.1"; 
                 option << "p:" + QString::number(ui->PortSpinBox->value()); 
-                option << "n:ボットプログラム";
+                option << "n:Bot Program";
             }
 
             this->client = new TCPClient(this);
