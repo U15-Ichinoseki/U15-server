@@ -105,6 +105,7 @@ public:
     void applyDesign();
     void setRandomMapParameters();
     void setPaths();
+    void newLogFile();
     void setMusicList( QString filename);
     void setMusicList( QString filename, int round);
     void setMusicList( QString filename1,  QString filename2);

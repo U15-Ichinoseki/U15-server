@@ -161,21 +161,30 @@ void MainWindow::setRandomMapParameters()
     Settings->endGroup();
 }
 
-void MainWindow::setPaths()
-{    
+void MainWindow::newLogFile()
+{
     QSettings* Settings = new QSettings("setting.ini", QSettings::IniFormat);
-    
     Settings->beginGroup("Path");
+
     QString path = loadSettingValue(Settings, "LogFilepath", QString("../Logs"));
     QDir dir(path);
     if (!dir.exists()) dir.mkpath(".");
 
     logStream = StableLog(path + "/log" + getCurrentTime() + ".txt");
+
+    Settings->endGroup();
+}
+
+void MainWindow::setPaths()
+{    
+    QSettings* Settings = new QSettings("setting.ini", QSettings::IniFormat);
+    Settings->beginGroup("Path");
     
     this->startupDialog->setBotCommand(loadSettingValue(Settings, "BotCommand", QString("./Bot/bot.exe")));
     this->startupDialog->setPythonCommand(loadSettingValue(Settings, "PythonCommand", QString("../WinPython/python/python.exe")));
     this->startupDialog->setProgramPath(loadSettingValue(Settings, "ProgramFilePath", QString("../CHaser")));
     this->startupDialog->setMapPath(loadSettingValue(Settings, "MapFilePath", QString("../Map")));
+
     Settings->endGroup();
 }
 

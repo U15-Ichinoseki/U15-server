@@ -21,6 +21,7 @@ void MainWindow::resetSetup()
     }
 
     resetScoreLabels();
+    newLogFile();
     setupRound();
 }
 
