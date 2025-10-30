@@ -114,6 +114,10 @@ public:
     static QString getCurrentTime();
     static QString convertMethodToString(GameSystem::Method method);
 
+private:
+    void setupRound();
+    void showCountDown(QString stepText, int stepDuration, QColor textColor=Qt::black, QColor outlineColor=Qt::white, bool feadOut=true);
+
 private slots:
     void resetSetup();
     void startSetup();
@@ -123,6 +127,8 @@ private slots:
     void stepGame();
     void repeatGame();
     void endGame();
+
+    void nextRound();
 
     void saveToFile();
 

@@ -21,9 +21,23 @@ void MainWindow::resetSetup()
     }
 
     resetScoreLabels();
+    setupRound();
 }
 
-void MainWindow::startSetup()
+void MainWindow::nextRound()
+{
+    setupRound();
+
+    this->startupDialog->swapClientConnections();
+    this->startupDialog->swapGroupBoxPositions();
+    this->startupDialog->enableConnectionChange(true);    
+    this->startupDialog->showGameStartButton(true);
+    if (isDemoMode) {
+        QTimer::singleShot(3000, this, SLOT(startSetup()));
+    }    
+}
+
+void MainWindow::setupRound()
 {
     currentround++;
     qDebug()<< "round:" << currentround;
@@ -50,31 +64,6 @@ void MainWindow::startSetup()
 
     this->ui->TurnLabel->setText(QString::number(this->startupDialog->map.turn));
 
-    this->startupDialog->setGameStartButtonEnabled(true);
-
-    if(currentround == 0) {
-        this->ui->NameLabel_A->setText(
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name == "" ?
-            "Cool" :
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name);
-
-        this->ui->NameLabel_B->setText(
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
-            "Hot" :
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
-        ui->Field->setFlip(false);
-    }
-    if(currentround == 1) {
-        this->ui->NameLabel_B->setText(
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name == "" ?
-            "Cool" :
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name);
-        this->ui->NameLabel_A->setText(
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
-            "Hot" :
-            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
-        ui->Field->setFlip(true);
-    }
     startSetupScoreLabels();
 
     //ボット戦モードならば表記の変更
@@ -105,19 +94,56 @@ void MainWindow::startSetup()
     }
     ui->ItemLeaveLabel->setText(QString::number(this->ui->Field->leave_items));
 
-    ui->Field->repaint();
+    if(currentround == 1) {
+        ui->Field->setFlip(true);
+    } else {
+        ui->Field->setFlip(false);
+    }
 
+
+    ui->Field->repaint();
+}
+
+void MainWindow::startSetup()
+{
     this->startupDialog->showStandbyButton(false);
     this->startupDialog->enableSetupMode(false);
-    if (isDemoMode) {
-        QTimer::singleShot(100, this, SLOT(startGame()));
+
+    this->startupDialog->enableConnectionChange(false);
+
+    if(currentround == 0) {
+        this->ui->NameLabel_A->setText(
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name == "" ?
+            "Cool" :
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name);
+
+        this->ui->NameLabel_B->setText(
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
+            "Hot" :
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
     }
+    if(currentround == 1) {
+        this->ui->NameLabel_B->setText(
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name == "" ?
+            "Cool" :
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::COOL)]->client->Name);
+        this->ui->NameLabel_A->setText(
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name == "" ?
+            "Hot" :
+            this->startupDialog->teamClient[static_cast<int>(GameSystem::TEAM::HOT )]->client->Name);
+    }
+    
+    logStream << getCurrentTime() + "セットアップ完了　ゲームを開始します。\r\n";
+
+    showCountDown("Standby", 500, Qt::yellow, Qt::black, false);
+
+    this->startupDialog->setGameStartButtonEnabled(true);
 
     isReady=true;
 
-    this->startupDialog->enableConnectionChange(false);
-    
-    logStream << getCurrentTime() + "セットアップ完了　ゲームを開始します。\r\n";
+    if (isDemoMode) {
+        QTimer::singleShot(3000, this, SLOT(startGame()));
+    }
 }
 
 void MainWindow::startGame()
@@ -280,6 +306,7 @@ void MainWindow::repeatGame()
     this->startupDialog->enableConnectionChange(true);
     this->startupDialog->enableSetupMode(true);
 
+    this->startupDialog->swapGroupBoxPositions();
     if (!isDemoMode) {
         this->startupDialog->swapClientConnections();
         resetSetup();
@@ -558,17 +585,15 @@ void MainWindow::finishGame(GameSystem::GAME_STATUS gameStatus)
 
     
     if(isDoubleGameMode && currentround<1){
-        this->startupDialog->swapClientConnections();
-        this->startupDialog->enableConnectionChange(true);    
-        this->startupDialog->showGameStartButton(true);
+        this->startupDialog->setGameStartButtonToEnd(2);
         if (isDemoMode) {
-            QTimer::singleShot(5000, this, SLOT(startSetup()));
+            QTimer::singleShot(5000, this, SLOT(nextRound()));
         }
     }else{
         if (! isRepeatMode)
-            this->startupDialog->setGameStartButtonToEnd(false);
+            this->startupDialog->setGameStartButtonToEnd(0);
         else {
-            this->startupDialog->setGameStartButtonToEnd(true);
+            this->startupDialog->setGameStartButtonToEnd(1);
             if (isDemoMode) {
                 QTimer::singleShot(10000, this, SLOT(repeatGame()));
             }

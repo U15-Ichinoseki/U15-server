@@ -144,7 +144,8 @@
                </property>
                <property name="font">
                 <font>
-                 <bold>true</bold>
+                 <family>HG創英角ﾎﾟｯﾌﾟ体</family>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="styleSheet">

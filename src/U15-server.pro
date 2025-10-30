@@ -18,6 +18,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    CircleLabel.cpp \
     CustomRadioButton.cpp \
     ScoreLabelStyle.cpp \
     animation.cpp \
@@ -38,6 +39,7 @@ SOURCES += main.cpp\
     StableLog.cpp
 
 HEADERS  += mainwindow.h \
+    CircleLabel.h \
     CustomRadioButton.h \
     animation.h \
     dynamicallylabel.h \
