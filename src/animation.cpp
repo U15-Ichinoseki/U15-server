@@ -15,6 +15,11 @@ void MainWindow::startAnimation()
     {
         ANIMATION_TYPE = QRandomGenerator::global()->generate() % ANIMATION_SIZE;
         showCountDown("Ready", 2000, Qt::red, Qt::white);
+
+        if(!cd_silent){
+            soundEffectReady->setPosition(0);
+            soundEffectReady->play();
+        }
     }
     
     ANIMATION_TYPE = 0;
@@ -119,6 +124,12 @@ void MainWindow::showTeamAnimation()
     if (team_count == 0)
     {
         showCountDown("Go!", 1200, Qt::darkGreen, Qt::white);
+
+        if(!cd_silent){
+            soundEffectReady->stop();
+            soundEffectGo->setPosition(0);
+            soundEffectGo->play();
+        }
     }
 
     if (team_count < blinking * 2)

@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -240,6 +240,16 @@
           </property>
           <property name="text">
            <string>消音</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="CD_SilentCheck">
+          <property name="whatsThis">
+           <string>チェックを入れた場合、カウントダウンは鳴りません。</string>
+          </property>
+          <property name="text">
+           <string>消音（カウントダウン）</string>
           </property>
          </widget>
         </item>

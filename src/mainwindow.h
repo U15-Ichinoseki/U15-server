@@ -56,6 +56,7 @@ private:
     bool isReady;
 
     bool silent;
+    bool cd_silent;
     bool dark; // 暗転処理
 
     bool isBotBattleMode; // ボット戦モード
@@ -80,7 +81,11 @@ private:
     QAudioOutput *soundEffectAudioOutputCool; // SE出力
     QMediaPlayer *soundEffectHot;    // SE
     QAudioOutput *soundEffectAudioOutputHot; // SE出力
-
+    QMediaPlayer *soundEffectReady;    // SE
+    QAudioOutput *soundEffectAudioOutputReady; // SE出力
+    QMediaPlayer *soundEffectGo;    // SE
+    QAudioOutput *soundEffectAudioOutputGo; // SE出力
+    
     QFile* logFile;   // ログファイル
     StableLog logStream; // ログストリーム
 

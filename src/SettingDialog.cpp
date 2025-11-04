@@ -49,6 +49,10 @@ SettingDialog::SettingDialog(QWidget *parent)
     if (v.typeId() != QMetaType::UnknownType)
         ui->SilentCheck->setChecked(v.toBool());
 
+    v = Settings->value("CD_Silent");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->CD_SilentCheck->setChecked(v.toBool());
+
     v = Settings->value("Maximum");
     if (v.typeId() != QMetaType::UnknownType)
         ui->MaximumCheck->setChecked(v.toBool());
@@ -159,6 +163,7 @@ void SettingDialog::Export()
     Settings->setValue("Map", ui->Mapspeed->value());
     Settings->setValue("Team", ui->Teamspeed->value());
     Settings->setValue("Silent", ui->SilentCheck->isChecked());
+    Settings->setValue("CD_Silent", ui->CD_SilentCheck->isChecked());
     Settings->setValue("Maximum", ui->MaximumCheck->isChecked());
     Settings->setValue( "Dark"    , ui->DarkBox->isChecked());
     Settings->setValue("DemoMode", ui->DemoCheck->isChecked());

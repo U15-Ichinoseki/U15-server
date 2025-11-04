@@ -63,6 +63,18 @@ MainWindow::MainWindow(QWidget *parent) :
     soundEffectHot->setSource(QUrl("qrc:/Sound/get_H.mp3"));
     soundEffectAudioOutputHot->setVolume(0.2);
 
+    soundEffectReady = new QMediaPlayer;
+    soundEffectAudioOutputReady = new QAudioOutput;
+    soundEffectReady->setAudioOutput(soundEffectAudioOutputReady);
+    soundEffectReady->setSource(QUrl("qrc:/Sound/ready.mp3"));
+    soundEffectAudioOutputReady->setVolume(1.0);
+
+    soundEffectGo = new QMediaPlayer;
+    soundEffectAudioOutputGo = new QAudioOutput;
+    soundEffectGo->setAudioOutput(soundEffectAudioOutputGo);
+    soundEffectGo->setSource(QUrl("qrc:/Sound/go.mp3"));
+    soundEffectAudioOutputGo->setVolume(1.0);
+
     clock = new QTimer();
     connect(clock, &QTimer::timeout, this, &MainWindow::stepGame);
 
@@ -126,6 +138,7 @@ void MainWindow::applyDesign()
     mapAnimationTime = loadSettingValue(Settings, "Map", 150);
     teamAnimationTime = loadSettingValue(Settings, "Team", 150);
     silent = loadSettingValue(Settings, "Silent", false);
+    cd_silent = loadSettingValue(Settings, "CD_Silent", false);
     if (loadSettingValue(Settings, "Maximum", false)) {
         setWindowState(Qt::WindowMaximized);
     }
