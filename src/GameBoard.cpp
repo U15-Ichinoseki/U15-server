@@ -54,7 +54,7 @@ void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
                 if(overlay[i][j] != GameSystem::MAP_OVERLAY::ERASE){
                     if(field.field[i][j] == GameSystem::MAP_OBJECT::NOTHING || true){
                         painter.drawPixmap((! flip ? j : field.size.x() - j - 1) * image_part.width(),
-                                           i * image_part.height(),
+                                           (! flip ? i : field.size.y() - i - 1) * image_part.height(),
                                            field_resource[static_cast<int>(GameSystem::MAP_OBJECT::NOTHING)]);
 
                     }
@@ -67,7 +67,7 @@ void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
             if(0 <= team_pos[i].x() && team_pos[i].x() < field.size.x() &&
                0 <= team_pos[i].y() && team_pos[i].y() < field.size.y()){
                 painter.drawPixmap((! flip ? team_pos[i].x() : field.size.x() - team_pos[i].x() - 1)  * image_part.width(),
-                        team_pos[i].y() * image_part.height(),team_resource[i]);
+                        (! flip ? team_pos[i].y() : field.size.y() - team_pos[i].y() - 1) * image_part.height(),team_resource[i]);
 
             }
         }
@@ -79,7 +79,7 @@ void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
                     //物体の描画
                     if(field.field[i][j] != GameSystem::MAP_OBJECT::NOTHING){
                         painter.drawPixmap((! flip ? j : field.size.x() - j - 1) * image_part.width(),
-                                           i * image_part.height(),
+                                           (! flip ? i : field.size.y() - i - 1) * image_part.height(),
                                            field_resource[static_cast<int>(field.field[i][j])]);
                     }
 
@@ -87,7 +87,7 @@ void GameBoard::paintEvent([[maybe_unused]] QPaintEvent *event){
                     painter.setOpacity(0.3);
                     if(overlay[i][j] != GameSystem::MAP_OVERLAY::NOTHING){
                         painter.drawPixmap((! flip ? j : field.size.x() - j - 1) * image_part.width() ,
-                                           i * image_part.height(),
+                                           (! flip ? i : field.size.y() - i - 1) * image_part.height(),
                                            overray_resource[static_cast<int>(overlay[i][j])]);
                     }
                     painter.setOpacity(1.0);
