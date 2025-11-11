@@ -23,6 +23,9 @@ const QString ScoreLabelStyle::defaultBoxStyle = "border-radius: 6px;border:none
 const QString ScoreLabelStyle::coolBoxStyle = "border-radius: 6px;border:none;background-color:#54C3F1;";
 const QString ScoreLabelStyle::hotBoxStyle = "border-radius: 6px;border:none;background-color:#EE87B4;";
 
+const QString defaultTimeBarStyle = "QProgressBar{border-radius: 16px;background-color:#C1DB81;} QProgressBar::chunk{border-radius: 16px;background-color:green;}";
+const QString lastTimeBarStyle = "QProgressBar{border-radius: 3px;background-color:#F6C27A;} QProgressBar::chunk{border-radius: 3px;background-color:#FF7518;}";
+
 void MainWindow::resetScoreLabels()
 {
     ui->ScoreLabel_A->setStyleSheet(ScoreLabelStyle::coolPointLabelStyle);
@@ -525,4 +528,15 @@ void MainWindow::showBottomRoundLabel(bool set)
         ui->result_label_B->hide();
     }
     refreshScoreLabels();
+}
+
+void MainWindow::changeTimeBarsColor(bool change)
+{
+    if (change) {
+        ui->TimeBar_A->setStyleSheet(lastTimeBarStyle);
+        ui->TimeBar_B->setStyleSheet(lastTimeBarStyle);
+    } else {
+        ui->TimeBar_A->setStyleSheet(defaultTimeBarStyle);
+        ui->TimeBar_B->setStyleSheet(defaultTimeBarStyle);
+    }
 }

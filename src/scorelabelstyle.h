@@ -21,7 +21,10 @@ public:
     
     static const QString defaultBoxStyle;
     static const QString coolBoxStyle;
-    static const QString hotBoxStyle;    
+    static const QString hotBoxStyle;
+
+    static const QString defaultTimeBarStyle;
+    static const QString lastTimeBarStyle;
 };
 
 #endif // SCORELABELSTYLE_H

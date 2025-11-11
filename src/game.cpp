@@ -44,6 +44,7 @@ void MainWindow::setupRound()
 
     this->gameStatus.winner = GameSystem::GAME_STATUS::WINNER::NONE;
 
+    changeTimeBarsColor(false);
     this->ui->WinnerLabel->hide();
     this->ui->ResultLabel->hide();
 
@@ -257,6 +258,9 @@ void MainWindow::stepGame()
             //refresh
             if(player == TEAM_COUNT-1){
                 ui->Field->turn_count --;
+                if(this->ui->Field->turn_count <= this->timeBarTrun){
+                    changeTimeBarsColor(true);
+                }
                 ui->TurnLabel->setText(QString::number(this->ui->Field->turn_count));
                 ui->TimeBar_A->setValue(this->ui->Field->turn_count);
                 ui->TimeBar_A->repaint();
@@ -271,7 +275,7 @@ void MainWindow::stepGame()
                 }
             }else{
                 ui->TimeBar_B->setValue(ui->Field->turn_count);
-                ui->TimeBar_B->repaint();                
+                ui->TimeBar_B->repaint();
             }
         }else{
             logStream << getCurrentTime() + "[停止]" + GameSystem::TEAM_PROPERTY::getTeamName(static_cast<GameSystem::TEAM>(player)) + "が正常にGetReadyを返しませんでした!1" << "\r\n";

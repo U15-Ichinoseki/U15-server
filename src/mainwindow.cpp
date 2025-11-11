@@ -137,6 +137,7 @@ void MainWindow::applyDesign()
     Settings->beginGroup("Design");
     mapAnimationTime = loadSettingValue(Settings, "Map", 150);
     teamAnimationTime = loadSettingValue(Settings, "Team", 150);
+    timeBarTrun = loadSettingValue(Settings, "TimeBar", 25);
     silent = loadSettingValue(Settings, "Silent", false);
     cd_silent = loadSettingValue(Settings, "CD_Silent", false);
     if (loadSettingValue(Settings, "Maximum", false)) {

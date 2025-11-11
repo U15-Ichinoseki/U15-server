@@ -69,6 +69,8 @@ private:
     int mapAnimationTime = 100; // マップ構築アニメーション時間
     int teamAnimationTime = 500; // チーム配置アニメーション時間
 
+    int timeBarTrun = 25; // タイマーバーの色変化ターン
+
     QTimer* clock;          // ゲームクロック
     QTimer* startupMapAnimation;   // 開始アニメーション
     QTimer* teamShowAnimation;  // チーム表示アニメーション
@@ -96,7 +98,7 @@ protected:
     void keyPressEvent(QKeyEvent* event);
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void initializeSettings();
@@ -122,6 +124,7 @@ public:
 private:
     void setupRound();
     void showCountDown(QString stepText, int stepDuration, QColor textColor=Qt::black, QColor outlineColor=Qt::white, bool feadOut=true);
+    void changeTimeBarsColor(bool change=false);
 
 private slots:
     void resetSetup();
@@ -143,6 +146,8 @@ private slots:
     void finishScoreLabelStyle();
     void refreshScoreLabels();
     void showBottomRoundLabel(bool set);
+
+    void onStartupDialogFinished(int result);
 };
 
 #endif // MAINWINDOW_H

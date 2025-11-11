@@ -45,6 +45,10 @@ SettingDialog::SettingDialog(QWidget *parent)
     if (v.typeId() != QMetaType::UnknownType)
         ui->Teamspeed->setValue(v.toInt());    
 
+    v = Settings->value("TimeBar");
+    if (v.typeId() != QMetaType::UnknownType)
+        ui->TimeBar->setValue(v.toInt());    
+
     v = Settings->value("Silent");
     if (v.typeId() != QMetaType::UnknownType)
         ui->SilentCheck->setChecked(v.toBool());
@@ -162,6 +166,7 @@ void SettingDialog::Export()
     Settings->beginGroup("Design");
     Settings->setValue("Map", ui->Mapspeed->value());
     Settings->setValue("Team", ui->Teamspeed->value());
+    Settings->setValue("TimeBar", ui->TimeBar->value());
     Settings->setValue("Silent", ui->SilentCheck->isChecked());
     Settings->setValue("CD_Silent", ui->CD_SilentCheck->isChecked());
     Settings->setValue("Maximum", ui->MaximumCheck->isChecked());
