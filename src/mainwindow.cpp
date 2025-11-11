@@ -91,11 +91,21 @@ MainWindow::MainWindow(QWidget *parent) :
     resetSetup();
 
     this->startupDialog->show();
+
+    if (startupDialog) {
+        connect(startupDialog, &StartupDialog::finished,
+                this, &MainWindow::onStartupDialogFinished);
+    }
 }
 
 MainWindow::~MainWindow()
 {
-    auto ret = QMessageBox::information(this, "", tr("続けてサーバーを起動しますか。"), QMessageBox::Yes, QMessageBox::No);
+    QMessageBox msg(this);
+    msg.setIcon(QMessageBox::NoIcon);
+    msg.setText(tr("続けてサーバーを起動しますか。"));
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setDefaultButton(QMessageBox::No);
+    int ret = msg.exec();
 
     delete ui;
 
@@ -109,7 +119,6 @@ MainWindow::~MainWindow()
         //コマンドライン引数付きでもう一度サーバーを起動する
         QProcess::startDetached(command, argv);
     }
-
 }
 
 template<typename T>
@@ -214,4 +223,11 @@ void MainWindow::repaintMap()
     ui->Field->setMap(this->startupDialog->map);
     ui->Field->resizeImage();
     ui->Field->repaint();
+}
+
+void MainWindow::onStartupDialogFinished(int result)
+{
+    // StartupDialog が閉じられたら MainWindow も閉じる
+    Q_UNUSED(result);
+    this->close();
 }

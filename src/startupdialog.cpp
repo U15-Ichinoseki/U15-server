@@ -43,6 +43,11 @@ StartupDialog::StartupDialog(MainWindow *parent)
     connect(this->ui->gameStartButton,SIGNAL(clicked()),parent,SLOT(startGame()));
 }
 
+StartupDialog::~StartupDialog()
+{
+    delete ui;
+}
+
 void StartupDialog::initializeClientGroupBox(ClientSettingForm* groupBox, int port)
 {
     groupBox->setPortSpin(port);
@@ -135,11 +140,6 @@ void StartupDialog::setGroupBoxProgram(ClientSettingForm* groupBox, QCommandLine
             groupBox->setProgramFile(programPath, "player.py");
         }
     }
-}
-
-StartupDialog::~StartupDialog()
-{
-    delete ui;
 }
 
 void StartupDialog::resetMap(int blockNum, int itemNum, int turn, bool mirror)
